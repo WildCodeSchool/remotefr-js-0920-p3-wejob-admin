@@ -1,12 +1,12 @@
 import React from 'react';
+import JobeurForm from './pages/JobeurForm/JobeurForm';
+import './asset/css/style.css';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>React starter template</h1>
-      </header>
+      <JobeurForm />
     </div>
   );
 }

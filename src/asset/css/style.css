@@ -1,0 +1,26 @@
+.header-post-title-container {
+  background-color: #007170;
+  padding: 40px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.header-post-title-container .post-title-wrapper {
+  float: left;
+  max-width: 100%;
+  padding-right: 30px;
+}
+
+.header-post-title-class {
+  font-size: 24px;
+  padding-bottom: 0;
+  color: #ffffff;
+}
+
+.clearfix {
+  display: block;
+}
+
+.single-page {
+  margin-top: 50px;
+  color: #888888;
+}
