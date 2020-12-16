@@ -24,3 +24,12 @@
   margin-top: 50px;
   color: #888888;
 }
+
+.single-page.clearfix > div > div > ol > li {
+  border-bottom: 4px solid #007170;
+}
+
+.single-page.clearfix > div > div > ol > li::before {
+  color: #007170;
+  /* background-color: #d9faf9; */
+}
