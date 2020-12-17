@@ -28,50 +28,30 @@ function ProfileForm() {
 
       <fieldset id="coordonnees">
         <legend htmlFor="Civility" className="form-field-label">
-          Civilité
+          Civilité *
         </legend>
-        <InputFormField label="M" name="Mr" type="radio" register={register} />
+        <InputFormField
+          label="M"
+          name="Civility"
+          type="radio"
+          register={register}
+        />
         <InputFormField
           label="Mme"
-          name="Mrs"
+          name="Civility"
           type="radio"
           register={register}
         />
       </fieldset>
 
-      {/* <div className="form-group">
-        <label htmlFor={name} className="form-field-label">
-          {label}
-          <input
-            type={type}
-            className="form-field-input"
-            id={name}
-            name={name}
-            ref={register}
-          />
-        </label>
-      </div> */}
-      <div className="form-check form-check-inline">
-        <label className="form-check-label" htmlFor="inlineRadio1">
-          1
-          <input
-            className="form-check-input"
-            type="radio"
-            name="inlineRadioOptions"
-            id="inlineRadio1"
-            value="option1"
-          />
-        </label>
-      </div>
-
       <InputFormField
-        label="NOM"
+        label="NOM *"
         name="lastname"
         type="text"
         register={register}
       />
       <InputFormField
-        label="Prénom"
+        label="Prénom *"
         name="firstname"
         type="text"
         register={register}
@@ -80,6 +60,42 @@ function ProfileForm() {
         label="Email"
         name="email"
         type="email"
+        register={register}
+      />
+      <InputFormField
+        label="Adresse"
+        name="Address1"
+        type="text"
+        register={register}
+      />
+      <InputFormField
+        label="Adresse"
+        name="Address2"
+        type="text"
+        register={register}
+      />
+      <InputFormField
+        label="Code postal"
+        name="Postal_code"
+        type="text"
+        register={register}
+      />
+      <InputFormField
+        label="Ville"
+        name="city"
+        type="text"
+        register={register}
+      />
+      <InputFormField
+        label="Mobile"
+        name="mobile"
+        type="tel"
+        register={register}
+      />
+      <InputFormField
+        label="Fixe"
+        name="phone"
+        type="tel"
         register={register}
       />
     </form>

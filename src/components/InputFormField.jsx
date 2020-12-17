@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 function InputFormField(props) {
   const { label, name, type, register } = props;
-  const classNamediv = type === 'text' ? 'form-group' : 'form-check-inline';
+  const classNamediv = type !== 'radio' ? 'form-group' : 'form-check-inline';
   const classNameInput =
-    type === 'text' ? 'form-field-input' : 'form-field-input-radio-inline';
+    type !== 'radio' ? 'form-field-input' : 'form-field-input-radio-inline';
   return (
     <div className={classNamediv}>
       <label htmlFor={name} className="form-field-label">

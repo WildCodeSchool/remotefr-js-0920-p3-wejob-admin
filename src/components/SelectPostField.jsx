@@ -9,8 +9,13 @@ import PropTypes from 'prop-types';
 // ]
 
 function SelectPostField(props) {
-  const { options } = props;
-  return <Select options={options} />;
+  const { options, name, label } = props;
+  return (
+    <label htmlFor={name} className="form-field-label">
+      {label}
+      <Select options={options} />
+    </label>
+  );
 }
 
 SelectPostField.propTypes = {
@@ -20,6 +25,8 @@ SelectPostField.propTypes = {
       label: PropTypes.string,
     }),
   ).isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default SelectPostField;
