@@ -3,11 +3,12 @@ import MultiStep from 'react-multistep';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 import ProfileForm from '../../components/ProfileForm';
 import TrainingForm from '../../components/TrainingForm';
+import ExperiencesForm from '../../components/ExperiencesForm';
 
 const steps = [
   { name: 'Profil', component: <ProfileForm /> },
   { name: 'Formations', component: <TrainingForm /> },
-  { name: 'Expériences', component: 'Expériences' },
+  { name: 'Expériences', component: <ExperiencesForm /> },
   { name: 'Recruteurs', component: 'Informations recruteurs' },
   {
     name: 'Documents',
