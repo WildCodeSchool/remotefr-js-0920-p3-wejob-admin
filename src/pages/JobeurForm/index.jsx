@@ -1,13 +1,17 @@
 import React from 'react';
 import MultiStep from 'react-multistep';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
+import ProfileForm from '../../components/ProfileForm';
 
 const steps = [
-  { component: 'Profil' },
-  { component: 'Formations' },
-  { component: 'Expériences' },
-  { component: 'Informations recruteurs' },
-  { component: 'Télechargement de documents' },
+  { name: 'Profil', component: <ProfileForm /> },
+  { name: 'Formations', component: 'Formations' },
+  { name: 'Expériences', component: 'Expériences' },
+  { name: 'Recruteurs', component: 'Informations recruteurs' },
+  {
+    name: 'Documents',
+    component: 'Télechargement de documents',
+  },
 ];
 
 function JobeurForm() {
@@ -16,7 +20,7 @@ function JobeurForm() {
       <HeaderPostTitle name="Formulaire candidat" />
       <div className="single-page clearfix">
         <div className="inner-wrap">
-          <MultiStep steps={steps} />
+          <MultiStep showNavigation steps={steps} />
         </div>
       </div>
     </div>

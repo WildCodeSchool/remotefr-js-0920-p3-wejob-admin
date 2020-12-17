@@ -1,5 +1,5 @@
 import React from 'react';
-import JobeurForm from './pages/JobeurForm/JobeurForm';
+import JobeurForm from './pages/JobeurForm';
 import './asset/css/style.css';
 import './App.css';
 
