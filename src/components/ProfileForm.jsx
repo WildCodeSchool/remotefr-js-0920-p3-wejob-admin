@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -7,9 +8,9 @@ import InputFormField from './InputFormField';
 
 function ProfileForm() {
   const schema = yup.object().shape({
-    lastname: yup.string().required(),
+    lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
     firstname: yup.string().required(),
-    email: yup.string().email(),
+    email: yup.string().email().required(),
   });
 
   const { register, handleSubmit } = useForm({
@@ -18,14 +19,13 @@ function ProfileForm() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    return JSON.stringify(data);
   };
 
   return (
     <form className="contact-form" onSubmit={handleSubmit(onSubmit)}>
       <h3 className="widget-title">Mon profil</h3>
       <hr />
-
       <fieldset id="coordonnees">
         <legend htmlFor="Civility" className="form-field-label">
           Civilité *
@@ -60,42 +60,6 @@ function ProfileForm() {
         label="Email"
         name="email"
         type="email"
-        register={register}
-      />
-      <InputFormField
-        label="Adresse"
-        name="Address1"
-        type="text"
-        register={register}
-      />
-      <InputFormField
-        label="Adresse"
-        name="Address2"
-        type="text"
-        register={register}
-      />
-      <InputFormField
-        label="Code postal"
-        name="Postal_code"
-        type="text"
-        register={register}
-      />
-      <InputFormField
-        label="Ville"
-        name="city"
-        type="text"
-        register={register}
-      />
-      <InputFormField
-        label="Mobile"
-        name="mobile"
-        type="tel"
-        register={register}
-      />
-      <InputFormField
-        label="Fixe"
-        name="phone"
-        type="tel"
         register={register}
       />
     </form>
