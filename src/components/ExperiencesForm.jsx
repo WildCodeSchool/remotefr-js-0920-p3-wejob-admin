@@ -1,9 +1,8 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import * as yup from 'yup';
-import InputFormField from './InputFormField';
-import SelectPostField from './SelectPostField';
+import InputFormField from './widgetsFormField/InputFormField';
+import SelectPostField from './widgetsFormField/SelectPostField';
 
 const activityArea = [
   { value: '0', label: 'Agroalimentaire' },
@@ -25,54 +24,80 @@ const activityArea = [
   { value: '16', label: 'Transports / Logistique' },
 ];
 
-function ExperiencesForm() {
-  const schema = yup.object().shape({
-    lastname: yup.string().required(),
-    firstname: yup.string().required(),
-    email: yup.string().email(),
-  });
-
-  const { register, handleSubmit } = useForm({
-    mode: 'onTouched',
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  // const [allSlills, setAllSlills] = useState(['']);
-
-  // const addSkill = () => {
-  //   setAllSlills([...allSlills, '']);
-  // };
+function ExperiencesForm({ register, handleSubmit, errors, setSchema }) {
+  useEffect(() => {
+    setSchema(
+      yup.object().shape({
+        gender: yup.string().required('Vous devez sélectionner votre genre'),
+        lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
+        firstname: yup.string().required('Vous devez entrer votre prénom'),
+        email: yup.string().email(),
+        diploma: yup.string(),
+        levelOfExperience: yup.string(),
+        languages: yup.string(),
+        activityArea: yup.string(),
+        jobName: yup.string(),
+        skills: yup.string(),
+      }),
+    );
+  }, []);
 
   return (
     <form
       className="contact-form experiences-form"
-      onSubmit={handleSubmit(onSubmit)}
+      id="ExperiencesForm"
+      onSubmit={handleSubmit}
     >
       <h3 className="widget-title">Expériences professionnelles</h3>
       <hr />
       <SelectPostField
         label="Secteurs d’activité"
-        name="activity_area"
+        name="activityArea"
         options={activityArea}
       />
+      {errors.activityArea && (
+        <span className="spanError">{errors.activityArea.message}</span>
+      )}
       <InputFormField
         label="Métier"
         name="jobName"
         type="text"
         register={register}
       />
+      {errors.jobName && (
+        <span className="spanError">{errors.jobName.message}</span>
+      )}
       <InputFormField
         label="Compétences"
         name="skills"
         type="text"
         register={register}
       />
+      {errors.skills && (
+        <span className="spanError">{errors.skills.message}</span>
+      )}
     </form>
   );
 }
+
+ExperiencesForm.propTypes = {
+  register: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    activityArea: PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    jobName: PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    skills: PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+    }),
+  }).isRequired,
+  setSchema: PropTypes.func.isRequired,
+};
 
 export default ExperiencesForm;
