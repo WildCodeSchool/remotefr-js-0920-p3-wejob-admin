@@ -1,12 +1,28 @@
-import React from 'react'; // { useContext }
+import React, { useEffect } from 'react'; // { useContext }
 import PropTypes from 'prop-types';
+import * as yup from 'yup';
 
 // import InputFormField from './widgetsFormField/InputFormField';
 // import DataFormContext from '../contexts/DataFormContext';
 
-function ProfileForm({ register, handleSubmit, errors }) {
+function ProfileForm({ register, handleSubmit, errors, setSchema }) {
+  useEffect(() => {
+    setSchema(
+      yup.object().shape({
+        gender: yup.string().required('Vous devez sélectionner votre genre'),
+        lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
+        firstname: yup.string().required('Vous devez entrer votre prénom'),
+        email: yup.string().email(),
+      }),
+    );
+  }, []);
+
   return (
-    <form className="ProfileForm container py-5" onSubmit={handleSubmit}>
+    <form
+      className="ProfileForm container py-5"
+      id="ProfileForm"
+      onSubmit={handleSubmit}
+    >
       <h3 className="widget-title">Mon profil</h3>
       <hr />
       <fieldset id="coordonnees">
@@ -93,11 +109,6 @@ function ProfileForm({ register, handleSubmit, errors }) {
             />
           </label>
         </div>
-        <div className="form-group">
-          <button type="submit" className="btn btn-primary">
-            Valider et poursuivre
-          </button>
-        </div>
       </div>
     </form>
   );
@@ -120,6 +131,7 @@ ProfileForm.propTypes = {
       type: PropTypes.string,
     }),
   }).isRequired,
+  setSchema: PropTypes.func.isRequired,
 };
 
 export default ProfileForm;
