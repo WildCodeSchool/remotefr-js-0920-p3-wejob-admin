@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './MultiStepFormField.css';
 
@@ -21,39 +21,29 @@ const getTopNavStyles = (indx, length) => {
 // this function displays the necessary buttons depending
 // on the step of the form
 const getButtonsState = (indx, length) => {
-  // eslint-disable-next-line no-console
-  console.log('getButtonsState: indx', indx);
   if (indx > 0 && indx < length - 1) {
-    // eslint-disable-next-line no-console
-    console.log('getButtonsState: indx > 0 && indx < length - 1');
     return {
       showPreviousBtn: true,
       showNextBtn: true,
-      // showSaveBtn: true,
       showValidateBtn: false,
     };
   }
   if (indx === 0) {
-    // eslint-disable-next-line no-console
-    console.log('getButtonsState: indx === 0');
     return {
       showPreviousBtn: false,
       showNextBtn: true,
-      // showSaveBtn: true,
       showValidateBtn: false,
     };
   }
   return {
     showPreviousBtn: true,
     showNextBtn: false,
-    // showSaveBtn: false,
     showValidateBtn: true,
   };
 };
 
-function MultiStepFormField({ steps }) {
+function MultiStepFormField({ steps, compState, setComp }) {
   const [stylesState, setStyles] = useState(getTopNavStyles(0, steps.length));
-  const [compState, setComp] = useState(0);
   const [buttonsState, setButtons] = useState(getButtonsState(0, steps.length));
 
   const setStepState = (indx) => {
@@ -64,8 +54,12 @@ function MultiStepFormField({ steps }) {
     setButtons(getButtonsState(Number(indx), steps.length));
   };
 
+  useEffect(() => {
+    setStepState(compState);
+  }, [compState]);
+
   const next = () => {
-    setStepState(compState + 1);
+    setComp(compState < steps.length ? compState + 1 : compState);
     steps.handleSubmit();
   };
 
@@ -140,6 +134,8 @@ function MultiStepFormField({ steps }) {
 
 MultiStepFormField.propTypes = {
   steps: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  compState: PropTypes.number.isRequired,
+  setComp: PropTypes.func.isRequired,
   // handleSubmit: PropTypes.func.isRequired,
 };
 
