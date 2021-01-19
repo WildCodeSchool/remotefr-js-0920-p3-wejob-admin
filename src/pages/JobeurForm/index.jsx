@@ -67,6 +67,7 @@ function JobeurForm() {
     },
     {
       name: 'Formations',
+      nameForm: 'TrainingForm',
       component: (
         <TrainingForm
           register={register}
@@ -78,6 +79,7 @@ function JobeurForm() {
     },
     {
       name: 'Expériences',
+      nameForm: 'ExperiencesForm',
       component: (
         <ExperiencesForm
           register={register}
@@ -89,6 +91,7 @@ function JobeurForm() {
     },
     {
       name: 'Recruteurs',
+      nameForm: 'RecruitersInfoForm',
       component: (
         <RecruitersInfoForm
           register={register}
@@ -100,6 +103,7 @@ function JobeurForm() {
     },
     {
       name: 'Documents',
+      nameForm: '',
       component: 'Télechargement de documents',
     },
   ];
