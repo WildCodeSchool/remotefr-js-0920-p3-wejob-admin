@@ -9,6 +9,7 @@ import ProfileForm from '../../components/ProfileForm';
 import TrainingForm from '../../components/TrainingForm';
 import ExperiencesForm from '../../components/ExperiencesForm';
 import RecruitersInfoForm from '../../components/RecruitersInfoForm';
+import FileDownloadLinks from '../../components/FileDownloadLinks';
 
 function JobeurForm() {
   // update the validation  yup schema for the data entered by the user when changing the form step
@@ -104,7 +105,14 @@ function JobeurForm() {
     {
       name: 'Documents',
       nameForm: '',
-      component: 'Télechargement de documents',
+      component: (
+        <FileDownloadLinks
+          register={register}
+          handleSubmit={handleSubmit(onSubmit)}
+          errors={errors}
+          setSchema={setSchema}
+        />
+      ),
     },
   ];
 
