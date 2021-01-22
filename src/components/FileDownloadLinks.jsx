@@ -69,6 +69,29 @@ function FileDownloadLinks({ register, handleSubmit, errors, setSchema }) {
                 Upload
               </button>
             </div>
+            <div className={`form-group ${styles.files}`}>
+              <label htmlFor="cv" className="form-field-label col-md-12">
+                Téléchargement votre photo au format png, jpeg ou jpg
+                <input
+                  type="file"
+                  className={`form-control ${styles.input}`}
+                  multiple=""
+                  id="photo"
+                  name="photov"
+                  ref={register}
+                />
+              </label>
+              {errors.cv && (
+                <span className="spanError">{errors.photo.message}</span>
+              )}
+              <button
+                type="button"
+                className={styles.btn}
+                onClick={onClickHandler}
+              >
+                Upload
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -80,6 +103,12 @@ FileDownloadLinks.propTypes = {
   register: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({
+    cv: PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+    }),
+  }).isRequired,
+  photo: PropTypes.shape({
     cv: PropTypes.shape({
       message: PropTypes.string,
       type: PropTypes.string,
