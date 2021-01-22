@@ -67,7 +67,7 @@ function ExperiencesForm({ register, handleSubmit, errors, setSchema }) {
       {errors.jobName && (
         <span className="spanError">{errors.jobName.message}</span>
       )}
-      <InputFormField
+      {/* <InputFormField
         label="Compétences"
         name="skills"
         type="text"
@@ -75,7 +75,7 @@ function ExperiencesForm({ register, handleSubmit, errors, setSchema }) {
       />
       {errors.skills && (
         <span className="spanError">{errors.skills.message}</span>
-      )}
+      )} */}
     </form>
   );
 }
@@ -92,10 +92,10 @@ ExperiencesForm.propTypes = {
       message: PropTypes.string,
       type: PropTypes.string,
     }),
-    skills: PropTypes.shape({
-      message: PropTypes.string,
-      type: PropTypes.string,
-    }),
+    // skills: PropTypes.shape({
+    //   message: PropTypes.string,
+    //   type: PropTypes.string,
+    // }),
   }).isRequired,
   setSchema: PropTypes.func.isRequired,
 };
