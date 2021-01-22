@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'; // { useContext }
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as yup from 'yup';
 
@@ -106,9 +105,6 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
               readOnly
             />
           </label>
-        </div>
-        <div className="form-group">
-          <Link to="/ChangePassword">Modifier mon mot de passe</Link>
         </div>
       </div>
     </form>
