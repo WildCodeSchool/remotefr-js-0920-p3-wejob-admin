@@ -46,7 +46,7 @@ function RecruitersInfoForm({ register, handleSubmit, errors, setSchema }) {
       <hr />
       <div className="form-check form-switch">
         <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
-          Fiche visible pour un recruteur
+          J&apos;accepte d&apos;être formé à un nouveau métier
           <input
             className="form-check-input"
             type="checkbox"
