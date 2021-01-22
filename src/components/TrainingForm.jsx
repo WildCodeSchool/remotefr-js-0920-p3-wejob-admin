@@ -14,6 +14,8 @@ const languages = [
   { value: '1', label: 'Espagnol' },
   { value: '2', label: 'Allemand' },
   { value: '3', label: 'Italien' },
+  { value: '4', label: 'Arabe' },
+  { value: '5', label: 'Chinois' },
 ];
 
 function TrainingForm({ register, handleSubmit, errors, setSchema }) {
