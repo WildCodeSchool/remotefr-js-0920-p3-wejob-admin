@@ -124,7 +124,7 @@ function MultiStepFormField({ steps, compState, setComp }) {
   return (
     <div className="MultiStep">
       <div className="container">
-        <div className="progress-bar">{renderSteps()}</div>
+        <ul className="progress-bar">{renderSteps()}</ul>
       </div>
       <div>{steps[compState].component}</div>
       <div>{renderNav()}</div>
