@@ -5,6 +5,23 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
+import Modal from '../../components/widgetsFormField/ModalHelp';
+
+const helpPassword = () => {
+  return (
+    <div>
+      <p>Un mot de passe valide doit avoir : </p>
+      <ul>
+        <li>- de 8 à 15 caractères</li>
+        <li>- au moins une lettre minuscule</li>
+        <li>- au moins une lettre majuscule</li>
+        <li>- au moins un chiffre</li>
+        <li>- au moins un de ces caractères spéciaux: $ @ % * + - _ !</li>
+        <li>- aucun autre caractère possible</li>
+      </ul>
+    </div>
+  );
+};
 
 function CreateAnAccount() {
   const schema = yup.object().shape({
@@ -76,7 +93,7 @@ function CreateAnAccount() {
             <div className="row">
               <div className="form-group">
                 <label htmlFor="password" className="form-field-label">
-                  Mot de passe *
+                  Mot de passe * <Modal content={helpPassword()} />
                   <input
                     type="password"
                     className="form-field-input"
