@@ -5,6 +5,7 @@ import ChangePassword from './pages/Authentication/ChangePassword';
 import LogIn from './pages/Authentication/LogIn';
 import CreateAnAccount from './pages/Authentication/CreateAnAccount';
 import ForgotYourPassword from './pages/Authentication/ForgotYourPassword';
+import AdminPanel from './pages/AdminPanel/AdminPanel';
 import JobeurForm from './pages/JobeurForm';
 import './asset/css/style.css';
 import './App.css';
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route path="/ChangePassword">
           <ChangePassword />
+        </Route>
+        <Route path="/admin-panel">
+          <AdminPanel />
         </Route>
         <Route exact path="/JobeurForm">
           <JobeurForm />
