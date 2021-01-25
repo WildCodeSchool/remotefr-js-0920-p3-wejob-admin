@@ -12,7 +12,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
         email: yup.string().email(),
       }),
     );
-  }, []);
+  }, [setSchema]);
 
   return (
     <form
@@ -61,7 +61,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
       <div className="row">
         <div className="form-group">
           <label htmlFor="firstname" className="form-field-label">
-            Prénom *
+            Prénom * (champs obligatoire)
             <input
               type="text"
               className="form-field-input"
@@ -78,7 +78,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
       <div className="row">
         <div className="form-group">
           <label htmlFor="lastname" className="form-field-label">
-            Nom *
+            Nom * (champs obligatoire)
             <input
               type="text"
               className="form-field-input"
