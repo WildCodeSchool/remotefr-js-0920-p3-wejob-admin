@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
 import * as yup from 'yup';
+import { Controller } from 'react-hook-form';
 import InputFormField from './widgetsFormField/InputFormField';
-import SelectPostField from './widgetsFormField/SelectPostField';
+// import SelectPostField from './widgetsFormField/SelectPostField';
 
 const levelOfExperience = [
   { value: '0', label: "De 0 à 5 ans d'expérience" },
@@ -18,24 +21,20 @@ const languages = [
   { value: '5', label: 'Chinois' },
 ];
 
-function TrainingForm({ register, handleSubmit, errors, setSchema }) {
+function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        gender: yup.string().required('Vous devez sélectionner votre genre'),
-        lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
-        firstname: yup.string().required('Vous devez entrer votre prénom'),
-        email: yup.string().email(),
         diploma: yup.string(),
         levelOfExperience: yup.string(),
-        languages: yup.string(),
+        // languages: yup.array.of(),
       }),
     );
-  }, []);
+  }, [setSchema]);
 
   return (
     <form
-      className="contact-form trainingForm"
+      className="TrainingForm container"
       id="TrainingForm"
       onSubmit={handleSubmit}
     >
@@ -50,21 +49,44 @@ function TrainingForm({ register, handleSubmit, errors, setSchema }) {
       {errors.diploma && (
         <span className="spanError">{errors.diploma.message}</span>
       )}
-      <SelectPostField
-        label="Niveau d'expérience"
+
+      <label htmlFor="levelExperience" className="form-field-label">
+        Niveau d&apos;expérience
+      </label>
+      <Controller
+        as={Select}
         name="levelExperience"
         options={levelOfExperience}
+        control={control}
+        defaultValue=""
       />
+
       {errors.levelExperience && (
         <span className="spanError">{errors.levelExperience.message}</span>
       )}
-      <SelectPostField label="Langues" name="languages" options={languages} />
+
+      <label htmlFor="languages" className="form-field-label">
+        Langues
+      </label>
+      <Controller
+        as={Select}
+        name="languages"
+        options={languages}
+        isMulti
+        control={control}
+        defaultValue=""
+      />
+
       {errors.languages && (
         <span className="spanError">{errors.languages.message}</span>
       )}
     </form>
   );
 }
+
+TrainingForm.defaultProps = {
+  control: undefined,
+};
 
 TrainingForm.propTypes = {
   register: PropTypes.func.isRequired,
@@ -84,6 +106,7 @@ TrainingForm.propTypes = {
     }),
   }).isRequired,
   setSchema: PropTypes.func.isRequired,
+  control: PropTypes.shape(),
 };
 
 export default TrainingForm;
