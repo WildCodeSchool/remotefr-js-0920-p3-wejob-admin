@@ -31,7 +31,7 @@ function JobeurForm() {
   //   textDescription: yup.string().required(),
   // });
 
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, control } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(schema),
   });
@@ -47,11 +47,15 @@ function JobeurForm() {
     console.log('data : ', data);
     // 1. Records the data entered by the user
     setDataForm({ ...dataForm, ...data });
+
     // 2. Sends data to the database
 
     // 3. Go to the next step in the form
     setComp(compState + 1);
   };
+
+  // eslint-disable-next-line no-console
+  console.log('dataForm : ', dataForm);
 
   const steps = [
     {
@@ -75,11 +79,12 @@ function JobeurForm() {
           handleSubmit={handleSubmit(onSubmit)}
           errors={errors}
           setSchema={setSchema}
+          control={control}
         />
       ),
     },
     {
-      name: 'Expériences',
+      name: 'Métiers',
       nameForm: 'ExperiencesForm',
       component: (
         <ExperiencesForm
