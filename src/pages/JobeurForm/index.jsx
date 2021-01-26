@@ -31,10 +31,12 @@ function JobeurForm() {
   //   textDescription: yup.string().required(),
   // });
 
-  const { register, handleSubmit, errors, control } = useForm({
-    mode: 'onTouched',
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, getValues } = useForm(
+    {
+      mode: 'onTouched',
+      resolver: yupResolver(schema),
+    },
+  );
 
   const [compState, setComp] = useState(0);
 
@@ -44,10 +46,10 @@ function JobeurForm() {
   // Button function valid and continue
   const onSubmit = (data) => {
     // eslint-disable-next-line no-console
-    console.log('data : ', data);
+    console.log('data : ', data, getValues());
     // 1. Records the data entered by the user
     setDataForm({ ...dataForm, ...data });
-
+    reset({ ...dataForm, ...data });
     // 2. Sends data to the database
 
     // 3. Go to the next step in the form
@@ -92,6 +94,7 @@ function JobeurForm() {
           handleSubmit={handleSubmit(onSubmit)}
           errors={errors}
           setSchema={setSchema}
+          control={control}
         />
       ),
     },
@@ -104,6 +107,7 @@ function JobeurForm() {
           handleSubmit={handleSubmit(onSubmit)}
           errors={errors}
           setSchema={setSchema}
+          control={control}
         />
       ),
     },
