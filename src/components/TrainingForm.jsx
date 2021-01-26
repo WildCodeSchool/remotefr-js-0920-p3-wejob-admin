@@ -1,10 +1,9 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import * as yup from 'yup';
 import { Controller } from 'react-hook-form';
-import InputFormField from './widgetsFormField/InputFormField';
+// import InputFormField from './widgetsFormField/InputFormField';
 // import SelectPostField from './widgetsFormField/SelectPostField';
 
 const levelOfExperience = [
@@ -40,46 +39,61 @@ function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
     >
       <h3 className="widget-title">Formations</h3>
       <hr />
-      <InputFormField
-        label="Diplome"
-        name="diploma"
-        type="text"
-        register={register}
-      />
-      {errors.diploma && (
-        <span className="spanError">{errors.diploma.message}</span>
-      )}
+      <div className="form-group">
+        <label htmlFor="diploma" className="form-field-label">
+          Diplome <span className="spanInfoField">(champ facultatif)</span>
+          <input
+            type="text"
+            className="form-field-input"
+            id="diploma"
+            name="diploma"
+            ref={register}
+          />
+        </label>
+        {errors.diploma && (
+          <span className="spanError">{errors.diploma.message}</span>
+        )}
+      </div>
 
-      <label htmlFor="levelExperience" className="form-field-label">
-        Niveau d&apos;expérience
-      </label>
-      <Controller
-        as={Select}
-        name="levelExperience"
-        options={levelOfExperience}
-        control={control}
-        defaultValue=""
-      />
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="levelExperience" className="form-field-label">
+            Niveau d&apos;expérience{' '}
+            <span className="spanInfoField">(champ facultatif)</span>
+            <Controller
+              as={Select}
+              id="levelExperience"
+              name="levelExperience"
+              options={levelOfExperience}
+              control={control}
+              defaultValue=""
+            />
+          </label>
+          {errors.levelExperience && (
+            <span className="spanError">{errors.levelExperience.message}</span>
+          )}
+        </div>
+      </div>
 
-      {errors.levelExperience && (
-        <span className="spanError">{errors.levelExperience.message}</span>
-      )}
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="languages" className="form-field-label">
+            Langues <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <Controller
+            as={Select}
+            name="languages"
+            options={languages}
+            isMulti
+            control={control}
+            defaultValue=""
+          />
 
-      <label htmlFor="languages" className="form-field-label">
-        Langues
-      </label>
-      <Controller
-        as={Select}
-        name="languages"
-        options={languages}
-        isMulti
-        control={control}
-        defaultValue=""
-      />
-
-      {errors.languages && (
-        <span className="spanError">{errors.languages.message}</span>
-      )}
+          {errors.languages && (
+            <span className="spanError">{errors.languages.message}</span>
+          )}
+        </div>
+      </div>
     </form>
   );
 }
