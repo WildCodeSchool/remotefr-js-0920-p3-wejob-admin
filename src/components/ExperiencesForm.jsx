@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
 import * as yup from 'yup';
-import InputFormField from './widgetsFormField/InputFormField';
-import SelectPostField from './widgetsFormField/SelectPostField';
+import { Controller } from 'react-hook-form';
+// import InputFormField from './widgetsFormField/InputFormField';
+// import SelectPostField from './widgetsFormField/SelectPostField';
 
 const activityArea = [
   { value: '0', label: 'Agroalimentaire' },
@@ -22,63 +25,95 @@ const activityArea = [
   { value: '14', label: 'Services aux entreprises' },
   { value: '15', label: 'Textile / Habillement / Chaussure' },
   { value: '16', label: 'Transports / Logistique' },
+  { value: '17', label: 'Fonction support / Transverse' },
 ];
 
-function ExperiencesForm({ register, handleSubmit, errors, setSchema }) {
+function ExperiencesForm({
+  register,
+  handleSubmit,
+  errors,
+  setSchema,
+  control,
+}) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        gender: yup.string().required('Vous devez sélectionner votre genre'),
-        lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
-        firstname: yup.string().required('Vous devez entrer votre prénom'),
-        email: yup.string().email(),
-        diploma: yup.string(),
-        levelOfExperience: yup.string(),
-        languages: yup.string(),
-        activityArea: yup.string(),
         jobName: yup.string(),
-        skills: yup.string(),
+        jobName2: yup.string(),
       }),
     );
-  }, []);
+  }, [setSchema]);
 
   return (
     <form
-      className="contact-form experiences-form"
+      className="ExperiencesForm container"
       id="ExperiencesForm"
       onSubmit={handleSubmit}
     >
       <h3 className="widget-title">Expériences professionnelles</h3>
       <hr />
-      <SelectPostField
-        label="Secteurs d’activité"
-        name="activityArea"
-        options={activityArea}
-      />
-      {errors.activityArea && (
-        <span className="spanError">{errors.activityArea.message}</span>
-      )}
-      <InputFormField
-        label="Métier"
-        name="jobName"
-        type="text"
-        register={register}
-      />
-      {errors.jobName && (
-        <span className="spanError">{errors.jobName.message}</span>
-      )}
-      {/* <InputFormField
-        label="Compétences"
-        name="skills"
-        type="text"
-        register={register}
-      />
-      {errors.skills && (
-        <span className="spanError">{errors.skills.message}</span>
-      )} */}
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="activityArea" className="form-field-label">
+            Secteurs d&apos;activité{' '}
+            <span className="spanInfoField">(champ facultatif)</span>
+            <Controller
+              as={Select}
+              id="activityArea"
+              name="activityArea"
+              options={activityArea}
+              control={control}
+              isMulti
+              defaultValue=""
+            />
+          </label>
+
+          {errors.activityArea && (
+            <span className="spanError">{errors.activityArea.message}</span>
+          )}
+        </div>
+      </div>
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="jobName1" className="form-field-label">
+            Métier 1 <span className="spanInfoField">(champ obligatoire)</span>
+            <input
+              type="text"
+              className="form-field-input"
+              id="jobName1"
+              name="jobName1"
+              ref={register}
+            />
+          </label>
+          {errors.jobName1 && (
+            <span className="spanError">{errors.jobName1.message}</span>
+          )}
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="jobName2" className="form-field-label">
+            Métier 2 <span className="spanInfoField">(champ facultatif)</span>
+            <input
+              type="text"
+              className="form-field-input"
+              id="jobName2"
+              name="jobName2"
+              ref={register}
+            />
+          </label>
+          {errors.jobName2 && (
+            <span className="spanError">{errors.jobName2.message}</span>
+          )}
+        </div>
+      </div>
     </form>
   );
 }
+ExperiencesForm.defaultProps = {
+  control: undefined,
+};
 
 ExperiencesForm.propTypes = {
   register: PropTypes.func.isRequired,
@@ -88,16 +123,17 @@ ExperiencesForm.propTypes = {
       message: PropTypes.string,
       type: PropTypes.string,
     }),
-    jobName: PropTypes.shape({
+    jobName1: PropTypes.shape({
       message: PropTypes.string,
       type: PropTypes.string,
     }),
-    // skills: PropTypes.shape({
-    //   message: PropTypes.string,
-    //   type: PropTypes.string,
-    // }),
+    jobName2: PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+    }),
   }).isRequired,
   setSchema: PropTypes.func.isRequired,
+  control: PropTypes.shape(),
 };
 
 export default ExperiencesForm;
