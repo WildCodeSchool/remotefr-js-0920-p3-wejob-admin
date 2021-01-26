@@ -24,7 +24,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
       <hr />
       <fieldset id="coordonnees">
         <legend htmlFor="Civility" className="form-field-label">
-          Civilité *
+          Civilité * <span className="spanInfoField">(champ obligatoire)</span>
         </legend>
         <div className="row">
           <div className="form-check form-check-inline">
@@ -61,7 +61,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
       <div className="row">
         <div className="form-group">
           <label htmlFor="firstname" className="form-field-label">
-            Prénom * (champs obligatoire)
+            Prénom * <span className="spanInfoField">(champ obligatoire)</span>
             <input
               type="text"
               className="form-field-input"
@@ -78,7 +78,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
       <div className="row">
         <div className="form-group">
           <label htmlFor="lastname" className="form-field-label">
-            Nom * (champs obligatoire)
+            Nom * <span className="spanInfoField">(champ obligatoire)</span>
             <input
               type="text"
               className="form-field-input"
