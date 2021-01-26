@@ -48,10 +48,19 @@
 .spanError {
   color: red;
 }
+.spanInfoField {
+  color: #888888;
+  font-weight: normal;
+  font-size: 90%;
+}
 .contact-form {
   padding: 1px;
   border: #ffffff solid 1px;
   background-color: #ffffff;
+}
+
+.form-group {
+  margin: 0 0 30px;
 }
 
 .widget-title {
@@ -67,6 +76,7 @@
   color: #007071;
   font-weight: bold;
   font-size: 100%;
+  margin-top: 30px;
 }
 
 .form-field-input {
@@ -76,7 +86,6 @@
   border-radius: 0;
   background-color: #f8f8f8;
   padding: 1%;
-  margin: 0 0 30px;
   border: 1px solid #f2f2f2;
   line-height: 20px;
 }

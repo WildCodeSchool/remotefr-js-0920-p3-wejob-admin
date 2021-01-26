@@ -136,7 +136,6 @@ MultiStepFormField.propTypes = {
   steps: PropTypes.arrayOf(PropTypes.shape).isRequired,
   compState: PropTypes.number.isRequired,
   setComp: PropTypes.func.isRequired,
-  // handleSubmit: PropTypes.func.isRequired,
 };
 
 export default MultiStepFormField;

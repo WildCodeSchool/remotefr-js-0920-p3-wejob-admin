@@ -19,7 +19,7 @@ function FileDownloadLinks({ register, handleSubmit, errors, setSchema }) {
         skills: yup.string(),
       }),
     );
-  }, []);
+  }, [setSchema]);
 
   const [selectedCvFile, setCvFile] = useState(null);
 
@@ -107,9 +107,7 @@ FileDownloadLinks.propTypes = {
       message: PropTypes.string,
       type: PropTypes.string,
     }),
-  }).isRequired,
-  photo: PropTypes.shape({
-    cv: PropTypes.shape({
+    photo: PropTypes.shape({
       message: PropTypes.string,
       type: PropTypes.string,
     }),
