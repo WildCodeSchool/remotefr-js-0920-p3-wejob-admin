@@ -29,8 +29,8 @@ function RecruitersInfoForm({
       yup.object().shape({
         availability: yup.string(),
         modility: yup.string(),
-        textDescription: yup.string().required(),
-        keywords: yup.mixed().required(),
+        description: yup.string().required(),
+        keywords: yup.string().required(),
       }),
     );
   }, [setSchema]);
