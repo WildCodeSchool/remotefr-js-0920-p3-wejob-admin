@@ -16,7 +16,7 @@ function ModalHelp({ content }) {
       <button type="button" onClick={handleOpenModal}>
         Aide
       </button>
-      <Modal isOpen={showModal}>
+      <Modal isOpen={showModal} ariaHideApp={false}>
         <button type="button" onClick={handleCloseModal}>
           Fermer
         </button>
