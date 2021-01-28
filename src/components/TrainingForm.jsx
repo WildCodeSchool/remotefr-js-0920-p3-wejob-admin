@@ -12,12 +12,13 @@ const levelOfExperience = [
   { value: '2', label: "Plus de 10 ans d'expérience" },
 ];
 const languages = [
-  { value: '0', label: 'Anglais' },
-  { value: '1', label: 'Espagnol' },
-  { value: '2', label: 'Allemand' },
-  { value: '3', label: 'Italien' },
-  { value: '4', label: 'Arabe' },
-  { value: '5', label: 'Chinois' },
+  { value: '1', label: 'Français' },
+  { value: '2', label: 'Anglais' },
+  { value: '3', label: 'Espagnol' },
+  { value: '4', label: 'Italien' },
+  { value: '5', label: 'Allemand' },
+  { value: '6', label: 'Chinois' },
+  { value: '7', label: 'Arabe' },
 ];
 
 function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
