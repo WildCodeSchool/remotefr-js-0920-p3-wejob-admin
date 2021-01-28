@@ -36,7 +36,7 @@ function LogIn() {
   const onSubmit = (data) => {
     const { email, password } = data;
     axios
-      .post(`${process.env.REACT_APP_BACK_URL}/login`, {
+      .post(`${process.env.REACT_APP_BACK_URL}/auth/login`, {
         email,
         password,
       })
@@ -44,7 +44,7 @@ function LogIn() {
         history.push('/JobeurForm');
       })
       .catch((error) => {
-        error.json({ error: error.message });
+        console.log(error.message);
       });
   };
 
@@ -60,7 +60,6 @@ function LogIn() {
           >
             <h3 className="widget-title">Entrer votre mot de passe</h3>
             <hr />
-
             <div className="row">
               <div className="form-group">
                 <label htmlFor="email" className="form-field-label">
