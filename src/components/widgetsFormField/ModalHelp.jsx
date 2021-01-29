@@ -17,10 +17,10 @@ function ModalHelp({ content }) {
         Aide
       </button>
       <Modal isOpen={showModal} ariaHideApp={false}>
-        <button type="button" onClick={handleCloseModal}>
+        {content}
+        <button type="button" onClick={handleCloseModal} className="btnModal">
           Fermer
         </button>
-        {content}
       </Modal>
     </div>
   );

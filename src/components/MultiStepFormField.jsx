@@ -58,10 +58,10 @@ function MultiStepFormField({ steps, compState, setComp }) {
     setStepState(compState);
   }, [compState]);
 
-  const next = () => {
-    setComp(compState < steps.length ? compState + 1 : compState);
-    steps.handleSubmit();
-  };
+  // const next = () => {
+  //   setComp(compState < steps.length ? compState + 1 : compState);
+  //   steps.handleSubmit();
+  // };
 
   const previous = () =>
     setStepState(compState > 0 ? compState - 1 : compState);
@@ -80,7 +80,7 @@ function MultiStepFormField({ steps, compState, setComp }) {
   const renderSteps = () =>
     steps.map((s, i) => (
       <li className="step" key={s.name}>
-        <p>{s.name}</p>
+        <p className="nameRenderStep">{s.name}</p>
         <button
           type="button"
           className={stylesState[i]}
@@ -104,20 +104,20 @@ function MultiStepFormField({ steps, compState, setComp }) {
 
       <button
         type="submit"
-        className={buttonsState.showNextBtn ? 'display' : 'displayNone'}
+        // className={buttonsState.showNextBtn ? 'display' : 'displayNone'}
         // onClick={next}
         form={steps[compState].nameForm}
       >
         Valider et poursuivre
       </button>
 
-      <button
+      {/* <button
         type="button"
         className={buttonsState.showValidateBtn ? 'display' : 'displayNone'}
-        onClick={next}
+        // onClick={next}
       >
         Valider vos réponses
-      </button>
+      </button> */}
     </div>
   );
 
