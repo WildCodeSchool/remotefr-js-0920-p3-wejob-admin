@@ -10,7 +10,7 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        // CV_1: yup.string(),
+        // cv1: yup.string(),
         // // CV_2: yup.string(),
         // photo: yup.string(),
         // link_You_Tube: yup
@@ -31,11 +31,9 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
   }, [setSchema]);
 
   const [Cv1File, setCvFile] = useState(null);
+  const [Cv2File, setCv2File] = useState(null);
   const [userPhoto, setUserPhoto] = useState(null);
   const [urlPhoto, setUrlPhoto] = useState(null);
-
-  // eslint-disable-next-line no-console
-  console.log(Cv1File, userPhoto);
 
   // const onChangeHandler = (event) => {
   //   // eslint-disable-next-line no-console
@@ -62,12 +60,12 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
 
   const onSubmitFiles = (event) => {
     event.preventDefault();
-    handleSubmit({ CV_1: Cv1File, Photo: userPhoto });
+    handleSubmit({ cv1: Cv1File, cv2: Cv2File, picture: userPhoto });
   };
 
   return (
     <div className="container">
-      {JSON.stringify(errors)}
+      {/* {JSON.stringify(errors)} */}
       <div className="row">
         <div className="col-md-6">
           <form
@@ -79,22 +77,20 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
             // onChange={onChangeHandler}
           >
             <div className={`form-group ${styles.files}`}>
-              <label htmlFor="CV_1" className="form-field-label col-md-12">
+              <label htmlFor="cv1" className="form-field-label col-md-12">
                 Téléchargement votre CV 1 au format pdf
                 <input
                   type="file"
                   className={`form-control ${styles.input}`}
-                  id="CV_1"
-                  name="CV_1"
+                  id="cv1"
+                  name="cv1"
                   onChange={(event) => {
-                    // const data = new FormData();
-                    // data.append('CV_1', event.target.files[0]);
                     setCvFile(event.target.files[0]);
                   }}
                 />
               </label>
-              {errors.CV_1 && (
-                <span className="spanError">{errors.CV_1.message}</span>
+              {errors.cv1 && (
+                <span className="spanError">{errors.cv1.message}</span>
               )}
               {/* <button
                 type="button"
@@ -105,13 +101,37 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
               </button> */}
             </div>
             <div className={`form-group ${styles.files}`}>
-              <label htmlFor="userPhoto" className="form-field-label col-md-12">
+              <label htmlFor="cv2" className="form-field-label col-md-12">
+                Téléchargement votre CV 2 au format pdf
+                <input
+                  type="file"
+                  className={`form-control ${styles.input}`}
+                  id="cv2"
+                  name="cv2"
+                  onChange={(event) => {
+                    setCv2File(event.target.files[0]);
+                  }}
+                />
+              </label>
+              {errors.cv2 && (
+                <span className="spanError">{errors.cv2.message}</span>
+              )}
+              {/* <button
+                type="button"
+                className={styles.btn}
+                onClick={onClickHandlerCv1}
+              >
+                Upload
+              </button> */}
+            </div>
+            <div className={`form-group ${styles.files}`}>
+              <label htmlFor="picture" className="form-field-label col-md-12">
                 Téléchargement votre photo au format png, jpeg ou jpg
                 <input
                   type="file"
                   className={`form-control ${styles.input}`}
-                  id="userPhoto"
-                  name="userPhoto"
+                  id="picture"
+                  name="picture"
                   onChange={(event) => {
                     setUserPhoto(event.target.files[0]);
                     const file = event.target.files[0];
@@ -137,6 +157,28 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
                 Upload
               </button> */}
             </div>
+            <div className="form-group">
+              <label htmlFor="linkedln" className="form-field-label">
+                Lien vers votre profil linkedln
+                <input
+                  type="text"
+                  className="form-field-input"
+                  id="linkedln"
+                  name="linkedln"
+                />
+              </label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="youtube" className="form-field-label">
+                Lien vers youtube
+                <input
+                  type="text"
+                  className="form-field-input"
+                  id="youtube"
+                  name="youtube"
+                />
+              </label>
+            </div>
           </form>
         </div>
       </div>
@@ -148,7 +190,11 @@ FileDownloadLinks.propTypes = {
   // register: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({
-    CV_1: PropTypes.shape({
+    cv1: PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    cv2: PropTypes.shape({
       message: PropTypes.string,
       type: PropTypes.string,
     }),
