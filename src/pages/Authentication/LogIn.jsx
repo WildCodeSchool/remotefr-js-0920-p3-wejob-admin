@@ -15,9 +15,9 @@ function LogIn() {
       .string()
       .min(8)
       .max(15)
-      .matches(/^[\w$@%*+\-_!]{8,15}$/, {
+      .matches(/^[\w$@%*+\-_!]{6,15}$/, {
         message:
-          'Un mot de passe valide aura de 8 à 15 caractères, au moins une lettre minuscule, au moins une lettre majuscul, au moins un chiffre, au moins un de ces caractères spéciaux: $ @ % * + - _ !, aucun autre caractère possible ',
+          'Un mot de passe valide aura de 6 à 15 caractères, au moins une lettre minuscule, au moins une lettre majuscule, au moins un chiffre, au moins un de ces caractères spéciaux: $ @ % * + - _ !, aucun autre caractère possible ',
       })
       .required('Vous devez entrer votre nouveau mot de passe'),
   });
@@ -36,11 +36,17 @@ function LogIn() {
   const onSubmit = (data) => {
     const { email, password } = data;
     axios
-      .post(`${process.env.REACT_APP_BACK_URL}/auth/login`, {
-        email,
-        password,
-      })
-      .then(() => {
+      .post(
+        `${process.env.REACT_APP_BACK_URL}/auth/login`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then((response) => {
         history.push('/JobeurForm');
       })
       .catch((error) => {
