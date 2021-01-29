@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import axios from 'axios';
 import MultiStep from '../../components/MultiStepFormField';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
@@ -10,6 +11,7 @@ import TrainingForm from '../../components/TrainingForm';
 import ExperiencesForm from '../../components/ExperiencesForm';
 import RecruitersInfoForm from '../../components/RecruitersInfoForm';
 import FileDownloadLinks from '../../components/FileDownloadLinks';
+import JobeurFormRecap from '../../components/JobeurFormRecap';
 
 function JobeurForm() {
   // update the validation  yup schema for the data entered by the user when changing the form step
@@ -56,8 +58,28 @@ function JobeurForm() {
     setComp(compState + 1);
   };
 
-  // eslint-disable-next-line no-console
-  console.log('dataForm : ', dataForm);
+  const onSubmitFiles = (data) => {
+    setDataForm({ ...dataForm, ...data });
+    setComp(compState + 1);
+  };
+
+  const onSendForm = (event) => {
+    event.preventDefault();
+    // eslint-disable-next-line no-console
+    console.log(dataForm);
+    const formdata = new FormData();
+    Object.entries(dataForm).forEach((entry) => {
+      // eslint-disable-next-line no-console
+      console.log(entry);
+      const [keys, values] = entry;
+      formdata.append(keys, values);
+    });
+    axios.post();
+  };
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('dataForm : ', dataForm);
+  }, [dataForm]);
 
   const steps = [
     {
@@ -113,15 +135,20 @@ function JobeurForm() {
     },
     {
       name: 'Documents',
-      nameForm: '',
+      nameForm: 'FileDownloadLinks',
       component: (
         <FileDownloadLinks
           register={register}
-          handleSubmit={handleSubmit(onSubmit)}
+          handleSubmit={onSubmitFiles}
           errors={errors}
           setSchema={setSchema}
         />
       ),
+    },
+    {
+      name: 'Recap',
+      nameForm: 'JobeurForm',
+      component: <JobeurFormRecap handleSubmit={onSendForm} data={dataForm} />,
     },
   ];
 
