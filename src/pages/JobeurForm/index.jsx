@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import axios from 'axios';
+// import axios from 'axios';
 import MultiStep from '../../components/MultiStepFormField';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
@@ -33,14 +33,15 @@ function JobeurForm() {
   //   textDescription: yup.string().required(),
   // });
 
-  const { register, handleSubmit, errors, control, reset, getValues } = useForm(
-    {
-      mode: 'onTouched',
-      resolver: yupResolver(schema),
-    },
-  );
+  const { register, handleSubmit, errors, control, reset } = useForm({
+    mode: 'onTouched',
+    resolver: yupResolver(schema),
+  });
 
   const [compState, setComp] = useState(0);
+
+  const [kwTag, setKeyWords] = useState([]);
+  const [jobTag, setJobTag] = useState([]);
 
   // Retrieves user entries
   const [dataForm, setDataForm] = useState({});
@@ -48,13 +49,52 @@ function JobeurForm() {
   // Button function valid and continue
   const onSubmit = (data) => {
     // eslint-disable-next-line no-console
-    console.log('data : ', data, getValues());
+    console.log('data << ', data);
+    const formatData = {};
     // 1. Records the data entered by the user
-    setDataForm({ ...dataForm, ...data });
+    if (kwTag.length > 0) {
+      formatData.keywords = kwTag.join(';');
+    }
+    if (jobTag.length > 0) {
+      formatData.job = jobTag.map((oneJob, ind) => ({
+        id_job: Number(ind),
+        name_job: oneJob,
+      }));
+    }
+    if (data.sector_of_activity) {
+      formatData.sector_of_activity = data.sector_of_activity.map((s) => ({
+        id_sector: Number(s.value),
+        name_sector: s.label,
+      }));
+    }
+    if (data.language) {
+      formatData.language = data.language.map((s) => ({
+        id_language: Number(s.value),
+        language: s.label,
+      }));
+    }
+    if (data.availability) {
+      formatData.availability = Number(data.availability.value);
+    }
+    if (data.years_of_experiment) {
+      formatData.years_of_experiment = Number(data.years_of_experiment.value);
+    }
+    if (data.mobility) {
+      formatData.mobility = data.mobility.value;
+    }
+    // if (data.jobName1 && data.jobName1.length > 0 && data.jobName2.length > 0) {
+    //   formatData.job = [
+    //     { id_job: 0, name_job: data.jobName1 },
+    //     { id_job: 1, name_job: data.jobName2 },
+    //   ];
+    // } else if (data.jobName1 > 0 && data.jobName2 === 0) {
+    //   formatData.job = [{ id_job: 0, name_job: data.jobName1 }];
+    // } else if (data.jobName2 > 0 && data.jobName1 === 0) {
+    //   formatData.job = [{ id_job: 0, name_job: data.jobName2 }];
+    // }
+    setDataForm({ ...dataForm, ...data, ...formatData });
     reset({ ...dataForm, ...data });
-    // 2. Sends data to the database
-
-    // 3. Go to the next step in the form
+    // 2. Go to the next step in the form
     setComp(compState + 1);
   };
 
@@ -70,16 +110,10 @@ function JobeurForm() {
     const formdata = new FormData();
     Object.entries(dataForm).forEach((entry) => {
       // eslint-disable-next-line no-console
-      console.log(entry);
       const [keys, values] = entry;
       formdata.append(keys, values);
     });
-    axios.post();
   };
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('dataForm : ', dataForm);
-  }, [dataForm]);
 
   const steps = [
     {
@@ -117,6 +151,8 @@ function JobeurForm() {
           errors={errors}
           setSchema={setSchema}
           control={control}
+          jobTag={jobTag}
+          setJobTag={setJobTag}
         />
       ),
     },
@@ -130,6 +166,8 @@ function JobeurForm() {
           errors={errors}
           setSchema={setSchema}
           control={control}
+          kwTag={kwTag}
+          setKeyWords={setKeyWords}
         />
       ),
     },
