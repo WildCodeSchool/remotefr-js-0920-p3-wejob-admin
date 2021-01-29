@@ -47,8 +47,6 @@ function MultiStepFormField({ steps, compState, setComp }) {
   const [buttonsState, setButtons] = useState(getButtonsState(0, steps.length));
 
   const setStepState = (indx) => {
-    // eslint-disable-next-line no-console
-    console.log('setStepState indx : ', indx);
     setStyles(getTopNavStyles(Number(indx), steps.length));
     setComp(indx < steps.length ? Number(indx) : compState);
     setButtons(getButtonsState(Number(indx), steps.length));
