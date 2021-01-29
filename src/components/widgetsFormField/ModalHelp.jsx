@@ -27,7 +27,7 @@ function ModalHelp({ content }) {
 }
 
 ModalHelp.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.element.isRequired,
 };
 
 export default ModalHelp;
