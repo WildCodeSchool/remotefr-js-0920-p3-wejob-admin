@@ -56,21 +56,16 @@ function JobeurForm() {
       formatData.keywords = kwTag.join(';');
     }
     if (jobTag.length > 0) {
-      formatData.job = jobTag.map((oneJob, ind) => ({
-        id_job: Number(ind),
-        name_job: oneJob,
-      }));
+      formatData.job = jobTag.join(';');
     }
     if (data.sector_of_activity) {
       formatData.sector_of_activity = data.sector_of_activity.map((s) => ({
-        id_sector: Number(s.value),
-        name_sector: s.label,
+        id: Number(s.value),
       }));
     }
     if (data.language) {
       formatData.language = data.language.map((s) => ({
-        id_language: Number(s.value),
-        language: s.label,
+        id: Number(s.value),
       }));
     }
     if (data.availability) {
