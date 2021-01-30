@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function JobeurFormRecap({ handleSubmit, data }) {
+  console.log(data);
   return (
     <form onSubmit={handleSubmit} id="JobeurForm">
       <div className="container">
@@ -10,6 +11,8 @@ function JobeurFormRecap({ handleSubmit, data }) {
           <h2>
             {data.firstname} {data.lastname}
           </h2>
+          <h3>Formation</h3>
+          <p>Diplome : {data.diploma}</p>
         </div>
       </div>
     </form>
