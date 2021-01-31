@@ -59,7 +59,7 @@ span {
   display: none;
 }
 
-.container {
+.wj-container {
   width: 75%;
   background: #fff;
   text-align: center;
@@ -68,25 +68,25 @@ span {
   margin: auto;
 }
 
-.container .progress-bar {
+.wj-container .wj-progress-bar {
   display: flex;
   margin: 20px 0;
   user-select: none;
 }
-.container .progress-bar .step {
+.wj-container .wj-progress-bar .step {
   text-align: center;
   width: 100%;
   position: relative;
 }
-.container .progress-bar .step p {
+.wj-container .wj-progress-bar .step p {
   font-weight: 500;
   font-size: 18px;
   color: #007170;
   margin-bottom: 8px;
 }
 
-.progress-bar .step .li:before,
-.progress-bar .step .li:after {
+.wj-progress-bar .step .li:before,
+.wj-progress-bar .step .li:after {
   position: absolute;
   content: '';
   bottom: 1em;
@@ -94,44 +94,44 @@ span {
   width: 5em;
   background: #007170;
 }
-.progress-bar .step .li:before {
+.wj-progress-bar .step .li:before {
   right: -20px;
 }
 
-.progress-bar .step .li:after {
+.wj-progress-bar .step .li:after {
   left: -20px;
 }
 
 @media screen and (max-width: 1200px) {
-  .progress-bar .step .li:before,
-  .progress-bar .step .li:after {
+  .wj-progress-bar .step .li:before,
+  .wj-progress-bar .step .li:after {
     width: 4em;
   }
 }
 @media screen and (max-width: 992px) {
-  .progress-bar .step .li:before,
-  .progress-bar .step .li:after {
+  .wj-progress-bar .step .li:before,
+  .wj-progress-bar .step .li:after {
     width: 3em;
   }
-  .container > .progress-bar > .step > p {
+  .wj-container > .wj-progress-bar > .step > p {
     font-size: 16px;
   }
 }
 @media screen and (max-width: 768px) {
-  .progress-bar .step .li:before,
-  .progress-bar .step .li:after {
+  .wj-progress-bar .step .li:before,
+  .wj-progress-bar .step .li:after {
     width: 2em;
   }
   .li {
     margin: 0 1.5rem;
   }
-  .container > .progress-bar > .step > p {
+  .wj-container > .wj-progress-bar > .step > p {
     font-size: 14px;
   }
 }
 @media screen and (max-width: 576px) {
-  .progress-bar .step .li:before,
-  .progress-bar .step .li:after {
+  .wj-progress-bar .step .li:before,
+  .wj-progress-bar .step .li:after {
     width: 0;
   }
   .nameRenderStep {

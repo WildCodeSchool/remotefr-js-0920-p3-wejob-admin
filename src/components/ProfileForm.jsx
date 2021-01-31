@@ -28,7 +28,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
         </legend>
         <div className="row">
           <div className="form-check form-check-inline">
-            <label htmlFor="male" className="form-field-label col-md-12">
+            <label htmlFor="male" className="form-field-label col-md-5">
               Monsieur
               <input
                 type="radio"
@@ -40,7 +40,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
               />
             </label>
 
-            <label htmlFor="female" className="form-field-label col-md-12">
+            <label htmlFor="female" className="form-field-label col-md-5">
               Madame
               <input
                 type="radio"
