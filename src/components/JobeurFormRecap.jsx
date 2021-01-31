@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function JobeurFormRecap({ handleSubmit, data }) {
   return (
     <form onSubmit={handleSubmit} id="JobeurForm">
-      <div className="container">
+      <div className="wj-container">
         <div className="divImgProfile">Photo</div>
         <div className="infoJobeur">
           <h2>

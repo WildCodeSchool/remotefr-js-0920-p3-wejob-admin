@@ -6,7 +6,13 @@ import styles from '../asset/css/FileDownloadLinks.module.css';
 import ImageCropper from './ImageCropper';
 import Modal from './widgetsFormField/ModalHelp';
 
-function FileDownloadLinks({ register, handleSubmit, handleSubmitFiles, errors, setSchema }) {
+function FileDownloadLinks({
+  register,
+  handleSubmit,
+  handleSubmitFiles,
+  errors,
+  setSchema,
+}) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
@@ -64,7 +70,7 @@ function FileDownloadLinks({ register, handleSubmit, handleSubmitFiles, errors, 
   };
 
   return (
-    <div className="container">
+    <div className="wj-container">
       {/* {JSON.stringify(errors)} */}
       <div className="row">
         <div className="col-md-6">
