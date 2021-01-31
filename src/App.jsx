@@ -28,7 +28,7 @@ function RouteByRole({ user, ...rest }) {
       render={() => {
         if (!user) return <Redirect to="/LogIn" />;
 
-        return user.isAdmin ? <AdminPanel /> : <JobeurForm />;
+        return user.isAdmin ? <AdminPanel /> : <JobeurForm user={user} />;
       }}
     />
   );
