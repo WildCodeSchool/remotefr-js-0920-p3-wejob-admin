@@ -1,44 +1,60 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react/no-array-index-key */
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as yup from 'yup';
-import SelectPostField from './widgetsFormField/SelectPostField';
-import TextAreaFromField from './widgetsFormField/TextAreaFromField';
+import Select from 'react-select';
+import { Controller } from 'react-hook-form';
+// import SelectPostField from './widgetsFormField/SelectPostField';
+// import TextAreaFromField from './widgetsFormField/TextAreaFromField';
 
 const availability = [
-  { value: '0', label: 'immédiatement' },
-  { value: '1', label: 'autres' },
+  { value: '1', label: 'immédiatement' },
+  { value: '2', label: 'autres' },
 ];
 const mobility = [
-  { value: '0', label: 'Bordeaux' },
-  { value: '1', label: 'Gironde' },
-  { value: '2', label: 'Nouvelle-Aquitaine' },
-  { value: '3', label: 'France' },
+  { value: 'bordeaux', label: 'Bordeaux' },
+  { value: 'gironde', label: 'Gironde' },
+  { value: 'nouvelle_aquitaine', label: 'Nouvelle-Aquitaine' },
+  { value: 'france', label: 'France' },
 ];
 
-function RecruitersInfoForm({ register, handleSubmit, errors, setSchema }) {
+function RecruitersInfoForm({
+  register,
+  handleSubmit,
+  errors,
+  setSchema,
+  control,
+  kwTag,
+  setKeyWords,
+}) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        gender: yup.string().required('Vous devez sélectionner votre genre'),
-        lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
-        firstname: yup.string().required('Vous devez entrer votre prénom'),
-        email: yup.string().email(),
-        diploma: yup.string(),
-        levelOfExperience: yup.string(),
-        languages: yup.string(),
-        activityArea: yup.string(),
-        jobName: yup.string(),
-        skills: yup.string(),
-        availability: yup.string().required(),
-        modility: yup.string().required(),
-        textDescription: yup.string().required(),
+        // // availability: yup.shape(),
+        // modility: yup.string(),
+        // description: yup.string().required(),
+        // keywords: yup.string().required(),
+        // isOpen_to_formation: yup.bool(),
       }),
     );
-  }, []);
+  }, [setSchema]);
+
+  const [kwInput, setKwInput] = useState('');
+
+  const handleAddTag = (e) => {
+    e.preventDefault();
+    setKeyWords((prev) => [...prev, kwInput]);
+    setKwInput('');
+  };
+
+  const handleDeleteTag = (e, tag) => {
+    e.preventDefault();
+    setKeyWords((prev) => prev.filter((t) => t !== tag));
+  };
 
   return (
     <form
-      className="contact-form recruiters-info-form"
+      className="RecruitersInfoForm container"
       id="RecruitersInfoForm"
       onSubmit={handleSubmit}
     >
@@ -51,35 +67,113 @@ function RecruitersInfoForm({ register, handleSubmit, errors, setSchema }) {
             className="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
+            name="isOpen_to_formation"
+            ref={register}
           />
         </label>
       </div>
-      <SelectPostField
-        label="Disponibilité"
-        name="availability"
-        options={availability}
-      />
-      {errors.availability && (
-        <span className="spanError">{errors.availability.message}</span>
-      )}
 
-      <SelectPostField label="Mobilité" name="mobility" options={mobility} />
-      {errors.mobility && (
-        <span className="spanError">{errors.mobility.message}</span>
-      )}
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="Disponibilité" className="form-field-label">
+            Disponibilité{' '}
+            <span className="spanInfoField">(champ facultatif)</span>
+            <Controller
+              as={Select}
+              id="Disponibilité"
+              name="availability"
+              options={availability}
+              control={control}
+              defaultValue=""
+            />
+          </label>
+          {errors.availability && (
+            <span className="spanError">{errors.availability.message}</span>
+          )}
+        </div>
+      </div>
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="Mobilité" className="form-field-label">
+            Mobilité <span className="spanInfoField">(champ facultatif)</span>
+            <Controller
+              as={Select}
+              id="Mobilité"
+              name="mobility"
+              options={mobility}
+              control={control}
+              defaultValue=""
+            />
+          </label>
+          {errors.mobility && (
+            <span className="spanError">{errors.mobility.message}</span>
+          )}
+        </div>
+      </div>
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="description" className="form-field-label">
+            Description{' '}
+            <span className="spanInfoField">(champ obligatoire)</span>
+            <textarea
+              type="text"
+              className="form-field-input"
+              id="description"
+              name="description"
+              ref={register}
+            />
+          </label>
+          {errors.description && (
+            <span className="spanError">{errors.description.message}</span>
+          )}
+        </div>
+      </div>
 
-      <TextAreaFromField
-        label="Description"
-        name="description"
-        type="text"
-        register={register}
-      />
-      {errors.description && (
-        <span className="spanError">{errors.description.message}</span>
-      )}
+      <div className="row">
+        <div className="form-group">
+          {kwTag &&
+            kwTag.map((t, itt) => (
+              <button
+                key={itt}
+                type="button"
+                onClick={(e) => handleDeleteTag(e, t)}
+              >
+                {t}
+              </button>
+            ))}
+          <label htmlFor="keywords" className="form-field-label">
+            Mots clés <span className="spanInfoField">(champ obligatoire)</span>
+            <input
+              type="text"
+              className="form-field-input"
+              id="keywords"
+              name="keywords_input"
+              value={kwInput}
+              onChange={(e) => setKwInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddTag(e);
+                }
+              }}
+            />
+            <button type="button" onClick={handleAddTag}>
+              Ajouter
+            </button>
+          </label>
+          {errors.keywords && (
+            <span className="spanError">{errors.keywords.message}</span>
+          )}
+        </div>
+      </div>
     </form>
   );
 }
+
+RecruitersInfoForm.defaultProps = {
+  control: undefined,
+  kwTag: [],
+};
 
 RecruitersInfoForm.propTypes = {
   register: PropTypes.func.isRequired,
@@ -97,8 +191,15 @@ RecruitersInfoForm.propTypes = {
       message: PropTypes.string,
       type: PropTypes.string,
     }),
+    keywords: PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+    }),
   }).isRequired,
   setSchema: PropTypes.func.isRequired,
+  control: PropTypes.shape(),
+  kwTag: PropTypes.arrayOf(PropTypes.string),
+  setKeyWords: PropTypes.func.isRequired,
 };
 
 export default RecruitersInfoForm;

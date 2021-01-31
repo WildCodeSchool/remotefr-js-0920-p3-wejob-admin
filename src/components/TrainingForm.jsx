@@ -1,70 +1,106 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
 import * as yup from 'yup';
-import InputFormField from './widgetsFormField/InputFormField';
-import SelectPostField from './widgetsFormField/SelectPostField';
+import { Controller } from 'react-hook-form';
+// import InputFormField from './widgetsFormField/InputFormField';
+// import SelectPostField from './widgetsFormField/SelectPostField';
 
 const levelOfExperience = [
-  { value: '0', label: "De 0 à 5 ans d'expérience" },
-  { value: '1', label: "De 5 à 10 ans d'expérience" },
-  { value: '2', label: "Plus de 10 ans d'expérience" },
+  { value: '1', label: "De 0 à 5 ans d'expérience" },
+  { value: '2', label: "De 5 à 10 ans d'expérience" },
+  { value: '3', label: "Plus de 10 ans d'expérience" },
 ];
 const languages = [
-  { value: '0', label: 'Anglais' },
-  { value: '1', label: 'Espagnol' },
-  { value: '2', label: 'Allemand' },
-  { value: '3', label: 'Italien' },
-  { value: '4', label: 'Arabe' },
-  { value: '5', label: 'Chinois' },
+  { value: '1', label: 'Français' },
+  { value: '2', label: 'Anglais' },
+  { value: '3', label: 'Espagnol' },
+  { value: '4', label: 'Italien' },
+  { value: '5', label: 'Allemand' },
+  { value: '6', label: 'Chinois' },
+  { value: '7', label: 'Arabe' },
 ];
 
-function TrainingForm({ register, handleSubmit, errors, setSchema }) {
+function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        gender: yup.string().required('Vous devez sélectionner votre genre'),
-        lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
-        firstname: yup.string().required('Vous devez entrer votre prénom'),
-        email: yup.string().email(),
         diploma: yup.string(),
         levelOfExperience: yup.string(),
-        languages: yup.string(),
+        // languages: yup.array.of(),
       }),
     );
-  }, []);
+  }, [setSchema]);
 
   return (
     <form
-      className="contact-form trainingForm"
+      className="TrainingForm container"
       id="TrainingForm"
       onSubmit={handleSubmit}
     >
       <h3 className="widget-title">Formations</h3>
       <hr />
-      <InputFormField
-        label="Diplome"
-        name="diploma"
-        type="text"
-        register={register}
-      />
-      {errors.diploma && (
-        <span className="spanError">{errors.diploma.message}</span>
-      )}
-      <SelectPostField
-        label="Niveau d'expérience"
-        name="levelExperience"
-        options={levelOfExperience}
-      />
-      {errors.levelExperience && (
-        <span className="spanError">{errors.levelExperience.message}</span>
-      )}
-      <SelectPostField label="Langues" name="languages" options={languages} />
-      {errors.languages && (
-        <span className="spanError">{errors.languages.message}</span>
-      )}
+      <div className="form-group">
+        <label htmlFor="diploma" className="form-field-label">
+          Diplome <span className="spanInfoField">(champ facultatif)</span>
+          <input
+            type="text"
+            className="form-field-input"
+            id="diploma"
+            name="diploma"
+            ref={register}
+          />
+        </label>
+        {errors.diploma && (
+          <span className="spanError">{errors.diploma.message}</span>
+        )}
+      </div>
+
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="levelExperience" className="form-field-label">
+            Niveau d&apos;expérience{' '}
+            <span className="spanInfoField">(champ facultatif)</span>
+            <Controller
+              as={Select}
+              id="levelExperience"
+              name="years_of_experiment"
+              options={levelOfExperience}
+              control={control}
+              defaultValue=""
+            />
+          </label>
+          {errors.levelExperience && (
+            <span className="spanError">{errors.levelExperience.message}</span>
+          )}
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="form-group">
+          <label htmlFor="languages" className="form-field-label">
+            Langues <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <Controller
+            as={Select}
+            name="language"
+            options={languages}
+            isMulti
+            control={control}
+          />
+
+          {errors.languages && (
+            <span className="spanError">{errors.languages.message}</span>
+          )}
+        </div>
+      </div>
     </form>
   );
 }
+
+TrainingForm.defaultProps = {
+  control: undefined,
+};
 
 TrainingForm.propTypes = {
   register: PropTypes.func.isRequired,
@@ -84,6 +120,7 @@ TrainingForm.propTypes = {
     }),
   }).isRequired,
   setSchema: PropTypes.func.isRequired,
+  control: PropTypes.shape(),
 };
 
 export default TrainingForm;

@@ -6,13 +6,13 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        gender: yup.string().required('Vous devez sélectionner votre genre'),
+        civility: yup.string().required('Vous devez sélectionner votre genre'),
         lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
         firstname: yup.string().required('Vous devez entrer votre prénom'),
         email: yup.string().email(),
       }),
     );
-  }, []);
+  }, [setSchema]);
 
   return (
     <form
@@ -24,7 +24,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
       <hr />
       <fieldset id="coordonnees">
         <legend htmlFor="Civility" className="form-field-label">
-          Civilité *
+          Civilité * <span className="spanInfoField">(champ obligatoire)</span>
         </legend>
         <div className="row">
           <div className="form-check form-check-inline">
@@ -34,8 +34,8 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
                 type="radio"
                 className="form-field-input"
                 id="male"
-                name="gender"
-                value="M"
+                name="civility"
+                value="Monsieur"
                 ref={register}
               />
             </label>
@@ -46,22 +46,22 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
                 type="radio"
                 className="form-field-input"
                 id="female"
-                name="gender"
-                value="Mme"
+                name="civility"
+                value="Madame"
                 ref={register}
               />
             </label>
           </div>
         </div>
-        {errors.gender && (
-          <span className="spanError">{errors.gender.message}</span>
+        {errors.civility && (
+          <span className="spanError">{errors.civility.message}</span>
         )}
       </fieldset>
 
       <div className="row">
         <div className="form-group">
           <label htmlFor="firstname" className="form-field-label">
-            Prénom *
+            Prénom * <span className="spanInfoField">(champ obligatoire)</span>
             <input
               type="text"
               className="form-field-input"
@@ -78,7 +78,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
       <div className="row">
         <div className="form-group">
           <label htmlFor="lastname" className="form-field-label">
-            Nom *
+            Nom * <span className="spanInfoField">(champs obligatoire)</span>
             <input
               type="text"
               className="form-field-input"
@@ -115,7 +115,7 @@ ProfileForm.propTypes = {
   register: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({
-    gender: PropTypes.shape({
+    civility: PropTypes.shape({
       message: PropTypes.string,
       type: PropTypes.string,
     }),
