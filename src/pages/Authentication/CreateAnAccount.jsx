@@ -71,7 +71,6 @@ function CreateAnAccount() {
       .catch((error) => {
         console.log(error.message);
       });
-    // <Link to="/LogIn"/>
   };
 
   return (
@@ -96,7 +95,6 @@ function CreateAnAccount() {
                     className="form-field-input"
                     id="email"
                     name="email"
-                    placeholder=""
                     ref={register}
                     readOnly
                   />
@@ -143,7 +141,7 @@ function CreateAnAccount() {
 
               <div className="form-group">
                 <button type="submit">
-                  <span>Valider et se connecter</span>
+                  <span>Valider le mot de passe</span>
                 </button>
               </div>
             </div>
