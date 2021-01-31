@@ -16,18 +16,18 @@ function ModalHelp({ content }) {
       <button type="button" onClick={handleOpenModal}>
         Aide
       </button>
-      <Modal isOpen={showModal}>
-        <button type="button" onClick={handleCloseModal}>
+      <Modal isOpen={showModal} ariaHideApp={false}>
+        {content}
+        <button type="button" onClick={handleCloseModal} className="btnModal">
           Fermer
         </button>
-        {content}
       </Modal>
     </div>
   );
 }
 
 ModalHelp.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.element.isRequired,
 };
 
 export default ModalHelp;

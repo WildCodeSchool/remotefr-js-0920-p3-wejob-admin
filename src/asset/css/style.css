@@ -107,6 +107,13 @@
   margin: 0 0 30px;
 }
 
+@media screen and (max-width: 576px) {
+  #coordonnees {
+    margin: 0;
+    padding: 0;
+  }
+}
+
 .trainingForm > label > div > div {
   margin: 0 0 30px;
 }
@@ -121,4 +128,19 @@
 
 .form-switch {
   margin: 0 0 30px;
+}
+
+/* MODAL */
+.btnModal {
+  position: relative;
+}
+
+.containerModal {
+  width: 75%;
+  height: 100%;
+  background: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 0 0 1.5em 0;
+  margin: auto;
 }

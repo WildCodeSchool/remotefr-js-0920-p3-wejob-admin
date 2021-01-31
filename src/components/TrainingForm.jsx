@@ -7,17 +7,18 @@ import { Controller } from 'react-hook-form';
 // import SelectPostField from './widgetsFormField/SelectPostField';
 
 const levelOfExperience = [
-  { value: '0', label: "De 0 à 5 ans d'expérience" },
-  { value: '1', label: "De 5 à 10 ans d'expérience" },
-  { value: '2', label: "Plus de 10 ans d'expérience" },
+  { value: '1', label: "De 0 à 5 ans d'expérience" },
+  { value: '2', label: "De 5 à 10 ans d'expérience" },
+  { value: '3', label: "Plus de 10 ans d'expérience" },
 ];
 const languages = [
-  { value: '0', label: 'Anglais' },
-  { value: '1', label: 'Espagnol' },
-  { value: '2', label: 'Allemand' },
-  { value: '3', label: 'Italien' },
-  { value: '4', label: 'Arabe' },
-  { value: '5', label: 'Chinois' },
+  { value: '1', label: 'Français' },
+  { value: '2', label: 'Anglais' },
+  { value: '3', label: 'Espagnol' },
+  { value: '4', label: 'Italien' },
+  { value: '5', label: 'Allemand' },
+  { value: '6', label: 'Chinois' },
+  { value: '7', label: 'Arabe' },
 ];
 
 function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
@@ -63,7 +64,7 @@ function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
             <Controller
               as={Select}
               id="levelExperience"
-              name="levelExperience"
+              name="years_of_experiment"
               options={levelOfExperience}
               control={control}
               defaultValue=""
@@ -82,11 +83,10 @@ function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
           </label>
           <Controller
             as={Select}
-            name="languages"
+            name="language"
             options={languages}
             isMulti
             control={control}
-            defaultValue=""
           />
 
           {errors.languages && (

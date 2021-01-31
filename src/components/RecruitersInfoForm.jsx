@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react/no-array-index-key */
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as yup from 'yup';
 import Select from 'react-select';
@@ -7,14 +8,14 @@ import { Controller } from 'react-hook-form';
 // import TextAreaFromField from './widgetsFormField/TextAreaFromField';
 
 const availability = [
-  { value: '0', label: 'immédiatement' },
-  { value: '1', label: 'autres' },
+  { value: '1', label: 'immédiatement' },
+  { value: '2', label: 'autres' },
 ];
 const mobility = [
-  { value: '0', label: 'Bordeaux' },
-  { value: '1', label: 'Gironde' },
-  { value: '2', label: 'Nouvelle-Aquitaine' },
-  { value: '3', label: 'France' },
+  { value: 'bordeaux', label: 'Bordeaux' },
+  { value: 'gironde', label: 'Gironde' },
+  { value: 'nouvelle_aquitaine', label: 'Nouvelle-Aquitaine' },
+  { value: 'france', label: 'France' },
 ];
 
 function RecruitersInfoForm({
@@ -23,17 +24,33 @@ function RecruitersInfoForm({
   errors,
   setSchema,
   control,
+  kwTag,
+  setKeyWords,
 }) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        availability: yup.string(),
-        modility: yup.string(),
-        textDescription: yup.string().required(),
-        keywords: yup.mixed().required(),
+        // // availability: yup.shape(),
+        // modility: yup.string(),
+        // description: yup.string().required(),
+        // keywords: yup.string().required(),
+        // isOpen_to_formation: yup.bool(),
       }),
     );
   }, [setSchema]);
+
+  const [kwInput, setKwInput] = useState('');
+
+  const handleAddTag = (e) => {
+    e.preventDefault();
+    setKeyWords((prev) => [...prev, kwInput]);
+    setKwInput('');
+  };
+
+  const handleDeleteTag = (e, tag) => {
+    e.preventDefault();
+    setKeyWords((prev) => prev.filter((t) => t !== tag));
+  };
 
   return (
     <form
@@ -50,6 +67,8 @@ function RecruitersInfoForm({
             className="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
+            name="isOpen_to_formation"
+            ref={register}
           />
         </label>
       </div>
@@ -62,7 +81,7 @@ function RecruitersInfoForm({
             <Controller
               as={Select}
               id="Disponibilité"
-              name="Disponibilité"
+              name="availability"
               options={availability}
               control={control}
               defaultValue=""
@@ -80,7 +99,7 @@ function RecruitersInfoForm({
             <Controller
               as={Select}
               id="Mobilité"
-              name="Mobilité"
+              name="mobility"
               options={mobility}
               control={control}
               defaultValue=""
@@ -109,17 +128,38 @@ function RecruitersInfoForm({
           )}
         </div>
       </div>
+
       <div className="row">
         <div className="form-group">
+          {kwTag &&
+            kwTag.map((t, itt) => (
+              <button
+                key={itt}
+                type="button"
+                onClick={(e) => handleDeleteTag(e, t)}
+              >
+                {t}
+              </button>
+            ))}
           <label htmlFor="keywords" className="form-field-label">
             Mots clés <span className="spanInfoField">(champ obligatoire)</span>
-            <textarea
+            <input
               type="text"
               className="form-field-input"
               id="keywords"
-              name="keywords"
-              ref={register}
+              name="keywords_input"
+              value={kwInput}
+              onChange={(e) => setKwInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddTag(e);
+                }
+              }}
             />
+            <button type="button" onClick={handleAddTag}>
+              Ajouter
+            </button>
           </label>
           {errors.keywords && (
             <span className="spanError">{errors.keywords.message}</span>
@@ -132,6 +172,7 @@ function RecruitersInfoForm({
 
 RecruitersInfoForm.defaultProps = {
   control: undefined,
+  kwTag: [],
 };
 
 RecruitersInfoForm.propTypes = {
@@ -157,6 +198,8 @@ RecruitersInfoForm.propTypes = {
   }).isRequired,
   setSchema: PropTypes.func.isRequired,
   control: PropTypes.shape(),
+  kwTag: PropTypes.arrayOf(PropTypes.string),
+  setKeyWords: PropTypes.func.isRequired,
 };
 
 export default RecruitersInfoForm;
