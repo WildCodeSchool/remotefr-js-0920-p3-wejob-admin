@@ -20,22 +20,16 @@ function AppLayout({ children }) {
   );
 }
 
-function PrivateRoute({ children, user, ...rest }) {
+function RouteByRole({ user, ...rest }) {
   return (
     <Route
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
-      render={() => (user ? children : <Redirect to="/LogIn" />)}
-    />
-  );
-}
+      render={() => {
+        if (!user) return <Redirect to="/LogIn" />;
 
-function AdminRoute({ children, user, ...rest }) {
-  return (
-    <Route
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...rest}
-      render={() => (user?.isAdmin ? children : <Redirect to="/JobeurForm" />)}
+        return user.isAdmin ? <AdminPanel /> : <JobeurForm />;
+      }}
     />
   );
 }
@@ -89,12 +83,7 @@ function App() {
           <ChangePassword />
         </Route>
 
-        <PrivateRoute exact path="/JobeurForm" user={user}>
-          <JobeurForm />
-        </PrivateRoute>
-        <AdminRoute path="/admin-panel" user={user}>
-          <AdminPanel />
-        </AdminRoute>
+        <RouteByRole path="/" user={user} />
       </Switch>
     </AppLayout>
   );
