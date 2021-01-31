@@ -122,7 +122,7 @@ function CreateAnAccount() {
               <div className="col-sm-5">
                 <input
                   type="password"
-                  className="form-field-input"
+                  className="form-control"
                   id="password"
                   name="password"
                   ref={register}
@@ -146,7 +146,7 @@ function CreateAnAccount() {
               <div className="col-sm-5">
                 <input
                   type="text"
-                  className="form-field-input"
+                  className="form-control"
                   id="confirmPassword"
                   name="confirmPassword"
                   ref={register}

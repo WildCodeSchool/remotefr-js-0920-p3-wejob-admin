@@ -62,37 +62,46 @@ function ChangePassword() {
             </h3>
             <hr />
 
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="oldPassword" className="form-field-label">
+            <div className="mb-3 row">
+              <div className="form-group row ">
+                <label
+                  htmlFor="oldPassword"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Ancien mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
+                    type="password"
+                    className="form-control"
                     id="oldPassword"
                     name="oldPassword"
                     ref={register}
                   />
-                </label>
+                </div>
                 {errors.oldPassword && (
                   <span className="spanError">
                     {errors.oldPassword.message}
                   </span>
                 )}
               </div>
-            </div>
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="newPassword" className="form-field-label">
+
+              <div className="form-group row ">
+                <label
+                  htmlFor="newPassword"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Nouveau mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
+                    type="password"
+                    className="form-control"
                     id="newPassword"
                     name="newPassword"
                     ref={register}
                   />
-                </label>
+                </div>
                 {errors.newPassword && (
                   <span className="spanError">
                     {errors.newPassword.message}
@@ -100,17 +109,22 @@ function ChangePassword() {
                 )}
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword" className="form-field-label">
+              <div className="form-group row ">
+                <label
+                  htmlFor="confirmPassword"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Confirmer votre nouveau mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
                     type="text"
-                    className="form-field-input"
+                    className="form-control"
                     id="confirmPassword"
                     name="confirmPassword"
                     ref={register}
                   />
-                </label>
+                </div>
                 {errors.confirmPassword && (
                   <span className="spanError">
                     {errors.confirmPassword.message}
