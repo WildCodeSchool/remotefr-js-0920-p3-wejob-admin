@@ -30,6 +30,16 @@ function PrivateRoute({ children, user, ...rest }) {
   );
 }
 
+function AdminRoute({ children, user, ...rest }) {
+  return (
+    <Route
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...rest}
+      render={() => (user?.isAdmin ? children : <Redirect to="/JobeurForm" />)}
+    />
+  );
+}
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -79,16 +89,12 @@ function App() {
           <ChangePassword />
         </Route>
 
-        <PrivateRoute exact path="/JobeurForm">
+        <PrivateRoute exact path="/JobeurForm" user={user}>
           <JobeurForm />
         </PrivateRoute>
-        {user?.isAdmin ? (
-          <Route path="/admin-panel">
-            <AdminPanel />
-          </Route>
-        ) : (
-          <Redirect to="/JobeurForm" />
-        )}
+        <AdminRoute path="/admin-panel" user={user}>
+          <AdminPanel />
+        </AdminRoute>
       </Switch>
     </AppLayout>
   );
