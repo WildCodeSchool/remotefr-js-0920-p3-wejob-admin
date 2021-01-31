@@ -1,0 +1,44 @@
+.headerPostTitleContainer {
+  background-color: #007170;
+  padding: 40px 0;
+  border-bottom: 1px solid #f2f2f2;
+  display: block;
+}
+
+.headerPostTitleContainer:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: ' ';
+  clear: both;
+  height: 0;
+}
+
+.headerPostTitleContainer:before,
+.headerPostTitleContainer:after {
+  content: ' ';
+  display: table;
+}
+
+.postTitleWrapper {
+  float: left;
+  max-width: 100%;
+  padding-right: 30px;
+}
+
+.headerPostTitleClass {
+  font-size: 24px;
+  padding-bottom: 0;
+  color: #ffffff;
+}
+
+.innerWrap {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1190px) {
+  .innerWrap {
+    width: 94%;
+  }
+}

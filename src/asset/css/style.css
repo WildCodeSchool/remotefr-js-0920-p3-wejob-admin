@@ -1,0 +1,124 @@
+.header-post-title-container {
+  background-color: #007170;
+  padding: 40px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.header-post-title-container .post-title-wrapper {
+  float: left;
+  max-width: 100%;
+  padding-right: 30px;
+}
+
+.header-post-title-class {
+  font-size: 24px;
+  padding-bottom: 0;
+  color: #ffffff;
+}
+
+.clearfix {
+  display: block;
+}
+
+.single-page {
+  margin-top: 25px;
+  color: #888888;
+}
+
+.single-page.clearfix > div > div > ol {
+  text-align: center;
+}
+
+.single-page.clearfix > div > div > ol > li {
+  border-bottom: 4px solid #007170;
+}
+
+.single-page.clearfix > div > div > ol > li::before {
+  color: #007170;
+
+  /* background-color: #d9faf9; */
+}
+
+.inner-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* FORMULAIRE */
+.spanError {
+  color: red;
+}
+.spanInfoField {
+  color: #888888;
+  font-weight: normal;
+  font-size: 90%;
+}
+.contact-form {
+  padding: 1px;
+  border: #ffffff solid 1px;
+  background-color: #ffffff;
+}
+
+.form-group {
+  margin: 0 0 30px;
+}
+
+.widget-title {
+  margin-top: 0;
+  font-size: 26px;
+  color: #666666;
+  line-height: 1.4;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+.form-field-label {
+  color: #007071;
+  font-weight: bold;
+  font-size: 100%;
+  margin-top: 30px;
+}
+
+.form-field-input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  border-radius: 0;
+  background-color: #f8f8f8;
+  padding: 1%;
+  border: 1px solid #f2f2f2;
+  line-height: 20px;
+}
+
+.form-check-inline {
+  display: inline-block;
+  margin-right: 1rem;
+  min-height: 1.5rem;
+  padding-left: 1.5em;
+  margin-bottom: 0.125rem;
+}
+
+.form-field-input-radio-inline {
+  float: left;
+  margin-left: -1.5em;
+}
+
+#coordonnees {
+  margin: 0 0 30px;
+}
+
+.trainingForm > label > div > div {
+  margin: 0 0 30px;
+}
+
+.experiences-form > label > div {
+  margin: 0 0 30px;
+}
+
+.recruiters-info-form > label > div {
+  margin: 0 0 30px;
+}
+
+.form-switch {
+  margin: 0 0 30px;
+}

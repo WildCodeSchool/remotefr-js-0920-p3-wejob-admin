@@ -1,5 +1,76 @@
 .App {
-  text-align: center;
+  display: block;
+}
+
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+a,
+address,
+cite,
+code,
+em,
+font,
+strong,
+ul,
+li,
+form,
+label,
+legend,
+caption {
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+html {
+  overflow-y: scroll;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  color: #888888;
+  font-size: 15px;
+  line-height: 1.5;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
 }
 
 code {
