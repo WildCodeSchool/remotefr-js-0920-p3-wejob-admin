@@ -20,6 +20,16 @@ function AppLayout({ children }) {
   );
 }
 
+function PrivateRoute({ children, user, ...rest }) {
+  return (
+    <Route
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...rest}
+      render={() => (user ? children : <Redirect to="/LogIn" />)}
+    />
+  );
+}
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -28,7 +38,9 @@ function App() {
   // quand l'app s'initialise, je vais faire une req. au back pour savoir si je suis authentifié
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/auth/check`)
+      .get(`${process.env.REACT_APP_API_URL}/auth/check`, {
+        withCredentials: true,
+      })
       .then((response) => setUser(response.data))
       .catch((err) => {
         if (!err.response) setNetworkError(err);
@@ -66,14 +78,18 @@ function App() {
         <Route path="/ChangePassword">
           <ChangePassword />
         </Route>
-        <Route path="/admin-panel">
-          <AdminPanel />
-        </Route>
-        <Route exact path="/JobeurForm">
+
+        <PrivateRoute exact path="/JobeurForm">
           <JobeurForm />
-        </Route>
+        </PrivateRoute>
+        {user?.isAdmin ? (
+          <Route path="/admin-panel">
+            <AdminPanel />
+          </Route>
+        ) : (
+          <Redirect to="/JobeurForm" />
+        )}
       </Switch>
-      {!user && <Redirect to="/LogIn" />}
     </AppLayout>
   );
 }
