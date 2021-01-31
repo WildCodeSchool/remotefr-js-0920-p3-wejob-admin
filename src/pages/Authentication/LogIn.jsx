@@ -37,7 +37,7 @@ function LogIn() {
     const { email, password } = data;
     axios
       .post(
-        `${process.env.REACT_APP_BACK_URL}/auth/login`,
+        `${process.env.REACT_APP_API_URL}/auth/login`,
         {
           email,
           password,
