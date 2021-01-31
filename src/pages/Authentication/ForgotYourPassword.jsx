@@ -10,7 +10,9 @@ function ForgotYourPassword() {
   const schema = yup.object().shape({
     newPassword: yup
       .string()
-      .min(8)
+      .min(8, {
+        message: 'Le mot de passe doit comporter au minimum 8 caractères',
+      })
       .max(15)
       .matches(/^[\w$@%*+\-_!]{8,15}$/, {
         message:
@@ -47,37 +49,45 @@ function ForgotYourPassword() {
             id="ForgotYourPassword"
             onSubmit={handleSubmit}
           >
-            <h3 className="widget-title">Créer un mon mot de passe</h3>
+            <h3 className="widget-title">Changer mon mot de passe</h3>
             <hr />
 
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="email" className="form-field-label">
+            <div className="mb-3 row">
+              <div className="form-group row ">
+                <label
+                  htmlFor="email"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Votre email
+                </label>
+                <div className="col-sm-6">
                   <input
                     type="email"
-                    className="form-field-input"
+                    className="form-control"
                     id="email"
                     name="email"
                     placeholder="name@example.com"
                     ref={register}
-                    readOnly
                   />
-                </label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="newPassword" className="form-field-label">
+
+              <div className="form-group row ">
+                <label
+                  htmlFor="newPassword"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Nouveau mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
+                    type="password"
+                    className="form-control"
                     id="newPassword"
                     name="newPassword"
                     ref={register}
                   />
-                </label>
+                </div>
                 {errors.newPassword && (
                   <span className="spanError">
                     {errors.newPassword.message}
@@ -85,17 +95,22 @@ function ForgotYourPassword() {
                 )}
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword" className="form-field-label">
+              <div className="form-group row ">
+                <label
+                  htmlFor="confirmPassword"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Confirmer votre nouveau mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
+                    type="password"
+                    className="form-control"
                     id="confirmPassword"
                     name="confirmPassword"
                     ref={register}
                   />
-                </label>
+                </div>
                 {errors.confirmPassword && (
                   <span className="spanError">
                     {errors.confirmPassword.message}
@@ -103,8 +118,8 @@ function ForgotYourPassword() {
                 )}
               </div>
 
-              <div className="form-group">
-                <button type="button">
+              <div className="row justify-content-center ">
+                <button type="button" className="button-submit col-sm-4">
                   <Link to="/LogIn">
                     <span>Valider et se connecter</span>
                   </Link>
