@@ -6,7 +6,7 @@ import styles from '../asset/css/FileDownloadLinks.module.css';
 import ImageCropper from './ImageCropper';
 import Modal from './widgetsFormField/ModalHelp';
 
-function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
+function FileDownloadLinks({ register, handleSubmit, handleSubmitFiles, errors, setSchema }) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
@@ -58,9 +58,9 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
   //   console.log('data : ', data);
   // };
 
-  const onSubmitFiles = (event) => {
-    event.preventDefault();
-    handleSubmit({ cv1: Cv1File, cv2: Cv2File, picture: userPhoto });
+  const onSubmit = (event) => {
+    handleSubmit(event);
+    handleSubmitFiles({ cv1: Cv1File, cv2: Cv2File, picture: userPhoto });
   };
 
   return (
@@ -73,7 +73,7 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
             action="#"
             className="FileDownloadLinks container"
             id="FileDownloadLinks"
-            onSubmit={onSubmitFiles}
+            onSubmit={onSubmit}
             // onChange={onChangeHandler}
           >
             <div className={`form-group ${styles.files}`}>
@@ -159,23 +159,25 @@ function FileDownloadLinks({ handleSubmit, errors, setSchema }) {
             </div>
             <div className="form-group">
               <label htmlFor="linkedln" className="form-field-label">
-                Lien vers votre profil linkedln
+                Lien vers votre profil LinkedIn
                 <input
                   type="text"
                   className="form-field-input"
-                  id="linkedln"
-                  name="linkedln"
+                  id="linkedin"
+                  name="linkedin"
+                  ref={register}
                 />
               </label>
             </div>
             <div className="form-group">
               <label htmlFor="youtube" className="form-field-label">
-                Lien vers youtube
+                Lien vers YouTube
                 <input
                   type="text"
                   className="form-field-input"
                   id="youtube"
                   name="youtube"
+                  ref={register}
                 />
               </label>
             </div>
