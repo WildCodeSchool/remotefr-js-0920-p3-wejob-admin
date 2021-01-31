@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable camelcase */
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -59,8 +60,14 @@ function reformatHookFormData(data, kwTag, jobTag) {
 function JobeurForm() {
   // Si on passe ?autofill=true dans l'URL, ça injecte des valeurs
   const prefilledValues =
-  window.location.search === '?autofill=true' ? sampleCandidateData : { job: [], keywords: [] };
-  const { job: initialJobTags, keywords: initialKeywords, ...defaultValues } = prefilledValues;
+    window.location.search === '?autofill=true'
+      ? sampleCandidateData
+      : { job: [], keywords: [] };
+  const {
+    job: initialJobTags,
+    keywords: initialKeywords,
+    ...defaultValues
+  } = prefilledValues;
 
   // update the validation  yup schema for the data entered by the user when changing the form step
   const [schema, setSchema] = useState(yup.object().shape({}));
@@ -83,7 +90,7 @@ function JobeurForm() {
   const { register, handleSubmit, errors, control, reset } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(schema),
-    defaultValues
+    defaultValues,
   });
 
   const [compState, setComp] = useState(0);
@@ -114,6 +121,7 @@ function JobeurForm() {
   // Done: don't merge files with data handled by React Hook Form
   // Otherwise weird things happen
   const onSubmitFiles = (data) => {
+    // eslint-disable-next-line no-console
     console.log('onSubmitFiles', data, dataForm);
     setFiles(data);
     setComp(compState + 1);
@@ -121,7 +129,6 @@ function JobeurForm() {
 
   const onSendForm = async (event) => {
     event.preventDefault();
-    // eslint-disable-next-line no-console
 
     const {
       availability,
@@ -135,16 +142,21 @@ function JobeurForm() {
     // Reformater une partie des champs avant envoi
     // Tout le code de Jonathan pour reformater ces champs a été déplacé
     // de onSubmit à reformatHookFormData, qu'on appelle ici.
-    const formattedFields = reformatHookFormData({
-      availability,
-      keywords,
-      language,
-      mobility,
-      sector_of_activity,
-      years_of_experiment,
-    }, kwTag, jobTag);
+    const formattedFields = reformatHookFormData(
+      {
+        availability,
+        keywords,
+        language,
+        mobility,
+        sector_of_activity,
+        years_of_experiment,
+      },
+      kwTag,
+      jobTag,
+    );
+    // eslint-disable-next-line no-console
     console.log(formattedFields, nonReformattedFields);
-    const jsonPayload = {...formattedFields, ...nonReformattedFields}
+    const jsonPayload = { ...formattedFields, ...nonReformattedFields };
 
     // TODO: utiliser id récupéré depuis le contexte où est stocké
     // l'utilisateur authentifié
@@ -157,12 +169,14 @@ function JobeurForm() {
       )
       .then((res) => {
         // La 1ère requête a fonctionné
-
+        // eslint-disable-next-line no-console
+        console.log(res);
         // FormData pour envoi des pdf & images en multipart/form-data
         // Sera traité par multer côté back
         const formdata = new FormData();
         ['cv1', 'cv2', 'picture'].forEach((key) => {
           const value = files[key];
+          // eslint-disable-next-line no-console
           console.log(key, value);
           if (value) formdata.append(key, value);
         });
@@ -175,6 +189,8 @@ function JobeurForm() {
       })
       // TODO: gérer l'erreur via un hook de state
       // (afficher une alerte Bootstrap, ou une notif. par exemple avec Noty)
+
+      // eslint-disable-next-line no-console
       .catch((err) => console.error(err));
   };
 
