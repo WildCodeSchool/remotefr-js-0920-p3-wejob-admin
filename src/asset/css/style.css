@@ -143,3 +143,15 @@
   padding: 0 0 1.5em 0;
   margin: auto;
 }
+
+.button-submit {
+  background-color: #007071;
+  color: #ffffff;
+  border-radius: 10px;
+  display: inline-block;
+  text-decoration: none;
+  margin: 3px 10px;
+  font-size: 18px;
+  padding: 8px 10px;
+  border: 0;
+}

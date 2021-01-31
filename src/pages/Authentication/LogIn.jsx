@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 // import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import HeaderPostTitle from '../../components/HeaderPostTitle';
 
 function LogIn() {
   const history = useHistory();
+  const location = useLocation();
 
   const schema = yup.object().shape({
     password: yup
@@ -25,6 +26,9 @@ function LogIn() {
   const { register, handleSubmit, errors } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(schema),
+    defaultValues: location.state?.email
+      ? { email: location.state.email }
+      : undefined,
   });
 
   // const ValidateConnect = () => {
@@ -46,10 +50,11 @@ function LogIn() {
           withCredentials: true,
         },
       )
-      .then((response) => {
+      .then(() => {
         history.push('/JobeurForm');
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error.message);
       });
   };
@@ -66,10 +71,15 @@ function LogIn() {
           >
             <h3 className="widget-title">Entrer votre mot de passe</h3>
             <hr />
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="email" className="form-field-label">
+            <div className="mb-3 row">
+              <div className="form-group row">
+                <label
+                  htmlFor="email"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Votre Email
+                </label>
+                <div className="col-sm-6">
                   <input
                     type="email"
                     className="form-field-input"
@@ -79,22 +89,26 @@ function LogIn() {
                     ref={register}
                     required
                   />
-                </label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="password" className="form-field-label">
+
+              <div className="form-group row">
+                <label
+                  htmlFor="password"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Entrer votre mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
+                    type="password"
+                    className="form-control"
                     id="password"
                     name="password"
                     ref={register}
                     required
                   />
-                </label>
+                </div>
                 {errors.password && (
                   <span className="spanError">{errors.password.message}</span>
                 )}
