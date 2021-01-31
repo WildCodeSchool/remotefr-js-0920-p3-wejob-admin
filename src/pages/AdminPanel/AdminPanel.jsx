@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-restricted-globals */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -11,7 +11,8 @@ import {
   useHistory,
   useRouteMatch,
 } from 'react-router-dom';
-import candidats from './candidat.json';
+import axios from 'axios';
+import fakeCandidats from './candidat.json';
 import ModifyJobber from './ModifyJobber';
 import ListRecrutors from './ListRecrutors';
 import AddJobber from './AddJobber';
@@ -70,8 +71,17 @@ export default function AdminPanel() {
 
 const CandidatList = () => {
   const [search, setSearch] = useState('');
+  const [error, setError] = useState(null);
+  const [candidats, setCandidats] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/candidats`)
+      .then(({ data }) => setCandidats([...data, ...fakeCandidats]))
+      .catch((err) => setError(err));
+  }, []);
   return (
     <>
+      {error && <div className="alert alert-danger">error.message</div>}
       <input
         type="text"
         className="form-control"
@@ -116,7 +126,9 @@ const Candidat = ({
         <p className="text-primary">
           {lastname} {firstname}
         </p>
-        <p>{email}</p>
+        <p className={email ? 'text-success' : 'text-danger'}>
+          {email || 'Email manquant'}
+        </p>
         <div>
           {sector_of_activity.map((s) => (
             <p
