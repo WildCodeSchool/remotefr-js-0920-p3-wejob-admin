@@ -34,7 +34,7 @@ function LogIn() {
   // const { isSubmitting, isValid } = formState;
 
   // const ValidateConnect = () => {
-  //   <Link to="/LogIn">
+  //   <Link to="/se-connecter">
   //     <span>Valider et se connecter</span>
   //   </Link>;
   // };
@@ -53,7 +53,7 @@ function LogIn() {
         },
       )
       .then(() => {
-        history.push('/JobeurForm');
+        history.push('/profil-candidat');
       })
       .catch((error) => {
         // eslint-disable-next-line no-console

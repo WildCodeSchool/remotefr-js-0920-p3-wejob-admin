@@ -42,7 +42,7 @@ function ChangePassword() {
   });
 
   // const ValidateConnect = () => {
-  //   <Link to="/LogIn">
+  //   <Link to="/se-connecter">
   //     <span>Valider et se connecter</span>
   //   </Link>;
   // };
@@ -134,7 +134,7 @@ function ChangePassword() {
 
               <div className="row justify-content-center ">
                 <button type="button" className="button-submit col-sm-4">
-                  <Link to="/LogIn">
+                  <Link to="/se-connecter">
                     <span>Valider et se connecter</span>
                   </Link>
                 </button>

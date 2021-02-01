@@ -15,13 +15,13 @@ function App() {
     <div className="App">
       <Header />
       <Switch>
-        <Route path="/ForgotYourPassword">
+        <Route path="/mot-de-passe-oublie">
           <ForgotYourPassword />
         </Route>
-        <Route path="/CreateAnAccount">
+        <Route path="/creation-compte">
           <CreateAnAccount />
         </Route>
-        <Route path="/LogIn">
+        <Route path="/se-connecter">
           <LogIn />
         </Route>
         <Route path="/ChangePassword">
@@ -30,7 +30,7 @@ function App() {
         <Route path="/admin-panel">
           <AdminPanel />
         </Route>
-        <Route exact path="/JobeurForm">
+        <Route exact path="/profil-candidat">
           <JobeurForm />
         </Route>
       </Switch>

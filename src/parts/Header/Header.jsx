@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from '../../asset/css/Header.module.css';
 
 function Header() {
+  console.log(window.location.pathname);
   return (
     <header>
       <div>
@@ -27,11 +28,26 @@ function Header() {
           <div className={styles.headerRightSection}>
             <nav className={styles.mainNav}>
               <ul className={styles.menu}>
-                <li className={styles.menuItem}>
-                  <Link to="/ChangePassword" className={styles.link}>
-                    Modifier mon mot de passe
-                  </Link>
-                </li>
+                {window.location.pathname === '/profil-candidat' && (
+                  <li className={styles.menuItem}>
+                    <Link to="/ChangePassword" className={styles.link}>
+                      Modifier mon mot de passe
+                    </Link>
+                  </li>
+                )}
+                {/* {window.location.pathname === '/profil-candidat' ? (
+                  <li className={styles.menuItem}>
+                    <Link to="/ChangePassword" className={styles.link}>
+                      Modifier mon mot de passe
+                    </Link>
+                  </li>
+                ) : (
+                  <li className={styles.menuItem}>
+                    <Link to="/se-connecter" className={styles.link}>
+                      Se connecter
+                    </Link>
+                  </li>
+                )} */}
               </ul>
             </nav>
           </div>
