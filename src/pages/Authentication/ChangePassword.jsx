@@ -132,8 +132,8 @@ function ChangePassword() {
                 )}
               </div>
 
-              <div className="form-group">
-                <button type="button">
+              <div className="row justify-content-center ">
+                <button type="button" className="button-submit col-sm-4">
                   <Link to="/LogIn">
                     <span>Valider et se connecter</span>
                   </Link>
