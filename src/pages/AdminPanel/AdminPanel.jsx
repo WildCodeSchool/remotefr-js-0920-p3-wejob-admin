@@ -12,7 +12,6 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import axios from 'axios';
-import fakeCandidats from './candidat.json';
 import ModifyJobber from './ModifyJobber';
 import ListRecrutors from './ListRecrutors';
 import AddJobber from './AddJobber';
@@ -76,7 +75,7 @@ const CandidatList = () => {
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/candidats`)
-      .then(({ data }) => setCandidats([...data, ...fakeCandidats]))
+      .then(({ data }) => setCandidats(data))
       .catch((err) => setError(err));
   }, []);
   return (

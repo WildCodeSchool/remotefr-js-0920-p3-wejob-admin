@@ -47,7 +47,7 @@ function LogIn() {
         },
       )
       .then(() => {
-        history.push('/JobeurForm');
+        history.push('/');
       })
       .catch((error) => {
         console.log(error.message);
