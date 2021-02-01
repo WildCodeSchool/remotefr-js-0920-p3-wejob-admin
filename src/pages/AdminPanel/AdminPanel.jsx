@@ -19,7 +19,6 @@ import AddJobber from './AddJobber';
 
 export default function AdminPanel() {
   const { path, url } = useRouteMatch();
-  console.log(path, url);
   return (
     <div className="container-fluid">
       <div className="row d-block d-sm-flex flex-row">

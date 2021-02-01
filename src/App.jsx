@@ -1,38 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
-import Header from './parts/Header/Header';
+import AppLayout from './parts/AppLayout';
+import RouteByRole from './parts/RouteByRole';
 import ChangePassword from './pages/Authentication/ChangePassword';
 import LogIn from './pages/Authentication/LogIn';
 import CreateAnAccount from './pages/Authentication/CreateAnAccount';
 import ForgotYourPassword from './pages/Authentication/ForgotYourPassword';
-import AdminPanel from './pages/AdminPanel/AdminPanel';
-import JobeurForm from './pages/JobeurForm';
 import './asset/css/style.css';
 import './App.css';
-
-function AppLayout({ children }) {
-  return (
-    <div className="App">
-      <Header />
-      {children}
-    </div>
-  );
-}
-
-function RouteByRole({ user, ...rest }) {
-  return (
-    <Route
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...rest}
-      render={() => {
-        if (!user) return <Redirect to="/LogIn" />;
-
-        return user.isAdmin ? <AdminPanel /> : <JobeurForm user={user} />;
-      }}
-    />
-  );
-}
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);

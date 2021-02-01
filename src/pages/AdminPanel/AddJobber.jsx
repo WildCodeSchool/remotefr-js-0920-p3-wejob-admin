@@ -6,11 +6,9 @@ export default function AddJobber() {
   const [email, setEmail] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
     axios
       .post(`${process.env.REACT_APP_API_URL}/candidats`, { email })
       .then(() => {
-        console.log('added');
         setEmail('');
       })
       .catch(console.error);
