@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { NotificationManager } from 'react-notifications';
 // import PropTypes from 'prop-types';
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
-function LogIn() {
+function LogIn({ setUser }) {
   const history = useHistory();
 
   const schema = yup.object().shape({
@@ -46,11 +47,20 @@ function LogIn() {
           withCredentials: true,
         },
       )
-      .then(() => {
-        history.push('/JobeurForm');
+      .then((response) => {
+        setUser(response.data);
+        NotificationManager.success('Vous êtes connecté');
+        history.push('/profil-candidat');
       })
       .catch((error) => {
-        console.log(error.message);
+        if (error.response) {
+          NotificationManager.error('Identifiants incorrects');
+        } else {
+          NotificationManager.error(
+            'Erreur',
+            'Veuillez réessayer ultérieurement',
+          );
+        }
       });
   };
 
