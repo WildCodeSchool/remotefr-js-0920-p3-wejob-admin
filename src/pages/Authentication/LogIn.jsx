@@ -60,9 +60,10 @@ function LogIn() {
         console.log(error.message);
       });
   };
-  const forgotPassword = (data) => {
+  const forgotPassword = () => {
     console.log('forgotPassword');
-    const { email } = data;
+    const { email } = location.state;
+    console.log(email);
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/candidats/forgot-password`,

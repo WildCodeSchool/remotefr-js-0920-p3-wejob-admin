@@ -14,7 +14,7 @@ function ForgotYourPassword() {
   const token = url.searchParams.get('token');
 
   const schema = yup.object().shape({
-    newPassword: yup
+    password: yup
       .string()
       .min(8, {
         message: 'Le mot de passe doit comporter au minimum 8 caractères',
@@ -28,7 +28,7 @@ function ForgotYourPassword() {
     confirmPassword: yup
       .string()
       .oneOf(
-        [yup.ref('newPassword'), null],
+        [yup.ref('password'), null],
         'les mots de passe doivent correspondre',
       )
       .required('Vous devez confirmer votre mot de passe'),
@@ -48,21 +48,21 @@ function ForgotYourPassword() {
   //   </Link>;
   // };
   const onSubmit = (data) => {
-    console.log(data);
-    const { newPassword, email } = data;
+    const { password, email } = data;
+
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/candidats/update-password`,
         {
           token,
-          newPassword,
+          password,
         },
         {
           withCredentials: true,
         },
       )
       .then(() => {
-        history.push('/JobeurForm', { email });
+        history.push('/LogIn', { email });
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
@@ -105,7 +105,7 @@ function ForgotYourPassword() {
 
               <div className="form-group row ">
                 <label
-                  htmlFor="newPassword"
+                  htmlFor="password"
                   className="col-sm-5 col-form-label form-field-label"
                 >
                   Nouveau mot de passe *
@@ -114,15 +114,13 @@ function ForgotYourPassword() {
                   <input
                     type="password"
                     className="form-control"
-                    id="newPassword"
-                    name="newPassword"
+                    id="password"
+                    name="password"
                     ref={register}
                   />
                 </div>
-                {typeof errors.newPassword?.message === 'string' && (
-                  <span className="spanError">
-                    {errors.newPassword.message}
-                  </span>
+                {typeof errors.password?.message === 'string' && (
+                  <span className="spanError">{errors.password.message}</span>
                 )}
               </div>
 
