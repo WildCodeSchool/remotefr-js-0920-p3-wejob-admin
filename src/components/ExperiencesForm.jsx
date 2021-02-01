@@ -76,30 +76,6 @@ function ExperiencesForm({
       <div className="mb-3 row">
         <div className="form-group row">
           <label
-            htmlFor="activityArea"
-            className="col-sm-4 col-form-label form-field-label"
-          >
-            Secteurs d&apos;activité{' '}
-            <span className="spanInfoField">(champ facultatif)</span>
-          </label>
-          <div className="col-sm-6">
-            <Controller
-              as={Select}
-              id="activityArea"
-              name="sector_of_activity"
-              options={activityArea}
-              control={control}
-              isMulti
-            />
-          </div>
-
-          {errors.activityArea && (
-            <span className="spanError">{errors.activityArea.message}</span>
-          )}
-        </div>
-
-        <div className="form-group row">
-          <label
             htmlFor="jobname"
             className="col-sm-4 col-form-label form-field-label"
           >
@@ -144,6 +120,29 @@ function ExperiencesForm({
           {/* {errors.job_input && (
             <span className="spanError">{errors.job_input.message}</span>
           )} */}
+        </div>
+        <div className="form-group row">
+          <label
+            htmlFor="activityArea"
+            className="col-sm-4 col-form-label form-field-label"
+          >
+            Secteurs d&apos;activité{' '}
+            <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <div className="col-sm-6">
+            <Controller
+              as={Select}
+              id="activityArea"
+              name="sector_of_activity"
+              options={activityArea}
+              control={control}
+              isMulti
+            />
+          </div>
+
+          {errors.activityArea && (
+            <span className="spanError">{errors.activityArea.message}</span>
+          )}
         </div>
       </div>
     </form>
