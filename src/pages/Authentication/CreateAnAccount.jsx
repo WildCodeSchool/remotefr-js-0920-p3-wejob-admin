@@ -1,6 +1,7 @@
 import React from 'react'; // { useContext }
 import { useLocation, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { NotificationManager } from 'react-notifications';
 // import PropTypes from 'prop-types';
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -66,10 +67,17 @@ function CreateAnAccount() {
         password,
       })
       .then(() => {
-        history.push('/LogIn');
+        NotificationManager.success(
+          'Votre mot de passe a bien été créé',
+          'Vous pouvez désormais vous connecter',
+        );
+        history.push('/creation-compte');
       })
       .catch((error) => {
-        console.log(error.message);
+        NotificationManager.error(
+          'Erreur',
+          `Veuillez réessayer ultérieurement (${error.message})`,
+        );
       });
   };
 
