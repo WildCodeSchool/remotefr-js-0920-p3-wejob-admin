@@ -46,7 +46,7 @@ function LogIn() {
           withCredentials: true,
         },
       )
-      .then((response) => {
+      .then(() => {
         history.push('/JobeurForm');
       })
       .catch((error) => {

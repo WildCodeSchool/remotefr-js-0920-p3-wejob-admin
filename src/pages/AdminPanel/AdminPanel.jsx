@@ -31,34 +31,34 @@ export default function AdminPanel() {
           </Link>
           <Link
             className="text-secondary text-decoration-underline"
-            to={`${url}/add-jobber`}
+            to={`${url}add-jobber`}
           >
             Ajouter un Jobbeur
           </Link>
           <Link
             className="text-secondary text-decoration-underline"
-            to={`${url}/list-of-recrutors`}
+            to={`${url}list-of-recrutors`}
           >
             Listes des recruteurs
           </Link>
           <Link
             className="text-secondary text-decoration-underline"
-            to={`${url}/settings`}
+            to={`${url}settings`}
           >
             Réglages
           </Link>
         </div>
         <div className="col-md-9 ">
           <Switch>
-            <Route path={`${path}/jobber/:id`}>
+            <Route path={`${path}jobber/:id`}>
               <ModifyJobber />
             </Route>
-            <Route path={`${path}/add-jobber`} component={AddJobber} />
+            <Route path={`${path}add-jobber`} component={AddJobber} />
             <Route
-              path={`${path}/list-of-recrutors`}
+              path={`${path}list-of-recrutors`}
               component={ListRecrutors}
             />
-            <Route path={`${path}/settings`} />
+            <Route path={`${path}settings`} />
             <Route exact path={path}>
               <CandidatList />
             </Route>
