@@ -1,12 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 // import PropTypes from 'prop-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
 function ForgotYourPassword() {
+  const history = useHistory();
+  const location = useLocation();
+  const url = new URL(`${window.location.origin}${location.search}`);
+  const token = url.searchParams.get('token');
+
   const schema = yup.object().shape({
     newPassword: yup
       .string()
@@ -31,6 +37,9 @@ function ForgotYourPassword() {
   const { register, handleSubmit, errors } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(schema),
+    defaultValues: location.state?.email
+      ? { email: location.state.email }
+      : undefined,
   });
 
   // const ValidateConnect = () => {
@@ -38,6 +47,28 @@ function ForgotYourPassword() {
   //     <span>Valider et se connecter</span>
   //   </Link>;
   // };
+  const onSubmit = (data) => {
+    console.log(data);
+    const { newPassword, email } = data;
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/candidats/update-password`,
+        {
+          token,
+          newPassword,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(() => {
+        history.push('/JobeurForm', { email });
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error.message);
+      });
+  };
 
   return (
     <div className="main-wrapper">
@@ -47,7 +78,7 @@ function ForgotYourPassword() {
           <form
             className="ForgotYourPassword container py-5"
             id="ForgotYourPassword"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <h3 className="widget-title">Changer mon mot de passe</h3>
             <hr />
@@ -88,7 +119,7 @@ function ForgotYourPassword() {
                     ref={register}
                   />
                 </div>
-                {errors.newPassword && (
+                {typeof errors.newPassword?.message === 'string' && (
                   <span className="spanError">
                     {errors.newPassword.message}
                   </span>
@@ -111,7 +142,7 @@ function ForgotYourPassword() {
                     ref={register}
                   />
                 </div>
-                {errors.confirmPassword && (
+                {typeof errors.confirmPassword?.message === 'string' && (
                   <span className="spanError">
                     {errors.confirmPassword.message}
                   </span>
@@ -119,10 +150,8 @@ function ForgotYourPassword() {
               </div>
 
               <div className="row justify-content-center ">
-                <button type="button" className="button-submit col-sm-4">
-                  <Link to="/LogIn">
-                    <span>Valider et se connecter</span>
-                  </Link>
+                <button type="submit" className="button-submit col-sm-4">
+                  <span>Valider</span>
                 </button>
               </div>
             </div>
