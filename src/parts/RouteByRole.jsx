@@ -19,7 +19,11 @@ function RouteByRole({ user, ...rest }) {
 }
 
 RouteByRole.propTypes = {
-  user: userPropTypes.isRequired,
+  user: userPropTypes,
+};
+
+RouteByRole.defaultProps = {
+  user: null,
 };
 
 export default RouteByRole;

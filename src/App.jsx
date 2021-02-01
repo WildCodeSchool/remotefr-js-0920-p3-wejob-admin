@@ -28,6 +28,18 @@ function App() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  const logout = () =>
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/auth/logout`,
+        {},
+        {
+          withCredentials: true,
+        },
+      )
+      .then(() => setUser(null))
+      .catch(() => alert('Problème lors de la déconnexion'));
+
   if (networkError) {
     return (
       <AppLayout>
@@ -44,7 +56,7 @@ function App() {
     return <AppLayout>Chargement...</AppLayout>;
   }
   return (
-    <AppLayout>
+    <AppLayout auth={{ user, logout }}>
       <Switch>
         <Route path="/ForgotYourPassword">
           <ForgotYourPassword />
