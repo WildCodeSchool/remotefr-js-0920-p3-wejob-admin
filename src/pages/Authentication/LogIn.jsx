@@ -69,7 +69,9 @@ function LogIn() {
             id="LogIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h3 className="widget-title">Entrer votre mot de passe</h3>
+            <h3 className="widget-title">
+              Connectez-vous, entrez votre mot de passe
+            </h3>
             <hr />
             <div className="mb-3 row">
               <div className="form-group row">
@@ -108,19 +110,26 @@ function LogIn() {
                     ref={register}
                     required
                   />
+                  <div className="form-group">
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary link-primary"
+                    >
+                      <Link to="/ForgotYourPassword">Mot de passe oublié</Link>
+                    </button>
+                  </div>
                 </div>
                 {errors.password && (
                   <span className="spanError">{errors.password.message}</span>
                 )}
               </div>
 
-              <div className="form-group">
-                <button type="button">
-                  <Link to="/ForgotYourPassword">Mot de passe oublié</Link>
-                </button>
-              </div>
-              <div className="form-group">
-                <button type="submit" onClick={handleSubmit(onSubmit)}>
+              <div className="row justify-content-center ">
+                <button
+                  type="button"
+                  className="button-submit col-sm-4"
+                  onClick={handleSubmit(onSubmit)}
+                >
                   <span>Valider et se connecter</span>
                 </button>
               </div>
