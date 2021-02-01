@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 // import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -31,6 +31,8 @@ function LogIn() {
       : undefined,
   });
 
+  // const { isSubmitting, isValid } = formState;
+
   // const ValidateConnect = () => {
   //   <Link to="/LogIn">
   //     <span>Valider et se connecter</span>
@@ -52,6 +54,27 @@ function LogIn() {
       )
       .then(() => {
         history.push('/JobeurForm');
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error.message);
+      });
+  };
+  const forgotPassword = (data) => {
+    console.log('forgotPassword');
+    const { email } = data;
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/candidats/forgot-password`,
+        {
+          email,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(() => {
+        // Afficher un message indiquant d'un email à était reçu
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
@@ -112,10 +135,12 @@ function LogIn() {
                   />
                   <div className="form-group">
                     <button
+                      // disabled={isSubmitting || isValid}
                       type="button"
                       className="btn btn-outline-primary link-primary"
+                      onClick={forgotPassword}
                     >
-                      <Link to="/ForgotYourPassword">Mot de passe oublié</Link>
+                      Mot de passe oublié
                     </button>
                   </div>
                 </div>
