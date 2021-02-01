@@ -1,16 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 // import PropTypes from 'prop-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
 function ForgotYourPassword() {
+  const history = useHistory();
+  const location = useLocation();
+  const url = new URL(`${window.location.origin}${location.search}`);
+  const token = url.searchParams.get('token');
+
   const schema = yup.object().shape({
-    newPassword: yup
+    password: yup
       .string()
-      .min(8)
+      .min(8, {
+        message: 'Le mot de passe doit comporter au minimum 8 caractères',
+      })
       .max(15)
       .matches(/^[\w$@%*+\-_!]{8,15}$/, {
         message:
@@ -20,7 +28,7 @@ function ForgotYourPassword() {
     confirmPassword: yup
       .string()
       .oneOf(
-        [yup.ref('newPassword'), null],
+        [yup.ref('password'), null],
         'les mots de passe doivent correspondre',
       )
       .required('Vous devez confirmer votre mot de passe'),
@@ -29,6 +37,9 @@ function ForgotYourPassword() {
   const { register, handleSubmit, errors } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(schema),
+    defaultValues: location.state?.email
+      ? { email: location.state.email }
+      : undefined,
   });
 
   // const ValidateConnect = () => {
@@ -36,6 +47,28 @@ function ForgotYourPassword() {
   //     <span>Valider et se connecter</span>
   //   </Link>;
   // };
+  const onSubmit = (data) => {
+    const { password, email } = data;
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/candidats/update-password`,
+        {
+          token,
+          password,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(() => {
+        history.push('/LogIn', { email });
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error.message);
+      });
+  };
 
   return (
     <div className="main-wrapper">
@@ -45,69 +78,78 @@ function ForgotYourPassword() {
           <form
             className="ForgotYourPassword container py-5"
             id="ForgotYourPassword"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <h3 className="widget-title">Créer un mon mot de passe</h3>
+            <h3 className="widget-title">Changer mon mot de passe</h3>
             <hr />
 
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="email" className="form-field-label">
+            <div className="mb-3 row">
+              <div className="form-group row ">
+                <label
+                  htmlFor="email"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Votre email
+                </label>
+                <div className="col-sm-6">
                   <input
                     type="email"
-                    className="form-field-input"
+                    className="form-control"
                     id="email"
                     name="email"
                     placeholder="name@example.com"
                     ref={register}
-                    readOnly
                   />
-                </label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="newPassword" className="form-field-label">
+
+              <div className="form-group row ">
+                <label
+                  htmlFor="password"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Nouveau mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
-                    id="newPassword"
-                    name="newPassword"
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    name="password"
                     ref={register}
                   />
-                </label>
-                {errors.newPassword && (
-                  <span className="spanError">
-                    {errors.newPassword.message}
-                  </span>
+                </div>
+                {typeof errors.password?.message === 'string' && (
+                  <span className="spanError">{errors.password.message}</span>
                 )}
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword" className="form-field-label">
+              <div className="form-group row ">
+                <label
+                  htmlFor="confirmPassword"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Confirmer votre nouveau mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
+                    type="password"
+                    className="form-control"
                     id="confirmPassword"
                     name="confirmPassword"
                     ref={register}
                   />
-                </label>
-                {errors.confirmPassword && (
+                </div>
+                {typeof errors.confirmPassword?.message === 'string' && (
                   <span className="spanError">
                     {errors.confirmPassword.message}
                   </span>
                 )}
               </div>
 
-              <div className="form-group">
-                <button type="button">
-                  <Link to="/LogIn">
-                    <span>Valider et se connecter</span>
-                  </Link>
+              <div className="row justify-content-center ">
+                <button type="submit" className="button-submit col-sm-4">
+                  <span>Valider</span>
                 </button>
               </div>
             </div>
