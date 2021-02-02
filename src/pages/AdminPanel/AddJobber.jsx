@@ -7,7 +7,11 @@ export default function AddJobber() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`${process.env.REACT_APP_API_URL}/candidats`, { email })
+      .post(
+        `${process.env.REACT_APP_API_URL}/candidats`,
+        { email },
+        { withCredentials: true },
+      )
       .then(() => {
         setEmail('');
       })

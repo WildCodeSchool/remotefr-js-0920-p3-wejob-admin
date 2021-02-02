@@ -74,7 +74,9 @@ const CandidatList = () => {
   const [candidats, setCandidats] = useState([]);
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/candidats`)
+      .get(`${process.env.REACT_APP_API_URL}/candidats`, {
+        withCredentials: true,
+      })
       .then(({ data }) => setCandidats(data))
       .catch((err) => setError(err));
   }, []);
@@ -140,7 +142,7 @@ const Candidat = ({
                 textOverflow: 'ellipsis',
                 width: '10em',
               }}
-              key={s.id}
+              key={s.id_sector}
             >
               {s.name_sector}
             </p>
@@ -149,7 +151,7 @@ const Candidat = ({
         <button
           type="button"
           onClick={() => {
-            history.push(`${url}/jobber/${id}`);
+            history.push(`${url}jobber/${id}`);
           }}
           style={{ width: '7em' }}
           className={isCheck ? 'btn btn-success' : 'btn btn-danger'}
