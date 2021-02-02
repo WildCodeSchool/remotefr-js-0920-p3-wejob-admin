@@ -10,7 +10,7 @@ function RouteByRole({ user, ...rest }) {
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
       render={() => {
-        if (!user) return <Redirect to="/LogIn" />;
+        if (!user) return <Redirect to="/se-connecter" />;
 
         return user.isAdmin ? <AdminPanel /> : <JobeurForm user={user} />;
       }}

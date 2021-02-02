@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -109,8 +108,6 @@ function JobeurForm({ user }) {
   // Done: don't merge files with data handled by React Hook Form
   // Otherwise weird things happen
   const onSubmitFiles = (data) => {
-    // eslint-disable-next-line no-console
-    console.log('onSubmitFiles', data, dataForm);
     setFiles(data);
     setComp(compState + 1);
   };
@@ -141,8 +138,6 @@ function JobeurForm({ user }) {
       kwTag,
       jobTag,
     );
-    // eslint-disable-next-line no-console
-    console.log(formattedFields, nonReformattedFields);
     const jsonPayload = { ...formattedFields, ...nonReformattedFields };
 
     // TODO: utiliser id récupéré depuis le contexte où est stocké

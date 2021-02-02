@@ -12,7 +12,6 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import axios from 'axios';
-import fakeCandidats from './candidat.json';
 import ModifyJobber from './ModifyJobber';
 import ListRecrutors from './ListRecrutors';
 import AddJobber from './AddJobber';
@@ -76,7 +75,7 @@ const CandidatList = () => {
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/candidats`)
-      .then(({ data }) => setCandidats([...data, ...fakeCandidats]))
+      .then(({ data }) => setCandidats(data))
       .catch((err) => setError(err));
   }, []);
   return (
@@ -103,6 +102,9 @@ const CandidatList = () => {
   );
 };
 
+const getPictureUrl = (pic) =>
+  /^https?:\/\/.*/.test(pic) ? pic : `${process.env.REACT_APP_BACK_URL}/${pic}`;
+
 const Candidat = ({
   id,
   lastname,
@@ -119,7 +121,7 @@ const Candidat = ({
       <img
         className="m-2 rounded-circle w-100 h-100"
         style={{ maxWidth: '5em', maxHeight: '5em' }}
-        src="https://randomuser.me/api/portraits/men/44.jpg"
+        src={getPictureUrl(picture)}
         alt={lastname}
       />
       <div className="m-2 d-flex flex-lg-row justify-content-lg-around flex-column w-100 align-items-center">
