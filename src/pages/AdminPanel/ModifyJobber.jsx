@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import CandidatsContext from './CandidatsContext';
@@ -26,11 +26,8 @@ export default function ModifyJobber() {
   const [tagKw, setTagKw] = useState([]);
   const { id: idjob } = useParams();
   const { register, handleSubmit } = useForm();
-
+  const history = useHistory();
   const onSubmit = (data) => {
-    const sub = data;
-    console.log(data, jobber);
-
     const { cv1, cv2, picture, ...rest } = data;
     const { language, sector_of_activity: sectorOfActivity } = jobber;
     const files = { cv1, cv2, picture };
@@ -42,11 +39,10 @@ export default function ModifyJobber() {
         value: id,
       })),
     };
-    // sub.sector_of_activity = sector;
-    // sub.language = language;
-    // sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
 
-    sendFicheCandidat(idjob, payload, [], tagJob, files);
+    sendFicheCandidat(idjob, payload, [], tagJob, files)
+      .then(() => history.push('/'))
+      .catch((err) => console.error(err));
   };
 
   const handleChangeSector = (e) => {

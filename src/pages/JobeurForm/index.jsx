@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -20,7 +21,6 @@ import sendFicheCandidat from '../../helpers/sendFicheCandidat';
 // };
 
 function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
-
   // update the validation  yup schema for the data entered by the user when changing the form step
   const [schema, setSchema] = useState(yup.object().shape({}));
 
@@ -78,7 +78,7 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
 
   const onSendForm = async (event) => {
     event.preventDefault();
-    sendFicheCandidat(user.id, dataForm, kwTag, jobTag, files)
+    sendFicheCandidat(user.id, dataForm, kwTag, jobTag, files);
   };
 
   const steps = [
