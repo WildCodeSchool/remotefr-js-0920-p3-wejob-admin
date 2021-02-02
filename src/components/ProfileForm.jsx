@@ -22,77 +22,91 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
     >
       <h3 className="widget-title">Mon profil</h3>
       <hr />
-      <fieldset id="coordonnees">
-        <legend htmlFor="Civility" className="form-field-label">
-          Civilité * <span className="spanInfoField">(champ obligatoire)</span>
-        </legend>
-        <div className="row">
-          <div className="form-check form-check-inline">
-            <label htmlFor="male" className="form-field-label col-md-5">
-              Monsieur
-              <input
-                type="radio"
-                className="form-field-input"
-                id="male"
-                name="civility"
-                value="Monsieur"
-                ref={register}
-              />
-            </label>
+      <div className="mb-3 row">
+        <div className="form-group row ">
+          <label
+            className="col-sm-4 col-form-label form-field-label"
+            htmlFor="civility"
+          >
+            Civilité *{' '}
+            <span className="spanInfoField">(champ obligatoire)</span>
+          </label>
 
-            <label htmlFor="female" className="form-field-label col-md-5">
+          <div className="col-sm-3 form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="civility"
+              id="female"
+              value="Madame"
+              ref={register}
+            />
+            <label className="form-check-label" htmlFor="female">
               Madame
-              <input
-                type="radio"
-                className="form-field-input"
-                id="female"
-                name="civility"
-                value="Madame"
-                ref={register}
-              />
             </label>
           </div>
+          <div className="col-sm-3 form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="civility"
+              id="male"
+              value="Monsieur"
+              ref={register}
+            />
+            <label className="form-check-label" htmlFor="male">
+              Monsieur
+            </label>
+          </div>
+          {errors.civility && (
+            <span className="spanError">{errors.civility.message}</span>
+          )}
         </div>
-        {errors.civility && (
-          <span className="spanError">{errors.civility.message}</span>
-        )}
-      </fieldset>
 
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="firstname" className="form-field-label">
+        <div className="form-group row">
+          <label
+            htmlFor="firstname"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Prénom * <span className="spanInfoField">(champ obligatoire)</span>
+          </label>
+          <div className="col-sm-6">
             <input
               type="text"
-              className="form-field-input"
+              className="form-control"
               id="firstname"
               name="firstname"
               ref={register}
             />
-          </label>
+          </div>
           {errors.firstname && (
             <span className="spanError">{errors.firstname.message}</span>
           )}
         </div>
-      </div>
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="lastname" className="form-field-label">
+        <div className="form-group row">
+          <label
+            htmlFor="lastname"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Nom * <span className="spanInfoField">(champs obligatoire)</span>
+          </label>
+          <div className="col-sm-6">
             <input
               type="text"
-              className="form-field-input"
+              className="form-control"
               id="lastname"
               name="lastname"
               ref={register}
             />
-          </label>
+          </div>
+
           {errors.lastname && (
             <span className="spanError">{errors.lastname.message}</span>
           )}
         </div>
+      </div>
 
-        <div className="form-group">
+      {/* <div className="form-group">
           <label htmlFor="email" className="form-field-label">
             Email
             <input
@@ -105,8 +119,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
               readOnly
             />
           </label>
-        </div>
-      </div>
+        </div> */}
     </form>
   );
 }

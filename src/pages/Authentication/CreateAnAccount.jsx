@@ -94,64 +94,83 @@ function CreateAnAccount() {
             <h3 className="widget-title">Créer votre compte</h3>
             <hr />
 
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="email" className="form-field-label">
-                  Email *
+            <div className="mb-3 row">
+              <div className="form-group row ">
+                <label
+                  htmlFor="email"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
+                  Email *{' '}
+                </label>
+                <div className="col-sm-6">
                   <input
                     type="email"
-                    className="form-field-input"
+                    className="form-control-plaintext"
                     id="email"
                     name="email"
                     ref={register}
                     readOnly
                   />
-                </label>
+                </div>
+
                 {errors.email && (
                   <span className="spanError">{errors.email.message}</span>
                 )}
               </div>
             </div>
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="password" className="form-field-label">
-                  Mot de passe * <Modal content={helpPassword()} />
-                  <input
-                    type="password"
-                    className="form-field-input"
-                    id="password"
-                    name="password"
-                    ref={register}
-                  />
-                </label>
-                {errors.password && (
-                  <span className="spanError">{errors.password.message}</span>
-                )}
+
+            <div className="form-group row">
+              <label
+                htmlFor="password"
+                className="col-sm-5 col-form-label form-field-label"
+              >
+                Mot de passe *
+              </label>
+              <div className="col-sm-5">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  name="password"
+                  ref={register}
+                />
+              </div>
+              <div className="col-sm-1">
+                <Modal content={helpPassword()} />
+              </div>
+              {errors.password && (
+                <span className="spanError">{errors.password.message}</span>
+              )}
+            </div>
+
+            <div className="form-group row">
+              <label
+                htmlFor="confirmPassword"
+                className="col-sm-5 col-form-label form-field-label"
+              >
+                Confirmer votre mot de passe *{' '}
+              </label>
+              <div className="col-sm-5">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  ref={register}
+                />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword" className="form-field-label">
-                  Confirmer votre mot de passe *
-                  <input
-                    type="text"
-                    className="form-field-input"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    ref={register}
-                  />
-                </label>
-                {errors.confirmPassword && (
-                  <span className="spanError">
-                    {errors.confirmPassword.message}
-                  </span>
-                )}
-              </div>
+              {errors.confirmPassword && (
+                <span className="spanError">
+                  {errors.confirmPassword.message}
+                </span>
+              )}
+            </div>
 
-              <div className="form-group">
-                <button type="submit">
-                  <span>Valider le mot de passe</span>
-                </button>
-              </div>
+            <div className="row justify-content-center ">
+              <button type="submit" className="button-submit col-sm-4">
+                <span>Valider et se connecter</span>
+              </button>
             </div>
           </form>
         </div>

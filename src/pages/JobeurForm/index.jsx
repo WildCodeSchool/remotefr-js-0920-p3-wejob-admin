@@ -150,7 +150,6 @@ function JobeurForm({ user }) {
       )
       .then(() => {
         // La 1ère requête a fonctionné
-
         // FormData pour envoi des pdf & images en multipart/form-data
         // Sera traité par multer côté back
         const formdata = new FormData();
@@ -167,6 +166,8 @@ function JobeurForm({ user }) {
       })
       // TODO: gérer l'erreur via un hook de state
       // (afficher une alerte Bootstrap, ou une notif. par exemple avec Noty)
+
+      // eslint-disable-next-line no-console
       .catch((err) => console.error(err));
   };
 
