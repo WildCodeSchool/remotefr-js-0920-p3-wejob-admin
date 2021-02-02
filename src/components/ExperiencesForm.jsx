@@ -5,35 +5,9 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import * as yup from 'yup';
 import { Controller } from 'react-hook-form';
+import { activityArea } from '../constants/forms';
 // import InputFormField from './widgetsFormField/InputFormField';
 // import SelectPostField from './widgetsFormField/SelectPostField';
-
-const activityArea = [
-  { value: '1', label: 'Aéronautique' },
-  { value: '2', label: 'Agroalimentaire – vins & spiritueux' },
-  { value: '3', label: 'Automobile : machines et équipements' },
-  { value: '4', label: 'Banque – assurance' },
-  {
-    value: '5',
-    label: 'Bois – papier – carton – imprimerie, plastique, caoutchouc',
-  },
-  { value: '6', label: 'BTP – matériaux de construction' },
-  { value: '7', label: 'Chimie – parachimie' },
-  { value: '8', label: 'Commerce – négoce – distribution' },
-  { value: '9', label: 'Economie Sociale et Solidaire' },
-  { value: '10', label: 'Edition – communication – multimédia' },
-  { value: '11', label: 'Electronique – électricité' },
-  { value: '12', label: 'Etudes et conseils' },
-  { value: '13', label: 'Industrie pharmaceutique – biotechnologies' },
-  { value: '14', label: 'Informatique – télécoms' },
-  { value: '15', label: 'Métallurgie – travail du métal' },
-  { value: '16', label: 'Public : éducation, justice, armée…' },
-  { value: '17', label: 'Santé – service à la personne' },
-  { value: '18', label: 'Textile – habillement – chaussure' },
-  { value: '19', label: 'Transport – logistique' },
-  { value: '20', label: 'Autres services aux entreprises' },
-  { value: '21', label: 'Autres' },
-];
 
 function ExperiencesForm({
   handleSubmit,

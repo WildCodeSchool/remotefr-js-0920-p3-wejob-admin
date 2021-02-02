@@ -4,19 +4,9 @@ import PropTypes from 'prop-types';
 import * as yup from 'yup';
 import Select from 'react-select';
 import { Controller } from 'react-hook-form';
+import { availabilitylist, mobilitylist } from '../constants/forms';
 // import SelectPostField from './widgetsFormField/SelectPostField';
 // import TextAreaFromField from './widgetsFormField/TextAreaFromField';
-
-const availability = [
-  { value: '1', label: 'immédiatement' },
-  { value: '2', label: 'autres' },
-];
-const mobility = [
-  { value: 'bordeaux', label: 'Bordeaux' },
-  { value: 'gironde', label: 'Gironde' },
-  { value: 'nouvelle_aquitaine', label: 'Nouvelle-Aquitaine' },
-  { value: 'france', label: 'France' },
-];
 
 function RecruitersInfoForm({
   register,
@@ -82,7 +72,7 @@ function RecruitersInfoForm({
               as={Select}
               id="Disponibilité"
               name="availability"
-              options={availability}
+              options={availabilitylist}
               control={control}
               defaultValue=""
             />
@@ -100,7 +90,7 @@ function RecruitersInfoForm({
               as={Select}
               id="Mobilité"
               name="mobility"
-              options={mobility}
+              options={mobilitylist}
               control={control}
               defaultValue=""
             />
