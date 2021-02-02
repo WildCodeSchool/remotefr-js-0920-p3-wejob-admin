@@ -22,9 +22,11 @@ const getDefaultValues = () => {
     ...defaultValues
   } = prefilledValues;
   return {
-    defaultValues, initJob, initKeyword
+    defaultValues,
+    initJob,
+    initKeyword,
   };
-}
+};
 
 const JobeurFormContainer = ({ user }) => {
   const [dataUser, setDataUser] = useState(null);
@@ -77,19 +79,24 @@ const JobeurFormContainer = ({ user }) => {
       });
   }, []);
 
-  const hasFiche = !loading && (dataUser &&
-  initialJob &&
-  initialKeywords);
+  if (loading) return <p>loading</p>;
 
-  const props = hasFiche ? { defaultValues: dataUser, initJob: initialJob, initKeyword: initialKeywords }
-    : getDefaultValues()
+  const hasFiche = dataUser && initialJob && initialKeywords;
+
+  const props = hasFiche
+    ? {
+        defaultValues: dataUser,
+        initJob: initialJob,
+        initKeyword: initialKeywords,
+      }
+    : getDefaultValues();
 
   return (
-      <JobeurForm
-        user={user}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...props}
-      />
+    <JobeurForm
+      user={user}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
   );
 };
 
