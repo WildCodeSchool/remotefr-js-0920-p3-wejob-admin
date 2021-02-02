@@ -1,16 +1,16 @@
-import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useLocation, Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { NotificationManager } from 'react-notifications';
-// import PropTypes from 'prop-types';
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
+import AuthContext from '../../contexts/auth';
 
-function LogIn({ setUser }) {
-  const history = useHistory();
+function LogIn() {
   const location = useLocation();
+  const { user, setUser } = useContext(AuthContext);
 
   const schema = yup.object().shape({
     password: yup
@@ -35,7 +35,7 @@ function LogIn({ setUser }) {
   // const { isSubmitting, isValid } = formState;
 
   // const ValidateConnect = () => {
-  //   <Link to="/LogIn">
+  //   <Link to="/se-connecter">
   //     <span>Valider et se connecter</span>
   //   </Link>;
   // };
@@ -56,7 +56,7 @@ function LogIn({ setUser }) {
       .then((response) => {
         setUser(response.data);
         NotificationManager.success('Vous êtes connecté');
-        history.push('/profil-candidat');
+        // history.push('/profil-candidat');
       })
       .catch((error) => {
         if (error.response) {
@@ -89,6 +89,8 @@ function LogIn({ setUser }) {
         NotificationManager.error("Une erreur s'est produite");
       });
   };
+
+  if (user) return <Redirect to="/" />;
 
   return (
     <div className="main-wrapper">

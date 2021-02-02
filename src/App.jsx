@@ -66,16 +66,16 @@ function App() {
     return <AppLayout>Chargement...</AppLayout>;
   }
   return (
-    <AppLayout auth={{ user, logout }}>
+    <AppLayout auth={{ user, setUser, logout }}>
       <Switch>
-        <Route path="/ForgotYourPassword">
+        <Route path="/mot-de-passe-oublie">
           <ForgotYourPassword />
         </Route>
-        <Route path="/CreateAnAccount">
+        <Route path="/creation-compte">
           <CreateAnAccount />
         </Route>
-        <Route path="/LogIn">
-          <LogIn setUser={setUser} />
+        <Route path="/se-connecter">
+          <LogIn />
         </Route>
         <Route path="/ChangePassword">
           <ChangePassword />

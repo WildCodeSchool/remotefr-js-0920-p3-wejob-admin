@@ -62,7 +62,7 @@ function ForgotYourPassword() {
         },
       )
       .then(() => {
-        history.push('/LogIn', { email });
+        history.push('/se-connecter', { email });
       })
       .catch((error) => {
         // eslint-disable-next-line no-console

@@ -71,7 +71,7 @@ function CreateAnAccount() {
           'Votre mot de passe a bien été créé',
           'Vous pouvez désormais vous connecter',
         );
-        history.push('/creation-compte');
+        history.push('/se-connecter', { email });
       })
       .catch((error) => {
         NotificationManager.error(
