@@ -7,7 +7,6 @@ import CandidatsContext from './CandidatsContext';
 export default function AddJobber() {
   const [email, setEmail] = useState('');
   const { add } = useContext(CandidatsContext);
-  console.log(add);
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -16,7 +15,9 @@ export default function AddJobber() {
         { email },
         { withCredentials: true },
       )
-      .then(() => {
+      .then(({ data: { id } }) => {
+        const newJobeur = { id, email, sector_of_activity: [] };
+        add(newJobeur);
         setEmail('');
         NotificationManager.success('Jobeur ajouté');
       })
