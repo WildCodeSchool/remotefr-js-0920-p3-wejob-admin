@@ -172,7 +172,8 @@ span {
 
 /* BUTTON */
 .single-page.clearfix > div > div > div > div > button,
-#ExperiencesForm > div > div:nth-child(2) > div.col-sm-2 > button {
+#ExperiencesForm > div > div:nth-child(2) > div.col-sm-2 > button,
+#RecruitersInfoForm > div > div:nth-child(6) > div.col-sm-2 > button {
   background-color: #007071;
   color: #ffffff;
   border-radius: 10px;
