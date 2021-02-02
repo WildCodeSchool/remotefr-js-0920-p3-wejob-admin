@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { NotificationManager } from 'react-notifications';
+import CandidatsContext from './CandidatsContext';
 
 export default function AddJobber() {
   const [email, setEmail] = useState('');
+  const { add } = useContext(CandidatsContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -13,7 +15,9 @@ export default function AddJobber() {
         { email },
         { withCredentials: true },
       )
-      .then(() => {
+      .then(({ data: { id }}) => {
+        const newJobeur = { id, email, sector_of_activity: [] };
+        add(newJobeur);
         setEmail('');
         NotificationManager.success('Jobeur ajouté');
       })

@@ -56,5 +56,5 @@ export default function sendFicheCandidat(userId, dataForm, kwTag, jobTag, files
     // (afficher une alerte Bootstrap, ou une notif. par exemple avec Noty)
 
     // eslint-disable-next-line no-console
-    .catch((err) => console.error(err));
+    // .catch((err) => console.error(err));
 }

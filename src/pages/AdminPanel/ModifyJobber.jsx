@@ -27,6 +27,7 @@ export default function ModifyJobber() {
   const onSubmit = (data) => {
     const sub = data;
     console.log(data, jobber);
+
     const { cv1, cv2, picture, ...rest } = data;
     const { language, sector_of_activity: sectorOfActivity } = jobber;
     const files = { cv1, cv2, picture };
@@ -41,7 +42,6 @@ export default function ModifyJobber() {
     // sub.sector_of_activity = sector;
     // sub.language = language;
     // sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
-    console.log(language.map(({ id_lang: id }) => ({ value: id })));
 
     sendFicheCandidat(idjob, payload, [], tagJob, files);
   };
@@ -85,7 +85,6 @@ export default function ModifyJobber() {
         ),
       }));
     } else {
-      console.log(e.target.name, e.target.value);
       setJobber((prevJobber) => ({
         ...prevJobber,
         language: [
@@ -99,7 +98,8 @@ export default function ModifyJobber() {
   useEffect(() => {
     fetchCandidat(idjob).then((cand) => {
       setJobber(cand);
-      setTagJob(cand.job.split(';'));
+      setTagJob(cand.job ? cand.job.split(';') : []);
+      // TODO dupliquer pour keywords
     });
   }, [idjob]);
   if (!jobber)
@@ -159,6 +159,7 @@ export default function ModifyJobber() {
               value="Monsieur"
               ref={register}
               defaultChecked={jobber.civility === 'Monsieur'}
+              required
             />
             <label className="form-check-label" htmlFor="male">
               Homme
@@ -173,6 +174,7 @@ export default function ModifyJobber() {
               value="Madame"
               defaultChecked={jobber.civility === 'Madame'}
               ref={register}
+              required
             />
             <label className="form-check-label" htmlFor="female">
               Femme
