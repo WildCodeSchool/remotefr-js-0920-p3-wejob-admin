@@ -159,11 +159,7 @@ function LogIn() {
               </div>
 
               <div className="row justify-content-center ">
-                <button
-                  type="button"
-                  className="button-submit col-sm-4"
-                  onClick={handleSubmit(onSubmit)}
-                >
+                <button type="submit" className="button-submit col-sm-4">
                   <span>Valider et se connecter</span>
                 </button>
               </div>
