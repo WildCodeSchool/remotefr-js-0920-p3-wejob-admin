@@ -60,24 +60,29 @@ function RecruitersInfoForm({
     >
       <h3 className="widget-title">Information pour les recruteurs</h3>
       <hr />
-      <div className="form-check form-switch">
-        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
-          J&apos;accepte d&apos;être formé à un nouveau métier
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="flexSwitchCheckDefault"
-            name="isOpen_to_formation"
-            ref={register}
-          />
-        </label>
-      </div>
+      <div className="mb-3 row">
+        <div className="form-check form-switch">
+          <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
+            J&apos;accepte d&apos;être formé à un nouveau métier
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+              name="isOpen_to_formation"
+              ref={register}
+            />
+          </label>
+        </div>
 
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="Disponibilité" className="form-field-label">
+        <div className="form-group row">
+          <label
+            htmlFor="Disponibilité"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Disponibilité{' '}
             <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <div className="col-sm-6">
             <Controller
               as={Select}
               id="Disponibilité"
@@ -86,16 +91,20 @@ function RecruitersInfoForm({
               control={control}
               defaultValue=""
             />
-          </label>
+          </div>
           {errors.availability && (
             <span className="spanError">{errors.availability.message}</span>
           )}
         </div>
-      </div>
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="Mobilité" className="form-field-label">
+
+        <div className="form-group row">
+          <label
+            htmlFor="Mobilité"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Mobilité <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <div className="col-sm-6">
             <Controller
               as={Select}
               id="Mobilité"
@@ -104,17 +113,21 @@ function RecruitersInfoForm({
               control={control}
               defaultValue=""
             />
-          </label>
+          </div>
           {errors.mobility && (
             <span className="spanError">{errors.mobility.message}</span>
           )}
         </div>
-      </div>
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="description" className="form-field-label">
+
+        <div className="form-group row">
+          <label
+            htmlFor="description"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Description{' '}
             <span className="spanInfoField">(champ obligatoire)</span>
+          </label>
+          <div className="col-sm-6">
             <textarea
               type="text"
               className="form-field-input"
@@ -122,27 +135,20 @@ function RecruitersInfoForm({
               name="description"
               ref={register}
             />
-          </label>
+          </div>
           {errors.description && (
             <span className="spanError">{errors.description.message}</span>
           )}
         </div>
-      </div>
 
-      <div className="row">
-        <div className="form-group">
-          {kwTag &&
-            kwTag.map((t, itt) => (
-              <button
-                key={itt}
-                type="button"
-                onClick={(e) => handleDeleteTag(e, t)}
-              >
-                {t}
-              </button>
-            ))}
-          <label htmlFor="keywords" className="form-field-label">
+        <div className="form-group row">
+          <label
+            htmlFor="keywords"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Mots clés <span className="spanInfoField">(champ obligatoire)</span>
+          </label>
+          <div className="col-sm-5">
             <input
               type="text"
               className="form-field-input"
@@ -157,10 +163,26 @@ function RecruitersInfoForm({
                 }
               }}
             />
+          </div>
+          <div className="col-sm-2">
             <button type="button" onClick={handleAddTag}>
               Ajouter
             </button>
-          </label>
+          </div>
+          <div className="row justify-content-center style-button-renderNav">
+            {kwTag &&
+              kwTag.map((t, itt) => (
+                <button
+                  key={itt}
+                  type="button"
+                  onClick={(e) => handleDeleteTag(e, t)}
+                  title="Cliquer pour supprimer"
+                >
+                  {t}
+                </button>
+              ))}
+          </div>
+
           {errors.keywords && (
             <span className="spanError">{errors.keywords.message}</span>
           )}

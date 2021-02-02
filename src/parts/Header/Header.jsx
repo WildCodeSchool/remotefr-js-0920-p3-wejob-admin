@@ -29,11 +29,26 @@ function Header() {
           <div className={styles.headerRightSection}>
             <nav className={styles.mainNav}>
               <ul className={styles.menu}>
-                <li className={styles.menuItem}>
-                  <Link to="/ChangePassword" className={styles.link}>
-                    Modifier mon mot de passe
-                  </Link>
-                </li>
+                {window.location.pathname === '/profil-candidat' && (
+                  <li className={styles.menuItem}>
+                    <Link to="/ChangePassword" className={styles.link}>
+                      Modifier mon mot de passe
+                    </Link>
+                  </li>
+                )}
+                {/* {window.location.pathname === '/profil-candidat' ? (
+                  <li className={styles.menuItem}>
+                    <Link to="/ChangePassword" className={styles.link}>
+                      Modifier mon mot de passe
+                    </Link>
+                  </li>
+                ) : (
+                  <li className={styles.menuItem}>
+                    <Link to="/se-connecter" className={styles.link}>
+                      Se connecter
+                    </Link>
+                  </li>
+                )} */}
                 {user && (
                   <li className={styles.menuItem}>
                     <button

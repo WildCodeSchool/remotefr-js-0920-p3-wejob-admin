@@ -1,14 +1,16 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useLocation, Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-// import PropTypes from 'prop-types';
+import { NotificationManager } from 'react-notifications';
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
+import AuthContext from '../../contexts/auth';
 
 function LogIn() {
-  const history = useHistory();
+  const location = useLocation();
+  const { user, setUser } = useContext(AuthContext);
 
   const schema = yup.object().shape({
     password: yup
@@ -22,13 +24,18 @@ function LogIn() {
       .required('Vous devez entrer votre nouveau mot de passe'),
   });
 
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, getValues } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(schema),
+    defaultValues: location.state?.email
+      ? { email: location.state.email }
+      : undefined,
   });
 
+  // const { isSubmitting, isValid } = formState;
+
   // const ValidateConnect = () => {
-  //   <Link to="/LogIn">
+  //   <Link to="/se-connecter">
   //     <span>Valider et se connecter</span>
   //   </Link>;
   // };
@@ -46,13 +53,43 @@ function LogIn() {
           withCredentials: true,
         },
       )
-      .then(() => {
-        history.push('/');
+      .then((response) => {
+        setUser(response.data);
+        NotificationManager.success('Vous êtes connecté');
       })
       .catch((error) => {
-        console.log(error.message);
+        if (error.response) {
+          NotificationManager.error('Identifiants incorrects');
+        } else {
+          NotificationManager.error(
+            'Erreur',
+            'Veuillez réessayer ultérieurement',
+          );
+        }
       });
   };
+
+  const forgotPassword = () => {
+    const { email } = getValues();
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/candidats/forgot-password`,
+        {
+          email,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(() => {
+        NotificationManager.success('Un lien de réinitialisation a été envoyé');
+      })
+      .catch(() => {
+        NotificationManager.error("Une erreur s'est produite");
+      });
+  };
+
+  if (user) return <Redirect to="/" />;
 
   return (
     <div className="main-wrapper">
@@ -64,12 +101,19 @@ function LogIn() {
             id="LogIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h3 className="widget-title">Entrer votre mot de passe</h3>
+            <h3 className="widget-title">
+              Connectez-vous, entrez votre mot de passe
+            </h3>
             <hr />
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="email" className="form-field-label">
+            <div className="mb-3 row">
+              <div className="form-group row">
+                <label
+                  htmlFor="email"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Votre Email
+                </label>
+                <div className="col-sm-6">
                   <input
                     type="email"
                     className="form-field-input"
@@ -79,34 +123,47 @@ function LogIn() {
                     ref={register}
                     required
                   />
-                </label>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="form-group">
-                <label htmlFor="password" className="form-field-label">
+
+              <div className="form-group row">
+                <label
+                  htmlFor="password"
+                  className="col-sm-5 col-form-label form-field-label"
+                >
                   Entrer votre mot de passe *
+                </label>
+                <div className="col-sm-6">
                   <input
-                    type="text"
-                    className="form-field-input"
+                    type="password"
+                    className="form-control"
                     id="password"
                     name="password"
                     ref={register}
                     required
                   />
-                </label>
+                  <div className="form-group">
+                    <button
+                      // disabled={isSubmitting || isValid}
+                      type="button"
+                      className="btn btn-outline-primary link-primary"
+                      onClick={forgotPassword}
+                    >
+                      Mot de passe oublié
+                    </button>
+                  </div>
+                </div>
                 {errors.password && (
                   <span className="spanError">{errors.password.message}</span>
                 )}
               </div>
 
-              <div className="form-group">
-                <button type="button">
-                  <Link to="/ForgotYourPassword">Mot de passe oublié</Link>
-                </button>
-              </div>
-              <div className="form-group">
-                <button type="submit" onClick={handleSubmit(onSubmit)}>
+              <div className="row justify-content-center ">
+                <button
+                  type="button"
+                  className="button-submit col-sm-4"
+                  onClick={handleSubmit(onSubmit)}
+                >
                   <span>Valider et se connecter</span>
                 </button>
               </div>
