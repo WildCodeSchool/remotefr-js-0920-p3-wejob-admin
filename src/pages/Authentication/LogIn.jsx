@@ -56,7 +56,6 @@ function LogIn() {
       .then((response) => {
         setUser(response.data);
         NotificationManager.success('Vous êtes connecté');
-        // history.push('/profil-candidat');
       })
       .catch((error) => {
         if (error.response) {
