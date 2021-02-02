@@ -150,8 +150,6 @@ function JobeurForm({ user }) {
       )
       .then(() => {
         // La 1ère requête a fonctionné
-        // eslint-disable-next-line no-console
-        console.log(res);
         // FormData pour envoi des pdf & images en multipart/form-data
         // Sera traité par multer côté back
         const formdata = new FormData();

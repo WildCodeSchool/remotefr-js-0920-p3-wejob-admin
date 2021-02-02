@@ -23,7 +23,7 @@ function LogIn() {
       .required('Vous devez entrer votre nouveau mot de passe'),
   });
 
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, getValues } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(schema),
     defaultValues: location.state?.email
@@ -60,10 +60,9 @@ function LogIn() {
         console.log(error.message);
       });
   };
+
   const forgotPassword = () => {
-    console.log('forgotPassword');
-    const { email } = location.state;
-    console.log(email);
+    const { email } = getValues();
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/candidats/forgot-password`,
