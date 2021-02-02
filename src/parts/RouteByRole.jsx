@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { userPropTypes } from '../prop-types';
 import AdminPanel from '../pages/AdminPanel/AdminPanel';
-import JobeurForm from '../pages/JobeurForm';
+import JobeurFormContainer from '../pages/JobeurForm/JobeurFormContainer';
 
 function RouteByRole({ user, ...rest }) {
   return (
@@ -12,7 +12,11 @@ function RouteByRole({ user, ...rest }) {
       render={() => {
         if (!user) return <Redirect to="/se-connecter" />;
 
-        return user.isAdmin ? <AdminPanel /> : <JobeurForm user={user} />;
+        return user.isAdmin ? (
+          <AdminPanel />
+        ) : (
+          <JobeurFormContainer user={user} />
+        );
       }}
     />
   );

@@ -3,23 +3,9 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import * as yup from 'yup';
 import { Controller } from 'react-hook-form';
+import { levelOfExperience, languages } from '../constants/forms';
 // import InputFormField from './widgetsFormField/InputFormField';
 // import SelectPostField from './widgetsFormField/SelectPostField';
-
-const levelOfExperience = [
-  { value: '1', label: "De 0 à 5 ans d'expérience" },
-  { value: '2', label: "De 5 à 10 ans d'expérience" },
-  { value: '3', label: "Plus de 10 ans d'expérience" },
-];
-const languages = [
-  { value: '1', label: 'Français' },
-  { value: '2', label: 'Anglais' },
-  { value: '3', label: 'Espagnol' },
-  { value: '4', label: 'Italien' },
-  { value: '5', label: 'Allemand' },
-  { value: '6', label: 'Chinois' },
-  { value: '7', label: 'Arabe' },
-];
 
 function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
   useEffect(() => {

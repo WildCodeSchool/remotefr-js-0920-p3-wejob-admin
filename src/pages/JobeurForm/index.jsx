@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -47,21 +48,21 @@ function reformatHookFormData(data, kwTag, jobTag) {
   return formatData;
 }
 
-const propTypes = {
-  user: userPropTypes.isRequired,
-};
+// const propTypes = {
+//   user: userPropTypes.isRequired,
+// };
 
-function JobeurForm({ user }) {
+function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
   // Si on passe ?autofill=true dans l'URL, ça injecte des valeurs
-  const prefilledValues =
-    window.location.search === '?autofill=true'
-      ? sampleCandidateData
-      : { job: [], keywords: [] };
-  const {
-    job: initialJobTags,
-    keywords: initialKeywords,
-    ...defaultValues
-  } = prefilledValues;
+  // const prefilledValues =
+  //   window.location.search === '?autofill=true'
+  //     ? sampleCandidateData
+  //     : { job: [], keywords: [] };
+  // const {
+  //   job: initialJobTags,
+  //   keywords: initialKeywords,
+  //   ...defaultValues
+  // } = prefilledValues;
 
   // update the validation  yup schema for the data entered by the user when changing the form step
   const [schema, setSchema] = useState(yup.object().shape({}));
@@ -89,8 +90,14 @@ function JobeurForm({ user }) {
 
   const [compState, setComp] = useState(0);
 
-  const [kwTag, setKeyWords] = useState(initialKeywords);
-  const [jobTag, setJobTag] = useState(initialJobTags);
+  const [kwTag, setKeyWords] = useState([]);
+  const [jobTag, setJobTag] = useState([]);
+
+  // Ne marche pas
+  useEffect(() => {
+    setJobTag(initJob);
+    setKeyWords(initKeyword);
+  }, []);
 
   // Store text entries
   const [dataForm, setDataForm] = useState(defaultValues);
@@ -258,7 +265,17 @@ function JobeurForm({ user }) {
     </div>
   );
 }
+// user, defaultValues, initJob, initKeyword
 
-JobeurForm.propTypes = propTypes;
+JobeurForm.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.string,
+  }).isRequired,
+  defaultValues: PropTypes.shape({
+    civility: PropTypes.string,
+  }).isRequired,
+  initJob: PropTypes.arrayOf(PropTypes.string).isRequired,
+  initKeyword: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default JobeurForm;
