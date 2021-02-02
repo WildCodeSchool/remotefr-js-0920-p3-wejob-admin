@@ -5,13 +5,14 @@ import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import CandidatsContext from './CandidatsContext';
+import sendFicheCandidat from '../../helpers/sendFicheCandidat';
 
 const fetchCandidat = (id) =>
-axios
-  .get(`${process.env.REACT_APP_API_URL}/candidats/${id}`, {
-    withCredentials: true,
-  })
-  .then(({ data }) => data);
+  axios
+    .get(`${process.env.REACT_APP_API_URL}/candidats/${id}`, {
+      withCredentials: true,
+    })
+    .then(({ data }) => data);
 
 export default function ModifyJobber() {
   // const { candidats } = useContext(CandidatsContext);
@@ -25,19 +26,41 @@ export default function ModifyJobber() {
 
   const onSubmit = (data) => {
     const sub = data;
+    console.log(data, jobber);
+    const { cv1, cv2, picture, ...rest } = data;
+    const { language, sector_of_activity: sectorOfActivity } = jobber;
+    const files = { cv1, cv2, picture };
+    const payload = {
+      ...rest,
+      // reformat language and sector by mimicking how react select stores its data
+      language: language.map(({ id_lang: id }) => ({ value: id })),
+      sector_of_activity: sectorOfActivity.map(({ id_sector: id }) => ({
+        value: id,
+      })),
+    };
     // sub.sector_of_activity = sector;
     // sub.language = language;
-    sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
+    // sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
+    console.log(language.map(({ id_lang: id }) => ({ value: id })));
+
+    sendFicheCandidat(idjob, payload, [], tagJob, files);
   };
 
   const handleChangeSector = (e) => {
     if (!e.target.checked) {
-      setJobber(prevJobber => ({ ...prevJobber,
-        sector_of_activity: prevJobber.sector_of_activity.filter((l) => l.id_sector !== Number(e.target.name))
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        sector_of_activity: prevJobber.sector_of_activity.filter(
+          (l) => l.id_sector !== Number(e.target.name),
+        ),
       }));
     } else {
-      setJobber(prevJobber => ({ ...prevJobber,
-        sector_of_activity: [...prevJobber.sector_of_activity, { id_sector: Number(e.target.name), name_sector: e.target.value }]
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        sector_of_activity: [
+          ...prevJobber.sector_of_activity,
+          { id_sector: Number(e.target.name), name_sector: e.target.value },
+        ],
       }));
     }
   };
@@ -55,18 +78,26 @@ export default function ModifyJobber() {
 
   const handleChangeLanguage = (e) => {
     if (!e.target.checked) {
-      setJobber(prevJobber => ({ ...prevJobber,
-        language: prevJobber.language.filter((l) => l.id_lang !== Number(e.target.name))
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        language: prevJobber.language.filter(
+          (l) => l.id_lang !== Number(e.target.name),
+        ),
       }));
     } else {
-      setJobber(prevJobber => ({ ...prevJobber,
-        language: [...prevJobber.language, { id_lang: Number(e.target.name), language: e.target.value }]
+      console.log(e.target.name, e.target.value);
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        language: [
+          ...prevJobber.language,
+          { id_lang: Number(e.target.name), language: e.target.value },
+        ],
       }));
     }
   };
 
   useEffect(() => {
-    fetchCandidat(idjob).then(cand => {
+    fetchCandidat(idjob).then((cand) => {
       setJobber(cand);
       setTagJob(cand.job.split(';'));
     });
@@ -594,7 +625,7 @@ export default function ModifyJobber() {
               }}
               key={t}
               type="button"
-              className="btn btn-secondary mx-1 my-1"
+              className="btn btn-sm btn-secondary mx-1 my-1"
             >
               {t}
             </button>
@@ -722,7 +753,6 @@ export default function ModifyJobber() {
           </div>
         </div>
         <div className="col-md-4">
-          {jobber.picture && <a href={jobber.picture}>Photo profil</a>}
           <div className="input-group my-3">
             <label className="input-group-text" htmlFor="picture">
               Photo
@@ -735,6 +765,15 @@ export default function ModifyJobber() {
               id="picture"
             />
           </div>
+        </div>
+        <div className="col-md-4">
+          {jobber.picture && (
+            <img
+              className="ModifyJobber-picture"
+              src={`${process.env.REACT_APP_BACK_URL}/${jobber.picture}`}
+              alt={`${jobber.firstname} ${jobber.lastname}`}
+            />
+          )}
         </div>
       </div>
       <div className="col-12 mb-5 d-flex">
