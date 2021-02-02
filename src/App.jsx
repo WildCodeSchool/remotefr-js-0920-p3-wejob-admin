@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import {
+  NotificationContainer,
+  NotificationManager,
+} from 'react-notifications';
 import axios from 'axios';
 import AppLayout from './parts/AppLayout';
 import RouteByRole from './parts/RouteByRole';
@@ -38,7 +42,13 @@ function App() {
         },
       )
       .then(() => setUser(null))
-      .catch(() => alert('Problème lors de la déconnexion'));
+      .then(() => NotificationManager.success('Vous êtes déconnecté'))
+      .catch(() =>
+        NotificationManager.error(
+          'Erreur',
+          'Veuillez réessayer ultérieurement',
+        ),
+      );
 
   if (networkError) {
     return (
@@ -65,7 +75,7 @@ function App() {
           <CreateAnAccount />
         </Route>
         <Route path="/LogIn">
-          <LogIn />
+          <LogIn setUser={setUser} />
         </Route>
         <Route path="/ChangePassword">
           <ChangePassword />
@@ -73,6 +83,7 @@ function App() {
 
         <RouteByRole path="/" user={user} />
       </Switch>
+      <NotificationContainer />
     </AppLayout>
   );
 }

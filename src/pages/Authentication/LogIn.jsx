@@ -1,13 +1,14 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { NotificationManager } from 'react-notifications';
 // import PropTypes from 'prop-types';
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
-function LogIn() {
+function LogIn({ setUser }) {
   const history = useHistory();
   const location = useLocation();
 
@@ -52,12 +53,20 @@ function LogIn() {
           withCredentials: true,
         },
       )
-      .then(() => {
-        history.push('/JobeurForm');
+      .then((response) => {
+        setUser(response.data);
+        NotificationManager.success('Vous êtes connecté');
+        history.push('/profil-candidat');
       })
       .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error.message);
+        if (error.response) {
+          NotificationManager.error('Identifiants incorrects');
+        } else {
+          NotificationManager.error(
+            'Erreur',
+            'Veuillez réessayer ultérieurement',
+          );
+        }
       });
   };
 
@@ -74,11 +83,10 @@ function LogIn() {
         },
       )
       .then(() => {
-        // Afficher un message indiquant d'un email à était reçu
+        NotificationManager.success('Un lien de réinitialisation a été envoyé');
       })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error.message);
+      .catch(() => {
+        NotificationManager.error("Une erreur s'est produite");
       });
   };
 
