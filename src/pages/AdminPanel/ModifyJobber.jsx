@@ -1,15 +1,25 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import CandidatsContext from './CandidatsContext';
+import sendFicheCandidat from '../../helpers/sendFicheCandidat';
+
+const fetchCandidat = (id) =>
+  axios
+    .get(`${process.env.REACT_APP_API_URL}/candidats/${id}`, {
+      withCredentials: true,
+    })
+    .then(({ data }) => data);
 
 export default function ModifyJobber() {
   const [error, setError] = useState(null);
+  // const { candidats } = useContext(CandidatsContext);
   const [jobber, setJobber] = useState(null);
-  const [language, setLanguage] = useState([]);
-  const [sector, setSector] = useState([]);
+  // const [language, setLanguage] = useState([]);
+  // const [sector, setSector] = useState([]);
   const [inputTag, setInputTag] = useState('');
   const [tagJob, setTagJob] = useState([]);
   const [inputTagKw, setInputTagKw] = useState('');
@@ -19,20 +29,42 @@ export default function ModifyJobber() {
 
   const onSubmit = (data) => {
     const sub = data;
-    sub.sector_of_activity = sector;
-    sub.language = language;
-    sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
-    sub.keywords = tagKw.join(';');
+    console.log(data, jobber);
+
+    const { cv1, cv2, picture, ...rest } = data;
+    const { language, sector_of_activity: sectorOfActivity } = jobber;
+    const files = { cv1, cv2, picture };
+    const payload = {
+      ...rest,
+      // reformat language and sector by mimicking how react select stores its data
+      language: language.map(({ id_lang: id }) => ({ value: id })),
+      sector_of_activity: sectorOfActivity.map(({ id_sector: id }) => ({
+        value: id,
+      })),
+    };
+    // sub.sector_of_activity = sector;
+    // sub.language = language;
+    // sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
+
+    sendFicheCandidat(idjob, payload, [], tagJob, files);
   };
 
   const handleChangeSector = (e) => {
     if (!e.target.checked) {
-      setSector(sector.filter((l) => l.id_sector !== Number(e.target.name)));
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        sector_of_activity: prevJobber.sector_of_activity.filter(
+          (l) => l.id_sector !== Number(e.target.name),
+        ),
+      }));
     } else {
-      setSector((prev) => [
-        ...prev,
-        { id_sector: Number(e.target.name), name_sector: e.target.value },
-      ]);
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        sector_of_activity: [
+          ...prevJobber.sector_of_activity,
+          { id_sector: Number(e.target.name), name_sector: e.target.value },
+        ],
+      }));
     }
   };
 
@@ -60,31 +92,42 @@ export default function ModifyJobber() {
 
   const handleChangeLanguage = (e) => {
     if (!e.target.checked) {
-      setLanguage(
-        language.filter((l) => l.id_language !== Number(e.target.name)),
-      );
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        language: prevJobber.language.filter(
+          (l) => l.id_lang !== Number(e.target.name),
+        ),
+      }));
     } else {
-      setLanguage((prev) => [
-        ...prev,
-        { id_language: Number(e.target.name), language: e.target.value },
-      ]);
+      setJobber((prevJobber) => ({
+        ...prevJobber,
+        language: [
+          ...prevJobber.language,
+          { id_lang: Number(e.target.name), language: e.target.value },
+        ],
+      }));
     }
   };
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/candidats/${idjob}`, {
-        withCredentials: true,
+    fetchCandidat(idjob)
+      .then((cand) => {
+        setJobber(cand);
+        setTagJob(cand.job ? cand.job.split(';') : []);
+        // TODO dupliquer pour keywords
       })
-      .then(({ data }) => setJobber(data))
       .catch((err) => setError(err));
-  }, []);
+  }, [idjob]);
   if (!jobber)
     return (
       <div className="spinner-border" role="status">
         <span className="visually-hidden">Loading...</span>
       </div>
     );
+
+  const { sector_of_activity: sector } = jobber;
+  const { language } = jobber;
+
   return (
     <>
       {error && <div className="alert alert-danger">error.message</div>}
@@ -110,6 +153,7 @@ export default function ModifyJobber() {
               name="lastname"
               defaultValue={jobber.lastname}
               ref={register}
+              required
             />
             <label htmlFor="floatingInput">Nom</label>
           </div>
@@ -134,6 +178,7 @@ export default function ModifyJobber() {
                 value="Monsieur"
                 ref={register}
                 defaultChecked={jobber.civility === 'Monsieur'}
+                required
               />
               <label className="form-check-label" htmlFor="male">
                 Homme
@@ -148,6 +193,7 @@ export default function ModifyJobber() {
                 value="Madame"
                 defaultChecked={jobber.civility === 'Madame'}
                 ref={register}
+                required
               />
               <label className="form-check-label" htmlFor="female">
                 Femme

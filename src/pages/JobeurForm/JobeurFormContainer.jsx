@@ -8,11 +8,31 @@ import {
   availabilitylist,
   mobilitylist,
 } from '../../constants/forms';
+import sampleCandidateData from './jobeurData';
+
+const getDefaultValues = () => {
+  // Si on passe ?autofill=true dans l'URL, ça injecte des valeurs
+  const prefilledValues =
+    window.location.search === '?autofill=true'
+      ? sampleCandidateData
+      : { job: [], keywords: [] };
+  const {
+    job: initJob,
+    keywords: initKeyword,
+    ...defaultValues
+  } = prefilledValues;
+  return {
+    defaultValues,
+    initJob,
+    initKeyword,
+  };
+};
 
 const JobeurFormContainer = ({ user }) => {
   const [dataUser, setDataUser] = useState(null);
   const [initialJob, setInitJob] = useState(null);
-  const [initialKeyword, setInitKeyword] = useState(null);
+  const [initialKeywords, setInitKeywords] = useState(null);
+  const [loading, setLoading] = useState(true);
   // retrieve the Jober's data from the database
   useEffect(() => {
     axios
@@ -54,21 +74,29 @@ const JobeurFormContainer = ({ user }) => {
           mobility: mobilityJobeur,
         });
         setInitJob(listJob);
-        setInitKeyword(listKeyword);
+        setInitKeywords(listKeyword);
+        setLoading(false);
       });
   }, []);
 
+  if (loading) return <p>loading</p>;
+
+  const hasFiche = dataUser && initialJob && initialKeywords;
+
+  const props = hasFiche
+    ? {
+        defaultValues: dataUser,
+        initJob: initialJob,
+        initKeyword: initialKeywords,
+      }
+    : getDefaultValues();
+
   return (
-    dataUser &&
-    initialJob &&
-    initialKeyword && (
-      <JobeurForm
-        user={user}
-        defaultValues={dataUser}
-        initJob={initialJob}
-        initKeyword={initialKeyword}
-      />
-    )
+    <JobeurForm
+      user={user}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
   );
 };
 

@@ -27,6 +27,7 @@
     "react/jsx-curly-newline": "off",
     "react/jsx-one-expression-per-line": "off",
     "jsx-a11y/label-has-associated-control": [ 2, {
+      "assert": "htmlFor",
       "controlComponents": ["Controller"],
       "depth": 3
     }]
