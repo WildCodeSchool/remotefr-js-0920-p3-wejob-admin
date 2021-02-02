@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../contexts/auth';
 import styles from '../../asset/css/Header.module.css';
 
 function Header() {
+  const { user, logout } = useContext(AuthContext);
   return (
     <header>
       <div>
@@ -32,6 +34,17 @@ function Header() {
                     Modifier mon mot de passe
                   </Link>
                 </li>
+                {user && (
+                  <li className={styles.menuItem}>
+                    <button
+                      type="button"
+                      className={styles.link}
+                      onClick={logout}
+                    >
+                      Déconnexion
+                    </button>
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
