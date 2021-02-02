@@ -21,6 +21,7 @@ export const mobilitylist = [
   { value: 'gironde', label: 'Gironde' },
   { value: 'nouvelle_aquitaine', label: 'Nouvelle-Aquitaine' },
   { value: 'france', label: 'France' },
+  { value: 'international', label: 'International' },
 ];
 export const activityArea = [
   { value: '1', label: 'Aéronautique' },
