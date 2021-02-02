@@ -91,10 +91,14 @@ function MultiStepFormField({ steps, compState, setComp }) {
     ));
 
   const renderNav = () => (
-    <div>
+    <div className="row justify-content-center style-button-renderNav">
       <button
         type="button"
-        className={buttonsState.showPreviousBtn ? 'display' : 'displayNone'}
+        className={
+          buttonsState.showPreviousBtn
+            ? 'display mx-auto col-3'
+            : 'displayNone mx-auto col-3'
+        }
         onClick={previous}
       >
         Précédent
@@ -102,7 +106,11 @@ function MultiStepFormField({ steps, compState, setComp }) {
 
       <button
         type="submit"
-        // className={buttonsState.showNextBtn ? 'display' : 'displayNone'}
+        className={
+          buttonsState.showNextBtn
+            ? 'display mx-auto col-3'
+            : 'displayNone mx-auto col-3'
+        }
         // onClick={next}
         form={steps[compState].nameForm}
       >

@@ -73,11 +73,16 @@ function ExperiencesForm({
     >
       <h3 className="widget-title">Expériences professionnelles</h3>
       <hr />
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="activityArea" className="form-field-label">
+      <div className="mb-3 row">
+        <div className="form-group row">
+          <label
+            htmlFor="activityArea"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Secteurs d&apos;activité{' '}
             <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <div className="col-sm-6">
             <Controller
               as={Select}
               id="activityArea"
@@ -86,31 +91,24 @@ function ExperiencesForm({
               control={control}
               isMulti
             />
-          </label>
+          </div>
 
           {errors.activityArea && (
             <span className="spanError">{errors.activityArea.message}</span>
           )}
         </div>
-      </div>
 
-      <div className="row">
-        <div className="form-group">
-          {jobTag &&
-            jobTag.map((t, itt) => (
-              <button
-                key={itt}
-                type="button"
-                onClick={(e) => handleDeleteTag(e, t)}
-              >
-                {t}
-              </button>
-            ))}
-          <label htmlFor="jobname" className="form-field-label">
+        <div className="form-group row">
+          <label
+            htmlFor="jobname"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Métier <span className="spanInfoField">(champ obligatoire)</span>
+          </label>
+          <div className="col-sm-5">
             <input
               type="text"
-              className="form-field-input"
+              className="form-control"
               id="jobname"
               name="job_input"
               value={JobInput}
@@ -122,10 +120,27 @@ function ExperiencesForm({
                 }
               }}
             />
+          </div>
+          <div className="col-sm-2">
             <button type="button" onClick={handleAddTag}>
               Ajouter
             </button>
-          </label>
+          </div>
+          <div className="row justify-content-center style-button-renderNav">
+            {jobTag &&
+              jobTag.map((t, itt) => (
+                <button
+                  key={itt}
+                  type="button"
+                  className="btn btn-light mx-auto"
+                  onClick={(e) => handleDeleteTag(e, t)}
+                  title="Cliquer pour supprimer"
+                >
+                  {t}
+                </button>
+              ))}
+          </div>
+
           {/* {errors.job_input && (
             <span className="spanError">{errors.job_input.message}</span>
           )} */}

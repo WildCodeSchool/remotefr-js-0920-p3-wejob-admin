@@ -40,27 +40,37 @@ function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
     >
       <h3 className="widget-title">Formations</h3>
       <hr />
-      <div className="form-group">
-        <label htmlFor="diploma" className="form-field-label">
-          Diplome <span className="spanInfoField">(champ facultatif)</span>
-          <input
-            type="text"
-            className="form-field-input"
-            id="diploma"
-            name="diploma"
-            ref={register}
-          />
-        </label>
-        {errors.diploma && (
-          <span className="spanError">{errors.diploma.message}</span>
-        )}
-      </div>
+      <div className="mb-3 row">
+        <div className="form-group row">
+          <label
+            htmlFor="diploma"
+            className="col-sm-4 col-form-label form-field-label"
+          >
+            Diplome <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="diploma"
+              name="diploma"
+              ref={register}
+            />
+          </div>
+          {errors.diploma && (
+            <span className="spanError">{errors.diploma.message}</span>
+          )}
+        </div>
 
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="levelExperience" className="form-field-label">
+        <div className="form-group row">
+          <label
+            htmlFor="levelExperience"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Niveau d&apos;expérience{' '}
-            <span className="spanInfoField">(champ facultatif)</span>
+            <span className="spanInfoField">(champ facultatif)</span>{' '}
+          </label>
+          <div className="col-sm-6">
             <Controller
               as={Select}
               id="levelExperience"
@@ -69,25 +79,29 @@ function TrainingForm({ register, handleSubmit, errors, setSchema, control }) {
               control={control}
               defaultValue=""
             />
-          </label>
+          </div>
+
           {errors.levelExperience && (
             <span className="spanError">{errors.levelExperience.message}</span>
           )}
         </div>
-      </div>
 
-      <div className="row">
-        <div className="form-group">
-          <label htmlFor="languages" className="form-field-label">
+        <div className="form-group row">
+          <label
+            htmlFor="languages"
+            className="col-sm-4 col-form-label form-field-label"
+          >
             Langues <span className="spanInfoField">(champ facultatif)</span>
           </label>
-          <Controller
-            as={Select}
-            name="language"
-            options={languages}
-            isMulti
-            control={control}
-          />
+          <div className="col-sm-6">
+            <Controller
+              as={Select}
+              name="language"
+              options={languages}
+              isMulti
+              control={control}
+            />
+          </div>
 
           {errors.languages && (
             <span className="spanError">{errors.languages.message}</span>
