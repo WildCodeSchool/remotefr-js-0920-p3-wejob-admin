@@ -11,8 +11,8 @@ import {
 
 const JobeurFormContainer = ({ user }) => {
   const [dataUser, setDataUser] = useState(null);
-  const [initialJob, setInitJob] = useState([]);
-  const [initialKeyword, setInitKeyword] = useState([]);
+  const [initialJob, setInitJob] = useState(null);
+  const [initialKeyword, setInitKeyword] = useState(null);
   // retrieve the Jober's data from the database
   useEffect(() => {
     axios
@@ -37,15 +37,14 @@ const JobeurFormContainer = ({ user }) => {
         const sectorActivity = sectorOfActivity.map((el) =>
           activityArea.find((row) => Number(row.value) === el.id_sector),
         );
-        const listJob = job.split(';');
+        const listJob = (job || '').split(';');
         const availabilityJobeur = availabilitylist.find(
           (row) => Number(row.value) === availability,
         );
         const mobilityJobeur = mobilitylist.find(
           (row) => row.value === mobility,
         );
-        const listKeyword = [];
-        // const listKeyword = keywords.split(';');
+        const listKeyword = (keywords || '').split(';');
         setDataUser({
           ...rest,
           years_of_experiment: yearsOfExperiment,
@@ -58,8 +57,11 @@ const JobeurFormContainer = ({ user }) => {
         setInitKeyword(listKeyword);
       });
   }, []);
+
   return (
-    dataUser && (
+    dataUser &&
+    initialJob &&
+    initialKeyword && (
       <JobeurForm
         user={user}
         defaultValues={dataUser}
