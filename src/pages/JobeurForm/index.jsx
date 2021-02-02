@@ -1,9 +1,9 @@
-/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
+import { userPropTypes } from '../../prop-types';
 import MultiStep from '../../components/MultiStepFormField';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
@@ -44,20 +44,14 @@ function reformatHookFormData(data, kwTag, jobTag) {
   if (data.mobility) {
     formatData.mobility = data.mobility.value;
   }
-  // if (data.jobName1 && data.jobName1.length > 0 && data.jobName2.length > 0) {
-  //   formatData.job = [
-  //     { id_job: 0, name_job: data.jobName1 },
-  //     { id_job: 1, name_job: data.jobName2 },
-  //   ];
-  // } else if (data.jobName1 > 0 && data.jobName2 === 0) {
-  //   formatData.job = [{ id_job: 0, name_job: data.jobName1 }];
-  // } else if (data.jobName2 > 0 && data.jobName1 === 0) {
-  //   formatData.job = [{ id_job: 0, name_job: data.jobName2 }];
-  // }
   return formatData;
 }
 
-function JobeurForm() {
+const propTypes = {
+  user: userPropTypes.isRequired,
+};
+
+function JobeurForm({ user }) {
   // Si on passe ?autofill=true dans l'URL, ça injecte des valeurs
   const prefilledValues =
     window.location.search === '?autofill=true'
@@ -103,15 +97,8 @@ function JobeurForm() {
   // Store file entries
   const [files, setFiles] = useState({});
 
-  // log changes on dataForm (to be removed)
-  // useEffect(() => {
-  //   console.log('updated dataForm', dataForm)
-  // }, [dataForm])
-
   // Button function valid and continue
   const onSubmit = (data) => {
-    // eslint-disable-next-line no-console
-    console.log('data << ', data);
     setDataForm({ ...dataForm, ...data });
     reset({ ...dataForm, ...data });
     // 2. Go to the next step in the form
@@ -121,22 +108,19 @@ function JobeurForm() {
   // Done: don't merge files with data handled by React Hook Form
   // Otherwise weird things happen
   const onSubmitFiles = (data) => {
-    // eslint-disable-next-line no-console
-    console.log('onSubmitFiles', data, dataForm);
     setFiles(data);
     setComp(compState + 1);
   };
 
   const onSendForm = async (event) => {
     event.preventDefault();
-
     const {
       availability,
       keywords,
       language,
       mobility,
-      sector_of_activity,
-      years_of_experiment,
+      sector_of_activity: sectorOfActivity,
+      years_of_experiment: yearsOfExperiment,
       ...nonReformattedFields
     } = dataForm;
     // Reformater une partie des champs avant envoi
@@ -148,41 +132,34 @@ function JobeurForm() {
         keywords,
         language,
         mobility,
-        sector_of_activity,
-        years_of_experiment,
+        sector_of_activity: sectorOfActivity,
+        years_of_experiment: yearsOfExperiment,
       },
       kwTag,
       jobTag,
     );
-    // eslint-disable-next-line no-console
-    console.log(formattedFields, nonReformattedFields);
     const jsonPayload = { ...formattedFields, ...nonReformattedFields };
 
     // TODO: utiliser id récupéré depuis le contexte où est stocké
     // l'utilisateur authentifié
-    const candidatId = 5;
     axios
       .put(
-        `${process.env.REACT_APP_API_URL}/candidats/${candidatId}`,
+        `${process.env.REACT_APP_API_URL}/candidats/${user.id}`,
         jsonPayload,
         { withCredentials: true },
       )
-      .then((res) => {
+      .then(() => {
         // La 1ère requête a fonctionné
-        // eslint-disable-next-line no-console
-        console.log(res);
         // FormData pour envoi des pdf & images en multipart/form-data
         // Sera traité par multer côté back
         const formdata = new FormData();
         ['cv1', 'cv2', 'picture'].forEach((key) => {
           const value = files[key];
-          // eslint-disable-next-line no-console
-          console.log(key, value);
           if (value) formdata.append(key, value);
         });
         // TODO: Il faudra authentifier la requête
         return axios.post(
-          `${process.env.REACT_APP_API_URL}/candidats/file`,
+          `${process.env.REACT_APP_API_URL}/candidats/${user.id}/files`,
           formdata,
           { withCredentials: true },
         );
@@ -281,5 +258,7 @@ function JobeurForm() {
     </div>
   );
 }
+
+JobeurForm.propTypes = propTypes;
 
 export default JobeurForm;

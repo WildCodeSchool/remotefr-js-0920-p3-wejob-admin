@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../contexts/auth';
 import styles from '../../asset/css/Header.module.css';
 
 function Header() {
-  console.log(window.location.pathname);
+  const { user, logout } = useContext(AuthContext);
   return (
     <header>
       <div>
@@ -48,6 +49,17 @@ function Header() {
                     </Link>
                   </li>
                 )} */}
+                {user && (
+                  <li className={styles.menuItem}>
+                    <button
+                      type="button"
+                      className={styles.link}
+                      onClick={logout}
+                    >
+                      Déconnexion
+                    </button>
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
