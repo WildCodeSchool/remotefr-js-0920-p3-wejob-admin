@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-restricted-globals */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Switch,
   Route,
@@ -15,8 +15,39 @@ import axios from 'axios';
 import ModifyJobber from './ModifyJobber';
 import ListRecrutors from './ListRecrutors';
 import AddJobber from './AddJobber';
+import CandidatsContext from './CandidatsContext';
+import './AdminPanel.css';
 
-export default function AdminPanel() {
+const fetchCandidats = () =>
+axios
+  .get(`${process.env.REACT_APP_API_URL}/candidats`, {
+    withCredentials: true,
+  })
+  .then(({ data }) => data);
+
+export default function AdminPanelContainer() {
+  const [error, setError] = useState(null);
+  const [candidats, setCandidats] = useState([]);
+  useEffect(() => {
+      fetchCandidats()
+      .then(setCandidats)
+      .catch((err) => setError(err));
+  }, []);
+  return (
+    <CandidatsContext.Provider value={{
+      candidats,
+      refresh: () => fetchCandidats().then(setCandidats),
+      add: (candidat) => setCandidats(prevCandidats => [...prevCandidats, candidat]),
+      update: (candidat) => setCandidats(prevCandidats => prevCandidats.map(c => c.id === candidat.id ? ({ ...candidat }) : c)),
+      delete: (candidat) =>setCandidats(prevCandidats => prevCandidats.filter(c => c.id !== candidat.id)),
+    }}>
+      {error && <div className="alert alert-danger">error.message</div>}
+      <AdminPanel />
+    </CandidatsContext.Provider>
+  );
+}
+
+function AdminPanel() {
   const { path, url } = useRouteMatch();
   return (
     <div className="container-fluid">
@@ -70,17 +101,9 @@ export default function AdminPanel() {
 
 const CandidatList = () => {
   const [search, setSearch] = useState('');
-  const [error, setError] = useState(null);
-  const [candidats, setCandidats] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/candidats`)
-      .then(({ data }) => setCandidats(data))
-      .catch((err) => setError(err));
-  }, []);
+  const { candidats } = useContext(CandidatsContext);
   return (
     <>
-      {error && <div className="alert alert-danger">error.message</div>}
       <input
         type="text"
         className="form-control"
@@ -102,11 +125,20 @@ const CandidatList = () => {
   );
 };
 
-const getPictureUrl = (pic) =>
-  /^https?:\/\/.*/.test(pic) ? pic : `${process.env.REACT_APP_BACK_URL}/${pic}`;
+const getPictureUrl = (pic) => {
+  if (!pic) return 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
+  return /^https?:\/\/.*/.test(pic) ? pic : `${process.env.REACT_APP_BACK_URL}/${pic}`;
+}
+
+
+const getStatusBtnSpecs = (ficheId, isCheck) => {
+  if (!ficheId) return { text: 'Nouveau', color: 'danger' };
+  return isCheck ? { text: 'Visible', color: 'success' } : { text: 'En attente', color: 'warning' };
+};
 
 const Candidat = ({
   id,
+  user_fiche_id: ficheId,
   lastname,
   firstname,
   email,
@@ -116,6 +148,9 @@ const Candidat = ({
 }) => {
   const history = useHistory();
   const { url } = useRouteMatch();
+
+  const { text: btnText, color: btnColor } = getStatusBtnSpecs(ficheId, isCheck);
+
   return (
     <div className="card d-flex flex-sm-row align-items-center my-2">
       <img
@@ -126,7 +161,7 @@ const Candidat = ({
       />
       <div className="m-2 d-flex flex-lg-row justify-content-lg-around flex-column w-100 align-items-center">
         <p className="text-primary">
-          {lastname} {firstname}
+          {lastname || '?'} {firstname || '?'}
         </p>
         <p className={email ? 'text-success' : 'text-danger'}>
           {email || 'Email manquant'}
@@ -146,16 +181,12 @@ const Candidat = ({
             </p>
           ))}
         </div>
-        <button
-          type="button"
-          onClick={() => {
-            history.push(`${url}/jobber/${id}`);
-          }}
-          style={{ width: '7em' }}
-          className={isCheck ? 'btn btn-success' : 'btn btn-danger'}
+        <Link
+          to={`${url}jobber/${id}`}
+          className={`btn btn-wide btn-${btnColor}`}
         >
-          {isCheck ? 'Visible' : 'En attente'}
-        </button>
+          {btnText}
+        </Link>
       </div>
     </div>
   );

@@ -1,14 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import candidats from './candidat.json';
+import axios from 'axios';
+import CandidatsContext from './CandidatsContext';
+
+const fetchCandidat = (id) =>
+axios
+  .get(`${process.env.REACT_APP_API_URL}/candidats/${id}`, {
+    withCredentials: true,
+  })
+  .then(({ data }) => data);
 
 export default function ModifyJobber() {
+  // const { candidats } = useContext(CandidatsContext);
   const [jobber, setJobber] = useState(null);
-  const [language, setLanguage] = useState([]);
-  const [sector, setSector] = useState([]);
+  // const [language, setLanguage] = useState([]);
+  // const [sector, setSector] = useState([]);
   const [inputTag, setInputTag] = useState('');
   const [tagJob, setTagJob] = useState([]);
   const { id: idjob } = useParams();
@@ -16,19 +25,20 @@ export default function ModifyJobber() {
 
   const onSubmit = (data) => {
     const sub = data;
-    sub.sector_of_activity = sector;
-    sub.language = language;
+    // sub.sector_of_activity = sector;
+    // sub.language = language;
     sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
   };
 
   const handleChangeSector = (e) => {
     if (!e.target.checked) {
-      setSector(sector.filter((l) => l.id_sector !== Number(e.target.name)));
+      setJobber(prevJobber => ({ ...prevJobber,
+        sector_of_activity: prevJobber.sector_of_activity.filter((l) => l.id_sector !== Number(e.target.name))
+      }));
     } else {
-      setSector((prev) => [
-        ...prev,
-        { id_sector: Number(e.target.name), name_sector: e.target.value },
-      ]);
+      setJobber(prevJobber => ({ ...prevJobber,
+        sector_of_activity: [...prevJobber.sector_of_activity, { id_sector: Number(e.target.name), name_sector: e.target.value }]
+      }));
     }
   };
 
@@ -45,26 +55,32 @@ export default function ModifyJobber() {
 
   const handleChangeLanguage = (e) => {
     if (!e.target.checked) {
-      setLanguage(
-        language.filter((l) => l.id_language !== Number(e.target.name)),
-      );
+      setJobber(prevJobber => ({ ...prevJobber,
+        language: prevJobber.language.filter((l) => l.id_lang !== Number(e.target.name))
+      }));
     } else {
-      setLanguage((prev) => [
-        ...prev,
-        { id_language: Number(e.target.name), language: e.target.value },
-      ]);
+      setJobber(prevJobber => ({ ...prevJobber,
+        language: [...prevJobber.language, { id_lang: Number(e.target.name), language: e.target.value }]
+      }));
     }
   };
 
   useEffect(() => {
-    setJobber(candidats.find((c) => c.id === Number(idjob)));
-  }, []);
+    fetchCandidat(idjob).then(cand => {
+      setJobber(cand);
+      setTagJob(cand.job.split(';'));
+    });
+  }, [idjob]);
   if (!jobber)
     return (
       <div className="spinner-border" role="status">
         <span className="visually-hidden">Loading...</span>
       </div>
     );
+
+  const { sector_of_activity: sector } = jobber;
+  const { language } = jobber;
+
   return (
     <form className="mb-3" onSubmit={handleSubmit(onSubmit)}>
       <h3 className="fw-bold">Général</h3>
@@ -168,7 +184,7 @@ export default function ModifyJobber() {
               name="1"
               id="lang_en"
               onChange={handleChangeLanguage}
-              checked={language.find((l) => l.id_language === 1) !== undefined}
+              checked={language.find((l) => l.id_lang === 1) !== undefined}
             />
             <label className="form-check-label" htmlFor="lang_en">
               Anglais
@@ -182,7 +198,7 @@ export default function ModifyJobber() {
               name="2"
               id="lang_sp"
               onChange={handleChangeLanguage}
-              checked={language.find((l) => l.id_language === 2) !== undefined}
+              checked={language.find((l) => l.id_lang === 2) !== undefined}
             />
             <label className="form-check-label" htmlFor="lang_sp">
               Espagnol
@@ -196,7 +212,7 @@ export default function ModifyJobber() {
               name="3"
               id="lang_it"
               onChange={handleChangeLanguage}
-              checked={language.find((l) => l.id_language === 3) !== undefined}
+              checked={language.find((l) => l.id_lang === 3) !== undefined}
             />
             <label className="form-check-label" htmlFor="lang_it">
               Italien
@@ -210,7 +226,7 @@ export default function ModifyJobber() {
               name="4"
               id="lang_ar"
               onChange={handleChangeLanguage}
-              checked={language.find((l) => l.id_language === 4) !== undefined}
+              checked={language.find((l) => l.id_lang === 4) !== undefined}
             />
             <label className="form-check-label" htmlFor="lang_ar">
               Arabe
@@ -224,7 +240,7 @@ export default function ModifyJobber() {
               name="5"
               id="lang_ch"
               onChange={handleChangeLanguage}
-              checked={language.find((l) => l.id_language === 5) !== undefined}
+              checked={language.find((l) => l.id_lang === 5) !== undefined}
             />
             <label className="form-check-label" htmlFor="lang_ch">
               Chinois
@@ -238,7 +254,7 @@ export default function ModifyJobber() {
               name="6"
               id="lang_de"
               onChange={handleChangeLanguage}
-              checked={language.find((l) => l.id_language === 6) !== undefined}
+              checked={language.find((l) => l.id_lang === 6) !== undefined}
             />
             <label className="form-check-label" htmlFor="lang_de">
               Allemand
@@ -246,7 +262,7 @@ export default function ModifyJobber() {
           </div>
         </div>
       </div>
-      <h3 className="fw-bold">Expériences professionnelles</h3>
+      <h3 className="fw-bold">Secteurs d&#39;activité</h3>
       <div className="row">
         <div className="col d-flex flex-wrap">
           <div className="form-check me-2">
@@ -274,7 +290,7 @@ export default function ModifyJobber() {
               checked={sector.find((l) => l.id_sector === 2) !== undefined}
             />
             <label className="form-check-label" htmlFor="sector_agro">
-              Agroalimentaire - vins & spiritueux
+              Agroalimentaire - vins &amp; spiritueux
             </label>
           </div>
           <div className="form-check me-2">
@@ -610,24 +626,28 @@ export default function ModifyJobber() {
             id="availability"
             name="availability"
             aria-label="Default select example"
+            defaultValue={jobber.availability}
           >
-            <option value="0">Immédiatement</option>
-            <option value="1">Autres</option>
+            <option value="0">Non renseigné</option>
+            <option value="1">Immédiatement</option>
+            <option value="2">Autres</option>
           </select>
         </div>
         <div className="col">
-          <label htmlFor="mobility">Disponible</label>
+          <label htmlFor="mobility">Mobilité</label>
           <select
             ref={register}
             className="form-select"
             id="mobility"
             name="mobility"
             aria-label="Default select example"
+            defaultValue={jobber.mobility}
           >
-            <option value="0">Bordeaux</option>
-            <option value="1">Gironde</option>
-            <option value="2">Nouvelle Aquitaine</option>
-            <option value="3">France</option>
+            <option value="-">Non renseigné</option>
+            <option value="bordeaux">Bordeaux</option>
+            <option value="gironde">Gironde</option>
+            <option value="nouvelle_aquitaine">Nouvelle Aquitaine</option>
+            <option value="france">France</option>
           </select>
         </div>
       </div>
@@ -641,6 +661,7 @@ export default function ModifyJobber() {
               id="description"
               style={{ height: '10rem' }}
               ref={register}
+              defaultValue={jobber.description}
             />
             <label htmlFor="description">Description</label>
           </div>

@@ -1,17 +1,29 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import axios from 'axios';
+import { NotificationManager } from 'react-notifications';
 
 export default function AddJobber() {
   const [email, setEmail] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`${process.env.REACT_APP_API_URL}/candidats`, { email })
+      .post(
+        `${process.env.REACT_APP_API_URL}/candidats`,
+        { email },
+        { withCredentials: true },
+      )
       .then(() => {
         setEmail('');
+        NotificationManager.success('Jobeur ajouté');
       })
-      .catch(console.error);
+      .catch((err) => {
+        const message =
+          err.response?.status === 409
+            ? 'Cet email existe déjà'
+            : 'Erreur serveur';
+        NotificationManager.error(message);
+      });
   };
   return (
     <div>
