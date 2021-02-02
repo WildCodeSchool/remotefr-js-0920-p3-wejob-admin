@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { NotificationManager } from 'react-notifications';
 import CandidatsContext from './CandidatsContext';
 import sendFicheCandidat from '../../helpers/sendFicheCandidat';
 
@@ -41,8 +42,17 @@ export default function ModifyJobber() {
     };
 
     sendFicheCandidat(idjob, payload, [], tagJob, files)
-      .then(() => history.push('/'))
-      .catch((err) => console.error(err));
+      .then(() => {
+        NotificationManager.success('Modification faite !');
+        history.push('/');
+      })
+      .catch((err) => {
+        NotificationManager.error(
+          'Erreur',
+          'Veuillez réessayer ultérieurement',
+        );
+        console.error(err);
+      });
   };
 
   const handleChangeSector = (e) => {
