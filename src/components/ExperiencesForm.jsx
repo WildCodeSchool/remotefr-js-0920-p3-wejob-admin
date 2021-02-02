@@ -74,30 +74,11 @@ function ExperiencesForm({
       <h3 className="widget-title">Expériences professionnelles</h3>
       <hr />
       <div className="mb-3 row">
-        <div className="form-group row">
-          <label
-            htmlFor="activityArea"
-            className="col-sm-4 col-form-label form-field-label"
-          >
-            Secteurs d&apos;activité{' '}
-            <span className="spanInfoField">(champ facultatif)</span>
-          </label>
-          <div className="col-sm-6">
-            <Controller
-              as={Select}
-              id="activityArea"
-              name="sector_of_activity"
-              options={activityArea}
-              control={control}
-              isMulti
-            />
-          </div>
-
-          {errors.activityArea && (
-            <span className="spanError">{errors.activityArea.message}</span>
-          )}
+        <div className="row justify-content-end">
+          <p className="spanInfoField col-8">
+            Vous pouvez entrer plusieurs métiers en cliquant sur ajouter
+          </p>
         </div>
-
         <div className="form-group row">
           <label
             htmlFor="jobname"
@@ -126,13 +107,18 @@ function ExperiencesForm({
               Ajouter
             </button>
           </div>
-          <div className="row justify-content-center style-button-renderNav">
+          <div className="row justify-content-end">
+            <p className="spanInfoField col-8">
+              Métiers validés (vous pouvez les supprimer en cliqunt dessus) :
+            </p>
+          </div>
+          <div className="row row-cols-auto d-flex justify-content-end">
             {jobTag &&
               jobTag.map((t, itt) => (
                 <button
                   key={itt}
                   type="button"
-                  className="btn btn-light mx-auto"
+                  className="col btn btn-outline-dark"
                   onClick={(e) => handleDeleteTag(e, t)}
                   title="Cliquer pour supprimer"
                 >
@@ -144,6 +130,35 @@ function ExperiencesForm({
           {/* {errors.job_input && (
             <span className="spanError">{errors.job_input.message}</span>
           )} */}
+        </div>
+        <div className="row justify-content-end">
+          <p className="spanInfoField col-8">
+            Vous pouvez sélectionner plusieurs secteurs d&#39;activité ou aucun
+            si votre métier ne s&#39;y prète pas
+          </p>
+        </div>
+        <div className="form-group row">
+          <label
+            htmlFor="activityArea"
+            className="col-sm-4 col-form-label form-field-label"
+          >
+            Secteurs d&apos;activité{' '}
+            <span className="spanInfoField">(champ facultatif)</span>
+          </label>
+          <div className="col-sm-6">
+            <Controller
+              as={Select}
+              id="activityArea"
+              name="sector_of_activity"
+              options={activityArea}
+              control={control}
+              isMulti
+            />
+          </div>
+
+          {errors.activityArea && (
+            <span className="spanError">{errors.activityArea.message}</span>
+          )}
         </div>
       </div>
     </form>
