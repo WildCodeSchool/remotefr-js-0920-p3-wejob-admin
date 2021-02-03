@@ -15,7 +15,7 @@ export default function AddJobber() {
         { email },
         { withCredentials: true },
       )
-      .then(({ data: { id }}) => {
+      .then(({ data: { id } }) => {
         const newJobeur = { id, email, sector_of_activity: [] };
         add(newJobeur);
         setEmail('');
