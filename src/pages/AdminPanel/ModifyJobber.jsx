@@ -46,7 +46,7 @@ export default function ModifyJobber() {
     // sub.language = language;
     // sub.job = tagJob.map((t, itt) => ({ id_job: itt, name_job: t }));
 
-    sendFicheCandidat(idjob, payload, [], tagJob, files);
+    sendFicheCandidat(idjob, payload, tagKw, tagJob, files);
   };
 
   const handleChangeSector = (e) => {
@@ -114,7 +114,7 @@ export default function ModifyJobber() {
       .then((cand) => {
         setJobber(cand);
         setTagJob(cand.job ? cand.job.split(';') : []);
-        // TODO dupliquer pour keywords
+        setTagKw(cand.keywords ? cand.keywords.split(';') : []);
       })
       .catch((err) => setError(err));
   }, [idjob]);
@@ -237,7 +237,7 @@ export default function ModifyJobber() {
                 id="lang_en"
                 onChange={handleChangeLanguage}
                 defaultChecked={
-                  language.find((l) => l.id_language === 1) !== undefined
+                  language.find((l) => l.id_lang === 1) !== undefined
                 }
               />
               <label className="form-check-label" htmlFor="lang_en">
@@ -253,7 +253,7 @@ export default function ModifyJobber() {
                 id="lang_sp"
                 onChange={handleChangeLanguage}
                 defaultChecked={
-                  language.find((l) => l.id_language === 2) !== undefined
+                  language.find((l) => l.id_lang === 2) !== undefined
                 }
               />
               <label className="form-check-label" htmlFor="lang_sp">
@@ -269,7 +269,7 @@ export default function ModifyJobber() {
                 id="lang_it"
                 onChange={handleChangeLanguage}
                 defaultChecked={
-                  language.find((l) => l.id_language === 3) !== undefined
+                  language.find((l) => l.id_lang === 3) !== undefined
                 }
               />
               <label className="form-check-label" htmlFor="lang_it">
@@ -285,7 +285,7 @@ export default function ModifyJobber() {
                 id="lang_ar"
                 onChange={handleChangeLanguage}
                 defaultChecked={
-                  language.find((l) => l.id_language === 4) !== undefined
+                  language.find((l) => l.id_lang === 4) !== undefined
                 }
               />
               <label className="form-check-label" htmlFor="lang_ar">
@@ -301,7 +301,7 @@ export default function ModifyJobber() {
                 id="lang_ch"
                 onChange={handleChangeLanguage}
                 defaultChecked={
-                  language.find((l) => l.id_language === 5) !== undefined
+                  language.find((l) => l.id_lang === 5) !== undefined
                 }
               />
               <label className="form-check-label" htmlFor="lang_ch">
@@ -317,7 +317,7 @@ export default function ModifyJobber() {
                 id="lang_de"
                 onChange={handleChangeLanguage}
                 defaultChecked={
-                  language.find((l) => l.id_language === 6) !== undefined
+                  language.find((l) => l.id_lang === 6) !== undefined
                 }
               />
               <label className="form-check-label" htmlFor="lang_de">
@@ -770,6 +770,7 @@ export default function ModifyJobber() {
             <label htmlFor="availability">Disponible</label>
             <select
               ref={register}
+              defaultValue={jobber.availability}
               className="form-select"
               id="availability"
               name="availability"
@@ -783,6 +784,7 @@ export default function ModifyJobber() {
             <label htmlFor="mobility">Disponible</label>
             <select
               ref={register}
+              defaultValue={jobber.mobility}
               className="form-select"
               id="mobility"
               name="mobility"
@@ -804,6 +806,7 @@ export default function ModifyJobber() {
                 placeholder="Leave a comment here"
                 id="description"
                 style={{ height: '10rem' }}
+                defaultValue={jobber.description}
                 ref={register}
               />
               <label htmlFor="description">Description</label>
