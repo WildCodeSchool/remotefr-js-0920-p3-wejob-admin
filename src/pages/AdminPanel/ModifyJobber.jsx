@@ -51,7 +51,6 @@ export default function ModifyJobber() {
           'Erreur',
           'Veuillez réessayer ultérieurement',
         );
-        console.error(err);
       });
   };
 

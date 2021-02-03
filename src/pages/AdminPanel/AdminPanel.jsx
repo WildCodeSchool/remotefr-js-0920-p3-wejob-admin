@@ -112,9 +112,22 @@ function AdminPanel() {
   );
 }
 
+const matchCandidatSearch = (c, search) => {
+  const searchLower = search.toLowerCase();
+  return (
+    c.firstname?.toLowerCase().includes(searchLower) ||
+    c.lastname?.toLowerCase().includes(searchLower) ||
+    c.email?.toLowerCase().includes(searchLower)
+  );
+};
+
 const CandidatList = () => {
   const [search, setSearch] = useState('');
   const { candidats } = useContext(CandidatsContext);
+  const filteredCandidats =
+    search === ''
+      ? candidats
+      : candidats.filter((c) => matchCandidatSearch(c, search));
   return (
     <>
       <input
@@ -125,14 +138,11 @@ const CandidatList = () => {
         onChange={(e) => setSearch(e.target.value)}
       />
       <div className="overflow-auto mt-2" style={{ height: '80vh' }}>
-        {search === ''
-          ? candidats.map((c) => <Candidat key={c.id} {...c} />)
-          : candidats
-              .filter(
-                (c) =>
-                  c.firstname.includes(search) || c.lastname.includes(search),
-              )
-              .map((c) => <Candidat key={c.id} {...c} />)}
+        {filteredCandidats.length > 0 ? (
+          filteredCandidats.map((c) => <Candidat key={c.id} {...c} />)
+        ) : (
+          <p className="text-center my-2">Aucun résultat</p>
+        )}
       </div>
     </>
   );
