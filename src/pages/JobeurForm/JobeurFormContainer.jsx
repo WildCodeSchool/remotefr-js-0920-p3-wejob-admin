@@ -46,6 +46,10 @@ const JobeurFormContainer = ({ user }) => {
           availability,
           mobility,
           keywords,
+          // extract isCheck so that it's NOT in rest: it's not a good
+          // idea to send it back to the API, since only admins are
+          // supposed to change it.
+          isCheck,
           ...rest
         } = res.data;
         const yearsOfExperiment = levelOfExperience.find(
