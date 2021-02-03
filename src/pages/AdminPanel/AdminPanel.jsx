@@ -10,6 +10,7 @@ import {
   Link,
   useHistory,
   useRouteMatch,
+  useLocation,
 } from 'react-router-dom';
 import axios from 'axios';
 import ModifyJobber from './ModifyJobber';
@@ -28,11 +29,12 @@ const fetchCandidats = () =>
 export default function AdminPanelContainer() {
   const [error, setError] = useState(null);
   const [candidats, setCandidats] = useState([]);
+  const location = useLocation();
   useEffect(() => {
     fetchCandidats()
       .then(setCandidats)
       .catch((err) => setError(err));
-  }, []);
+  }, [location]);
   return (
     <CandidatsContext.Provider
       value={{
