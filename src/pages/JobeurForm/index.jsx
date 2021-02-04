@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { userPropTypes } from '../../prop-types';
+// import { userPropTypes } from '../../prop-types';
 import MultiStep from '../../components/MultiStepFormField';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
 
@@ -95,19 +95,6 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
       ),
     },
     {
-      name: 'Formations',
-      nameForm: 'TrainingForm',
-      component: (
-        <TrainingForm
-          register={register}
-          handleSubmit={handleSubmit(onSubmit)}
-          errors={errors}
-          setSchema={setSchema}
-          control={control}
-        />
-      ),
-    },
-    {
       name: 'Métiers',
       nameForm: 'ExperiencesForm',
       component: (
@@ -119,6 +106,19 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
           control={control}
           jobTag={jobTag}
           setJobTag={setJobTag}
+        />
+      ),
+    },
+    {
+      name: 'Formations',
+      nameForm: 'TrainingForm',
+      component: (
+        <TrainingForm
+          register={register}
+          handleSubmit={handleSubmit(onSubmit)}
+          errors={errors}
+          setSchema={setSchema}
+          control={control}
         />
       ),
     },
