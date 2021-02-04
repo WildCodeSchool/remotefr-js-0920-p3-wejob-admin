@@ -12,6 +12,8 @@ import LogIn from './pages/Authentication/LogIn';
 import CreateAnAccount from './pages/Authentication/CreateAnAccount';
 import ForgotYourPassword from './pages/Authentication/ForgotYourPassword';
 import './asset/css/style.css';
+import './asset/css/bootstrap-overrides.css';
+import './asset/css/icomoon.css';
 import './App.css';
 
 function App() {

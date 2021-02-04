@@ -10,6 +10,7 @@ import {
   Link,
   useHistory,
   useRouteMatch,
+  useLocation,
 } from 'react-router-dom';
 import axios from 'axios';
 import ModifyJobber from './ModifyJobber';
@@ -19,28 +20,40 @@ import CandidatsContext from './CandidatsContext';
 import './AdminPanel.css';
 
 const fetchCandidats = () =>
-axios
-  .get(`${process.env.REACT_APP_API_URL}/candidats`, {
-    withCredentials: true,
-  })
-  .then(({ data }) => data);
+  axios
+    .get(`${process.env.REACT_APP_API_URL}/candidats`, {
+      withCredentials: true,
+    })
+    .then(({ data }) => data);
 
 export default function AdminPanelContainer() {
   const [error, setError] = useState(null);
   const [candidats, setCandidats] = useState([]);
+  const location = useLocation();
   useEffect(() => {
-      fetchCandidats()
+    fetchCandidats()
       .then(setCandidats)
       .catch((err) => setError(err));
-  }, []);
+  }, [location]);
   return (
-    <CandidatsContext.Provider value={{
-      candidats,
-      refresh: () => fetchCandidats().then(setCandidats),
-      add: (candidat) => setCandidats(prevCandidats => [...prevCandidats, candidat]),
-      update: (candidat) => setCandidats(prevCandidats => prevCandidats.map(c => c.id === candidat.id ? ({ ...candidat }) : c)),
-      delete: (candidat) =>setCandidats(prevCandidats => prevCandidats.filter(c => c.id !== candidat.id)),
-    }}>
+    <CandidatsContext.Provider
+      value={{
+        candidats,
+        refresh: () => fetchCandidats().then(setCandidats),
+        add: (candidat) =>
+          setCandidats((prevCandidats) => [...prevCandidats, candidat]),
+        update: (candidat) =>
+          setCandidats((prevCandidats) =>
+            prevCandidats.map((c) =>
+              c.id === candidat.id ? { ...candidat } : c,
+            ),
+          ),
+        delete: (candidat) =>
+          setCandidats((prevCandidats) =>
+            prevCandidats.filter((c) => c.id !== candidat.id),
+          ),
+      }}
+    >
       {error && <div className="alert alert-danger">error.message</div>}
       <AdminPanel />
     </CandidatsContext.Provider>
@@ -99,9 +112,22 @@ function AdminPanel() {
   );
 }
 
+const matchCandidatSearch = (c, search) => {
+  const searchLower = search.toLowerCase();
+  return (
+    c.firstname?.toLowerCase().includes(searchLower) ||
+    c.lastname?.toLowerCase().includes(searchLower) ||
+    c.email?.toLowerCase().includes(searchLower)
+  );
+};
+
 const CandidatList = () => {
   const [search, setSearch] = useState('');
   const { candidats } = useContext(CandidatsContext);
+  const filteredCandidats =
+    search === ''
+      ? candidats
+      : candidats.filter((c) => matchCandidatSearch(c, search));
   return (
     <>
       <input
@@ -112,28 +138,29 @@ const CandidatList = () => {
         onChange={(e) => setSearch(e.target.value)}
       />
       <div className="overflow-auto mt-2" style={{ height: '80vh' }}>
-        {search === ''
-          ? candidats.map((c) => <Candidat key={c.id} {...c} />)
-          : candidats
-              .filter(
-                (c) =>
-                  c.firstname.includes(search) || c.lastname.includes(search),
-              )
-              .map((c) => <Candidat key={c.id} {...c} />)}
+        {filteredCandidats.length > 0 ? (
+          filteredCandidats.map((c) => <Candidat key={c.id} {...c} />)
+        ) : (
+          <p className="text-center my-2">Aucun résultat</p>
+        )}
       </div>
     </>
   );
 };
 
 const getPictureUrl = (pic) => {
-  if (!pic) return 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
-  return /^https?:\/\/.*/.test(pic) ? pic : `${process.env.REACT_APP_BACK_URL}/${pic}`;
-}
-
+  if (!pic)
+    return 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
+  return /^https?:\/\/.*/.test(pic)
+    ? pic
+    : `${process.env.REACT_APP_BACK_URL}/${pic}`;
+};
 
 const getStatusBtnSpecs = (ficheId, isCheck) => {
   if (!ficheId) return { text: 'Nouveau', color: 'danger' };
-  return isCheck ? { text: 'Visible', color: 'success' } : { text: 'En attente', color: 'warning' };
+  return isCheck
+    ? { text: 'Visible', color: 'success' }
+    : { text: 'En attente', color: 'warning' };
 };
 
 const Candidat = ({
@@ -149,7 +176,10 @@ const Candidat = ({
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  const { text: btnText, color: btnColor } = getStatusBtnSpecs(ficheId, isCheck);
+  const { text: btnText, color: btnColor } = getStatusBtnSpecs(
+    ficheId,
+    isCheck,
+  );
 
   return (
     <div className="card d-flex flex-sm-row align-items-center my-2">
@@ -175,7 +205,7 @@ const Candidat = ({
                 textOverflow: 'ellipsis',
                 width: '10em',
               }}
-              key={s.id}
+              key={s.id_sector}
             >
               {s.name_sector}
             </p>

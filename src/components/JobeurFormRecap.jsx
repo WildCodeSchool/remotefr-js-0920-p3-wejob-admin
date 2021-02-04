@@ -12,8 +12,6 @@ function JobeurFormRecap({ handleSubmit, data }) {
     (row) => row.value === data.availability.value,
   );
 
-  // eslint-disable-next-line no-console
-  console.log(data);
   return (
     <form onSubmit={handleSubmit} id="JobeurForm">
       <div className="wj-container">
