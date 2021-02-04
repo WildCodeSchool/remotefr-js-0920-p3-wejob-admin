@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -171,7 +172,7 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
 
 JobeurForm.propTypes = {
   user: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
   }).isRequired,
   defaultValues: PropTypes.shape({
     civility: PropTypes.string,

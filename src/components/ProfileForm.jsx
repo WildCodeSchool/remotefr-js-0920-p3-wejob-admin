@@ -16,7 +16,7 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
 
   return (
     <form
-      className="ProfileForm container py-5"
+      className="ProfileForm container"
       id="ProfileForm"
       onSubmit={handleSubmit}
     >

@@ -83,16 +83,17 @@ function ExperiencesForm({
           </div>
           <div className="row justify-content-end">
             <p className="spanInfoField col-8">
-              Métiers validés (vous pouvez les supprimer en cliqunt dessus) :
+              Métiers validés (vous pouvez les supprimer en cliquant dessus) :
             </p>
           </div>
-          <div className="row row-cols-auto d-flex justify-content-end">
+          <div className="row">
+            <div className="offset-md-4 col-md-7">
             {jobTag &&
               jobTag.map((t, itt) => (
                 <button
                   key={itt}
                   type="button"
-                  className="col btn btn-outline-dark"
+                  className="col btn btn-sm btn-outline-dark ms-1 my-1"
                   onClick={(e) => handleDeleteTag(e, t)}
                   title="Cliquer pour supprimer"
                 >
@@ -109,6 +110,7 @@ function ExperiencesForm({
                   </svg>
                 </button>
               ))}
+            </div>
           </div>
 
           {/* {errors.job_input && (
@@ -118,7 +120,7 @@ function ExperiencesForm({
         <div className="row justify-content-end">
           <p className="spanInfoField col-8">
             Vous pouvez sélectionner plusieurs secteurs d&#39;activité ou aucun
-            si votre métier ne s&#39;y prète pas
+            si votre métier ne s&#39;y prête pas
           </p>
         </div>
         <div className="form-group row">

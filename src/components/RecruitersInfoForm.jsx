@@ -50,7 +50,7 @@ function RecruitersInfoForm({
     >
       <h3 className="widget-title">Informations pour les recruteurs</h3>
       <hr />
-      <div className="mb-3 row">
+      <div className="mb-3 ms-3 row">
         <div className="form-check form-switch">
           <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
             J&apos;accepte d&apos;être formé à un nouveau métier
@@ -163,7 +163,11 @@ function RecruitersInfoForm({
             />
           </div>
           <div className="col-sm-2">
-            <button type="button" onClick={handleAddTag}>
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={handleAddTag}
+            >
               Ajouter
             </button>
           </div>
@@ -172,13 +176,14 @@ function RecruitersInfoForm({
               Mots clés validés (vous pouvez les supprimer en cliqunt dessus) :
             </p>
           </div>
-          <div className="row row-cols-auto d-flex justify-content-end">
+          <div className="row">
+            <div className="offset-md-4 col-md-7">
             {kwTag &&
               kwTag.map((t, itt) => (
                 <button
                   key={itt}
                   type="button"
-                  className="col btn btn-outline-dark"
+                  className="col btn btn-sm btn-outline-dark ms-1 my-1"
                   onClick={(e) => handleDeleteTag(e, t)}
                   title="Cliquer pour supprimer"
                 >
@@ -195,6 +200,7 @@ function RecruitersInfoForm({
                   </svg>
                 </button>
               ))}
+            </div>
           </div>
 
           {errors.keywords && (
