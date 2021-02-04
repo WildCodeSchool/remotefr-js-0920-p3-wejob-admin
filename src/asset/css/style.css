@@ -22,7 +22,7 @@
 
 .single-page {
   margin-top: 25px;
-  color: #888888;
+  color: #777;
 }
 
 .single-page.clearfix > div > div > ol {
@@ -37,11 +37,6 @@
   color: #007170;
 
   /* background-color: #d9faf9; */
-}
-
-.inner-wrap {
-  max-width: 1100px;
-  margin: 0 auto;
 }
 
 /* FORMULAIRE */
