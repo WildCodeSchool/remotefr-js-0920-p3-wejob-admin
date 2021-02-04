@@ -6,7 +6,10 @@ function ProfileForm({ register, handleSubmit, errors, setSchema }) {
   useEffect(() => {
     setSchema(
       yup.object().shape({
-        civility: yup.string().required('Vous devez sélectionner votre genre'),
+        civility: yup
+          .string()
+          .nullable()
+          .required('Vous devez sélectionner votre genre'),
         lastname: yup.string().min(2).required('Vous devez entrer votre nom'),
         firstname: yup.string().required('Vous devez entrer votre prénom'),
         email: yup.string().email(),
