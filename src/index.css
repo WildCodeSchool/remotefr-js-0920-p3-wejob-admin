@@ -30,3 +30,12 @@ body {
 .AcceptFile span[class^="icon-"] {
   margin-right: 0.75em;
 }
+
+.btn-tag {
+  background: hsl(0, 0%, 90%);
+}
+
+.btn-tag .icon-cross {
+  color: #777;
+  font-size: 10px;
+}

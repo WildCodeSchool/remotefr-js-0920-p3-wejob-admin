@@ -50,7 +50,7 @@ function RecruitersInfoForm({
     >
       <h3 className="widget-title">Information pour les recruteurs</h3>
       <hr />
-      <div className="mb-3 row">
+      <div className="mb-3 ms-3 row">
         <div className="form-check form-switch">
           <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
             J&apos;accepte d&apos;être formé à un nouveau métier
@@ -155,22 +155,30 @@ function RecruitersInfoForm({
             />
           </div>
           <div className="col-sm-2">
-            <button type="button" onClick={handleAddTag}>
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={handleAddTag}
+            >
               Ajouter
             </button>
           </div>
-          <div className="row justify-content-center style-button-renderNav">
-            {kwTag &&
-              kwTag.map((t, itt) => (
-                <button
-                  key={itt}
-                  type="button"
-                  onClick={(e) => handleDeleteTag(e, t)}
-                  title="Cliquer pour supprimer"
-                >
-                  {t}
-                </button>
-              ))}
+          <div className="row">
+            <div className="offset-md-4 col-md-7">
+              {kwTag &&
+                kwTag.map((t, itt) => (
+                  <button
+                    key={itt}
+                    type="button"
+                    className="col btn btn-tag btn-sm ms-1 my-1"
+                    onClick={(e) => handleDeleteTag(e, t)}
+                    title="Cliquer pour supprimer"
+                  >
+                    {t}
+                    <icon className="icon-cross ms-2" />
+                  </button>
+                ))}
+            </div>
           </div>
 
           {errors.keywords && (
