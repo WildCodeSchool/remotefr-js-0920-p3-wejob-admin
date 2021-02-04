@@ -5,6 +5,7 @@ import * as yup from 'yup';
 // import ImageCropper from './ImageCropper';
 // import Modal from './widgetsFormField/ModalHelp';
 import AcceptFile from './AcceptFile';
+import '../asset/css/FileDownloadLinks.css';
 
 function FileDownloadLinks({
   register,
