@@ -1,3 +1,32 @@
 body {
   margin: 0;
 }
+
+.AcceptFile-dropzone {
+  cursor: pointer;
+  padding: 1em 2em;
+  background: #eef;
+  background: #00cfd11a;
+  border: 1px solid #0070713a;
+  border-radius: 4px;
+}
+
+.AcceptFile-dropzone p {
+  margin-bottom: 0.5em;
+}
+
+.AcceptFile-status {
+  height: 2.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.AcceptFile-status .fw-bold {
+  color: #555;
+}
+
+.AcceptFile span[class^="icon-"] {
+  margin-right: 0.75em;
+}
