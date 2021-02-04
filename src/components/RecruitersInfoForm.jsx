@@ -48,7 +48,7 @@ function RecruitersInfoForm({
       id="RecruitersInfoForm"
       onSubmit={handleSubmit}
     >
-      <h3 className="widget-title">Information pour les recruteurs</h3>
+      <h3 className="widget-title">Informations pour les recruteurs</h3>
       <hr />
       <div className="mb-3 ms-3 row">
         <div className="form-check form-switch">
@@ -123,6 +123,8 @@ function RecruitersInfoForm({
               className="form-field-input"
               id="description"
               name="description"
+              rows="5"
+              placeholder="Cette partie est destinée aux recruteurs. Décrivez vos compétences, vos motivations..."
               ref={register}
             />
           </div>
@@ -131,6 +133,11 @@ function RecruitersInfoForm({
           )}
         </div>
 
+        <div className="row justify-content-end">
+          <p className="spanInfoField col-8">
+            Vous pouvez entrer plusieurs mots clés en cliquant sur ajouter
+          </p>
+        </div>
         <div className="form-group row">
           <label
             htmlFor="keywords"
@@ -144,6 +151,7 @@ function RecruitersInfoForm({
               className="form-field-input"
               id="keywords"
               name="keywords_input"
+              placeholder="compétences, langues, métiers..."
               value={kwInput}
               onChange={(e) => setKwInput(e.target.value)}
               onKeyDown={(e) => {
@@ -163,21 +171,35 @@ function RecruitersInfoForm({
               Ajouter
             </button>
           </div>
+          <div className="row justify-content-end">
+            <p className="spanInfoField col-8">
+              Mots clés validés (vous pouvez les supprimer en cliqunt dessus) :
+            </p>
+          </div>
           <div className="row">
             <div className="offset-md-2 col-md-8">
-              {kwTag &&
-                kwTag.map((t, itt) => (
-                  <button
-                    key={itt}
-                    type="button"
-                    className="col btn btn-tag btn-sm ms-1 my-1"
-                    onClick={(e) => handleDeleteTag(e, t)}
-                    title="Cliquer pour supprimer"
+            {kwTag &&
+              kwTag.map((t, itt) => (
+                <button
+                  key={itt}
+                  type="button"
+                  className="col btn btn-sm btn-outline-dark ms-1 my-1"
+                  onClick={(e) => handleDeleteTag(e, t)}
+                  title="Cliquer pour supprimer"
+                >
+                  {t}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-x"
+                    viewBox="0 0 16 16"
                   >
-                    {t}
-                    <span className="icon-cross ms-2" />
-                  </button>
-                ))}
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                  </svg>
+                </button>
+              ))}
             </div>
           </div>
 
