@@ -172,7 +172,7 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
 
 JobeurForm.propTypes = {
   user: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
   }).isRequired,
   defaultValues: PropTypes.shape({
     civility: PropTypes.string,

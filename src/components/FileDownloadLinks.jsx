@@ -16,7 +16,8 @@ const formatSize = sz => {
 
 const formatItem = file => <><span className="fw-bold">{file.path}</span><span>&nbsp;- {formatSize(file.size)}</span></>
 
-function AcceptFile({ accept, ext, btnLabel }) {
+function AcceptFile({ accept, ext, btnLabel, onDrop }) {
+  console.log(onDrop)
   const {
     acceptedFiles,
     fileRejections,
@@ -25,8 +26,9 @@ function AcceptFile({ accept, ext, btnLabel }) {
   } = useDropzone({
     // accept: 'image/jpeg, image/png'
     // accept: 'application/pdf',
+    onDropAccepted: onDrop,
     accept,
-    maxFiles:1
+    maxFiles: 1
   });
 
   return (
@@ -149,7 +151,7 @@ function FileDownloadLinks({
             </div> */}
 
 
-<AcceptFile btnLabel="CV 1 (pdf)" ext="pdf" accept="application/pdf" />
+<AcceptFile btnLabel="CV 1 (pdf)" ext="pdf" accept="application/pdf" onDrop={([f]) => setCvFile(f)} />
           </div>
 
           {/* cv2 */}
@@ -171,7 +173,7 @@ function FileDownloadLinks({
                 <span className="spanError">{errors.cv2.message}</span>
               )}
             </div> */}
-<AcceptFile btnLabel="CV 2 (pdf)" ext="pdf" accept="application/pdf"/>
+<AcceptFile btnLabel="CV 2 (pdf)" ext="pdf" accept="application/pdf" onDrop={([f]) => setCv2File(f)}/>
           </div>
 
           {/* picture upload */}
@@ -198,7 +200,7 @@ function FileDownloadLinks({
                 />
               </label> */}
 
-<AcceptFile btnLabel="Photo (png ou jpg)" ext="png, jpg et jpeg" accept="'image/jpeg, image/png" />
+<AcceptFile btnLabel="Photo (png ou jpg)" ext="png, jpg et jpeg" accept="image/jpeg, image/png" onDrop={([f]) => setUserPhoto(f)} />
               <Modal content={<ImageCropper inputImg={urlPhoto} />} />
               {errors.userPhoto && (
                 <span className="spanError">{errors.userPhoto.message}</span>
