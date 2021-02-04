@@ -31,7 +31,7 @@ export default function ModifyJobber() {
   const onSubmit = (data) => {
     const { cv1, cv2, picture, ...rest } = data;
     const { language, sector_of_activity: sectorOfActivity } = jobber;
-    const files = { cv1, cv2, picture };
+    const files = { cv1: cv1[0], cv2: cv2[0], picture: picture[0] };
     const payload = {
       ...rest,
       // reformat language and sector by mimicking how react select stores its data
