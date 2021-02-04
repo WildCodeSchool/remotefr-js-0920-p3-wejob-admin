@@ -9,7 +9,7 @@ import {
 
 function JobeurFormRecap({ handleSubmit, data }) {
   const availabilityJobeur = availabilitylist.find(
-    (row) => row.value === data.availability.value,
+    (row) => row.value === data.availability?.value,
   );
 
   return (
@@ -27,12 +27,12 @@ function JobeurFormRecap({ handleSubmit, data }) {
               <li className="text-start form-field-label">
                 Disponibilité :{' '}
                 <span className="spanInfoField">
-                  {availabilityJobeur.label}
+                  {availabilityJobeur?.label}
                 </span>
               </li>
               <li className="text-start form-field-label">
                 Mobility :{' '}
-                <span className="spanInfoField">{data.mobility.value}</span>
+                <span className="spanInfoField">{data.mobility?.value}</span>
               </li>
               <li className="text-start form-field-label">
                 Description :{' '}
@@ -69,7 +69,7 @@ function JobeurFormRecap({ handleSubmit, data }) {
           <p className="text-start form-field-label">
             Niveau d&apos;expérience :{' '}
             <span className="spanInfoField">
-              {data.years_of_experiment.label}
+              {data.years_of_experiment?.label}
             </span>
           </p>
           <ul className="text-start form-field-label">
