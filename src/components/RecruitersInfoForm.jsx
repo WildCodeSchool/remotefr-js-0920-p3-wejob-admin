@@ -164,7 +164,7 @@ function RecruitersInfoForm({
             </button>
           </div>
           <div className="row">
-            <div className="offset-md-4 col-md-7">
+            <div className="offset-md-2 col-md-8">
               {kwTag &&
                 kwTag.map((t, itt) => (
                   <button
@@ -175,7 +175,7 @@ function RecruitersInfoForm({
                     title="Cliquer pour supprimer"
                   >
                     {t}
-                    <icon className="icon-cross ms-2" />
+                    <span className="icon-cross ms-2" />
                   </button>
                 ))}
             </div>

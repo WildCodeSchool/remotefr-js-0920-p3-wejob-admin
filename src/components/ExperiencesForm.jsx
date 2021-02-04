@@ -87,7 +87,7 @@ function ExperiencesForm({
             </p>
           </div>
           <div className="row">
-            <div className="offset-md-4 col-md-7">
+            <div className="offset-md-2 col-md-7">
               {jobTag &&
                 jobTag.map((t, itt) => (
                   <button
@@ -98,7 +98,7 @@ function ExperiencesForm({
                     title="Cliquer pour supprimer"
                   >
                     {t}
-                    <icon className="icon-cross ms-2" />
+                    <span className="icon-cross ms-2" />
                   </button>
                 ))}
             </div>

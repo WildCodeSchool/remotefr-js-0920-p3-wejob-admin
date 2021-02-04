@@ -1,71 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as yup from 'yup';
 // import ImageCropper from './ImageCropper';
-import { useDropzone } from 'react-dropzone';
-import ImageCropper from './ImageCropper';
-import Modal from './widgetsFormField/ModalHelp';
-
-const formatFactor = (sz, f) => (sz / f).toFixed(1);
-
-const formatSize = (sz) => {
-  return sz > 1048576
-    ? `${formatFactor(sz, 1048576)} Mo`
-    : `${formatFactor(sz, 1024)} Ko`;
-};
-
-const formatItem = (file) => (
-  <>
-    <span className="fw-bold">{file.path}</span>
-    <span>&nbsp;- {formatSize(file.size)}</span>
-  </>
-);
-
-function AcceptFile({ accept, ext, btnLabel, onDrop }) {
-  const {
-    acceptedFiles,
-    fileRejections,
-    getRootProps,
-    getInputProps,
-  } = useDropzone({
-    // accept: 'image/jpeg, image/png'
-    // accept: 'application/pdf',
-    onDropAccepted: onDrop,
-    accept,
-    maxFiles: 1,
-  });
-
-  return (
-    <section className="AcceptFile">
-      <div {...getRootProps({ className: 'AcceptFile-dropzone' })}>
-        <input {...getInputProps()} />
-        <p>Glissez &amp; déposez ou cliquez.</p>
-        <p>
-          <em>(fichiers acceptés : {ext})</em>
-        </p>
-        <span className="btn btn-primary btn-large">
-          <span className="icon-upload" />
-          {btnLabel}
-        </span>
-      </div>
-      <aside className="AcceptFile-status">
-        {acceptedFiles.length > 0 && (
-          <>
-            <span className="icon-checkmark text-success" />
-            {formatItem(acceptedFiles[0])}
-          </>
-        )}
-        {fileRejections.length > 0 && acceptedFiles.length === 0 && (
-          <>
-            <span className="icon-blocked text-danger" />
-            {formatItem(fileRejections[0].file)}
-          </>
-        )}
-      </aside>
-    </section>
-  );
-}
+// import ImageCropper from './ImageCropper';
+// import Modal from './widgetsFormField/ModalHelp';
+import AcceptFile from './AcceptFile';
 
 function FileDownloadLinks({
   register,
@@ -111,27 +50,9 @@ function FileDownloadLinks({
     fileReader.readAsDataURL(userPhoto);
   }, [userPhoto]);
 
-  // const onChangeHandler = (event) => {
-  //   // eslint-disable-next-line no-console
-  //   console.log(event.target.files[0]);
-  //   // if (event.target.name === 'cv') {
-  //   //   setCvFile(event.target.files[0]);
-  //   //   } else
-  //   if (event.target.name === 'userPhoto') {
-  //     setUserPhoto(event.target.files[0]);
-  //   }
-  // };
-
   // const handleChangePhoto = (event) => {
   //   setUserPhoto(event.target.files[0]);
   //   // <ImageCropper inputImg={setUserPhoto} />;
-  // };
-
-  // const onClickHandlerCv1 = () => {
-  //   const data = new FormData();
-  //   data.append('file', selectedCvFile);
-  //   // eslint-disable-next-line no-console
-  //   console.log('data : ', data);
   // };
 
   const onSubmit = (event) => {
@@ -146,30 +67,10 @@ function FileDownloadLinks({
       className="FileDownloadLinks container"
       id="FileDownloadLinks"
       onSubmit={onSubmit}
-      // onChange={onChangeHandler}
     >
       <div className="row">
         {/* cv1 */}
         <div className="col-md-6">
-          {/* <div className={`form-group ${styles.files}`}>
-              <input
-                type="file"
-                className={styles.input}
-                id="cv1"
-                name="cv1"
-                onChange={(event) => {
-                  setCvFile(event.target.files[0]);
-                }}
-              />
-              <label htmlFor="cv1" className="btn btn-primary">
-                <span className="icon-upload" />
-                CV 1 au format PDF
-              </label>
-              {errors.cv1 && (
-                <span className="spanError">{errors.cv1.message}</span>
-              )}
-            </div> */}
-
           <AcceptFile
             btnLabel="CV 1 (pdf)"
             ext="pdf"
@@ -180,23 +81,6 @@ function FileDownloadLinks({
 
         {/* cv2 */}
         <div className="col-md-6">
-          {/* <div className={`form-group ${styles.files}`}>
-                <input
-                  type="file"
-                  className={styles.input}
-                  id="cv2"
-                  name="cv2"
-                  onChange={(event) => {
-                    setCv2File(event.target.files[0]);
-                  }}
-                />
-              <label htmlFor="cv2" className="form-field-label col-md-12">
-                CV 2 au format PDF
-              </label>
-              {errors.cv2 && (
-                <span className="spanError">{errors.cv2.message}</span>
-              )}
-            </div> */}
           <AcceptFile
             btnLabel="CV 2 (pdf)"
             ext="pdf"
@@ -207,39 +91,16 @@ function FileDownloadLinks({
 
         {/* picture upload */}
         <div className="col-md-6">
-          {/* <div className={`form-group ${styles.files}`}>
-              <label htmlFor="picture" className="form-field-label col-md-12">
-                Téléchargement votre photo au format png, jpeg ou jpg
-                <input
-                  type="file"
-                  className={styles.input}
-                  id="picture"
-                  name="picture"
-                  onChange={(event) => {
-                    setUserPhoto(event.target.files[0]);
-                    const file = event.target.files[0];
-                    const fileReader = new FileReader();
-                    fileReader.onloadend = () => {
-                      setUrlPhoto(fileReader.result);
-                    };
-                    if (file) {
-                      fileReader.readAsDataURL(file);
-                    }
-                  }}
-                />
-              </label> */}
-
           <AcceptFile
             btnLabel="Photo (png ou jpg)"
             ext="png, jpg et jpeg"
             accept="image/jpeg, image/png"
             onDrop={([f]) => setUserPhoto(f)}
           />
-          <Modal content={<ImageCropper inputImg={urlPhoto} />} />
+          {/* <Modal content={<ImageCropper inputImg={urlPhoto} />} /> */}
           {errors.userPhoto && (
             <span className="spanError">{errors.userPhoto.message}</span>
           )}
-          {/* </div> */}
         </div>
 
         {/* picture preview */}
@@ -287,8 +148,9 @@ function FileDownloadLinks({
 }
 
 FileDownloadLinks.propTypes = {
-  // register: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  handleSubmitFiles: PropTypes.func.isRequired,
   errors: PropTypes.shape({
     cv1: PropTypes.shape({
       message: PropTypes.string,

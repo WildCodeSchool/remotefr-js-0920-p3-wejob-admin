@@ -56,11 +56,6 @@ function MultiStepFormField({ steps, compState, setComp }) {
     setStepState(compState);
   }, [compState]);
 
-  // const next = () => {
-  //   setComp(compState < steps.length ? compState + 1 : compState);
-  //   steps.handleSubmit();
-  // };
-
   const previous = () =>
     setStepState(compState > 0 ? compState - 1 : compState);
 
@@ -111,19 +106,10 @@ function MultiStepFormField({ steps, compState, setComp }) {
             ? 'display mx-auto col-3'
             : 'displayNone mx-auto col-3'
         }
-        // onClick={next}
         form={steps[compState].nameForm}
       >
         Valider et poursuivre
       </button>
-
-      {/* <button
-        type="button"
-        className={buttonsState.showValidateBtn ? 'display' : 'displayNone'}
-        // onClick={next}
-      >
-        Valider vos réponses
-      </button> */}
     </div>
   );
 
@@ -132,8 +118,8 @@ function MultiStepFormField({ steps, compState, setComp }) {
       <div className="wj-container">
         <ul className="wj-progress-bar">{renderSteps()}</ul>
       </div>
-      <div className="container">{steps[compState].component}</div>
-      <div className="container mt-3">{renderNav()}</div>
+      <div className="wj-container">{steps[compState].component}</div>
+      <div className="wj-container mt-3">{renderNav()}</div>
     </div>
   );
 }
