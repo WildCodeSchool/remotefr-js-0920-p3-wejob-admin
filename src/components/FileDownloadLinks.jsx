@@ -1,34 +1,39 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as yup from 'yup';
 // import ImageCropper from './ImageCropper';
-import styles from '../asset/css/FileDownloadLinks.module.css';
+import { useDropzone } from 'react-dropzone';
 import ImageCropper from './ImageCropper';
 import Modal from './widgetsFormField/ModalHelp';
-import {useDropzone} from 'react-dropzone';
 
-const formatFactor = (sz, f) => (sz / f).toFixed(1)
+const formatFactor = (sz, f) => (sz / f).toFixed(1);
 
-const formatSize = sz => {
-  return sz > 1048576 ? `${formatFactor(sz, 1048576)} Mo`
-  : `${formatFactor(sz, 1024)} Ko`
+const formatSize = (sz) => {
+  return sz > 1048576
+    ? `${formatFactor(sz, 1048576)} Mo`
+    : `${formatFactor(sz, 1024)} Ko`;
 };
 
-const formatItem = file => <><span className="fw-bold">{file.path}</span><span>&nbsp;- {formatSize(file.size)}</span></>
+const formatItem = (file) => (
+  <>
+    <span className="fw-bold">{file.path}</span>
+    <span>&nbsp;- {formatSize(file.size)}</span>
+  </>
+);
 
 function AcceptFile({ accept, ext, btnLabel, onDrop }) {
-  console.log(onDrop)
   const {
     acceptedFiles,
     fileRejections,
     getRootProps,
-    getInputProps
+    getInputProps,
   } = useDropzone({
     // accept: 'image/jpeg, image/png'
     // accept: 'application/pdf',
     onDropAccepted: onDrop,
     accept,
-    maxFiles: 1
+    maxFiles: 1,
   });
 
   return (
@@ -36,7 +41,9 @@ function AcceptFile({ accept, ext, btnLabel, onDrop }) {
       <div {...getRootProps({ className: 'AcceptFile-dropzone' })}>
         <input {...getInputProps()} />
         <p>Glissez &amp; déposez ou cliquez.</p>
-        <p><em>(fichiers acceptés : {ext})</em></p>
+        <p>
+          <em>(fichiers acceptés : {ext})</em>
+        </p>
         <span className="btn btn-primary btn-large">
           <span className="icon-upload" />
           {btnLabel}
@@ -44,10 +51,16 @@ function AcceptFile({ accept, ext, btnLabel, onDrop }) {
       </div>
       <aside className="AcceptFile-status">
         {acceptedFiles.length > 0 && (
-           <><span className="icon-checkmark text-success" />{formatItem(acceptedFiles[0])}</>
+          <>
+            <span className="icon-checkmark text-success" />
+            {formatItem(acceptedFiles[0])}
+          </>
         )}
         {fileRejections.length > 0 && acceptedFiles.length === 0 && (
-           <><span className="icon-blocked text-danger" />{formatItem(fileRejections[0].file)}</>
+          <>
+            <span className="icon-blocked text-danger" />
+            {formatItem(fileRejections[0].file)}
+          </>
         )}
       </aside>
     </section>
@@ -89,6 +102,15 @@ function FileDownloadLinks({
   const [userPhoto, setUserPhoto] = useState(null);
   const [urlPhoto, setUrlPhoto] = useState(null);
 
+  useEffect(() => {
+    if (!userPhoto) return;
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      setUrlPhoto(fileReader.result);
+    };
+    fileReader.readAsDataURL(userPhoto);
+  }, [userPhoto]);
+
   // const onChangeHandler = (event) => {
   //   // eslint-disable-next-line no-console
   //   console.log(event.target.files[0]);
@@ -118,20 +140,18 @@ function FileDownloadLinks({
   };
 
   return (
-    <div className="wj-container">
-      {/* {JSON.stringify(errors)} */}
-      <form
-        method="post"
-        action="#"
-        className="FileDownloadLinks container"
-        id="FileDownloadLinks"
-        onSubmit={onSubmit}
-        // onChange={onChangeHandler}
-      >
-        <div className="row">
-          {/* cv1 */}
-          <div className="col-md-6">
-            {/* <div className={`form-group ${styles.files}`}>
+    <form
+      method="post"
+      action="#"
+      className="FileDownloadLinks container"
+      id="FileDownloadLinks"
+      onSubmit={onSubmit}
+      // onChange={onChangeHandler}
+    >
+      <div className="row">
+        {/* cv1 */}
+        <div className="col-md-6">
+          {/* <div className={`form-group ${styles.files}`}>
               <input
                 type="file"
                 className={styles.input}
@@ -150,13 +170,17 @@ function FileDownloadLinks({
               )}
             </div> */}
 
+          <AcceptFile
+            btnLabel="CV 1 (pdf)"
+            ext="pdf"
+            accept="application/pdf"
+            onDrop={([f]) => setCvFile(f)}
+          />
+        </div>
 
-<AcceptFile btnLabel="CV 1 (pdf)" ext="pdf" accept="application/pdf" onDrop={([f]) => setCvFile(f)} />
-          </div>
-
-          {/* cv2 */}
-          <div className="col-md-6">
-            {/* <div className={`form-group ${styles.files}`}>
+        {/* cv2 */}
+        <div className="col-md-6">
+          {/* <div className={`form-group ${styles.files}`}>
                 <input
                   type="file"
                   className={styles.input}
@@ -173,12 +197,17 @@ function FileDownloadLinks({
                 <span className="spanError">{errors.cv2.message}</span>
               )}
             </div> */}
-<AcceptFile btnLabel="CV 2 (pdf)" ext="pdf" accept="application/pdf" onDrop={([f]) => setCv2File(f)}/>
-          </div>
+          <AcceptFile
+            btnLabel="CV 2 (pdf)"
+            ext="pdf"
+            accept="application/pdf"
+            onDrop={([f]) => setCv2File(f)}
+          />
+        </div>
 
-          {/* picture upload */}
-          <div className="col-md-6">
-            {/* <div className={`form-group ${styles.files}`}>
+        {/* picture upload */}
+        <div className="col-md-6">
+          {/* <div className={`form-group ${styles.files}`}>
               <label htmlFor="picture" className="form-field-label col-md-12">
                 Téléchargement votre photo au format png, jpeg ou jpg
                 <input
@@ -200,54 +229,60 @@ function FileDownloadLinks({
                 />
               </label> */}
 
-<AcceptFile btnLabel="Photo (png ou jpg)" ext="png, jpg et jpeg" accept="image/jpeg, image/png" onDrop={([f]) => setUserPhoto(f)} />
-              <Modal content={<ImageCropper inputImg={urlPhoto} />} />
-              {errors.userPhoto && (
-                <span className="spanError">{errors.userPhoto.message}</span>
-              )}
-            {/* </div> */}
-          </div>
-
-          {/* picture preview */}
-          <div className="col-md-6">img preview</div>
-
-          {/* LinkedIn & YouTube */}
-          <div className="col-md-6">
-            <label
-              htmlFor="linkedin"
-              className="form-label fw-bold text-primary"
-            >
-              Lien vers votre profil LinkedIn
-              <span className="spanInfoField"> (champ facultatif)</span>
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="linkedin"
-              name="linkedin"
-              ref={register}
-            />
-          </div>
-          <div className="col-md-6">
-            <label
-              htmlFor="youtube"
-              className="form-label fw-bold text-primary"
-            >
-              Lien vers YouTube
-              <span className="spanInfoField"> (champ facultatif)</span>
-            </label>
-
-            <input
-              type="text"
-              className="form-control"
-              id="youtube"
-              name="youtube"
-              ref={register}
-            />
-          </div>
+          <AcceptFile
+            btnLabel="Photo (png ou jpg)"
+            ext="png, jpg et jpeg"
+            accept="image/jpeg, image/png"
+            onDrop={([f]) => setUserPhoto(f)}
+          />
+          <Modal content={<ImageCropper inputImg={urlPhoto} />} />
+          {errors.userPhoto && (
+            <span className="spanError">{errors.userPhoto.message}</span>
+          )}
+          {/* </div> */}
         </div>
-      </form>
-    </div>
+
+        {/* picture preview */}
+        <div className="col-md-6">
+          {urlPhoto && (
+            <img
+              src={urlPhoto}
+              alt="upload preview"
+              className="FileDownloadLinks-preview"
+            />
+          )}
+        </div>
+
+        {/* LinkedIn & YouTube */}
+        <div className="col-md-6 mt-5">
+          <label htmlFor="linkedin" className="form-label fw-bold text-primary">
+            Lien vers votre profil LinkedIn
+            <span className="spanInfoField"> (champ facultatif)</span>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="linkedin"
+            name="linkedin"
+            ref={register}
+          />
+        </div>
+        <div className="col-md-6 mt-5">
+          <label htmlFor="youtube" className="form-label fw-bold text-primary">
+            Lien vers YouTube
+            <span className="spanInfoField"> (champ facultatif)</span>
+          </label>
+
+          <input
+            type="text"
+            className="form-control"
+            id="youtube"
+            name="youtube"
+            ref={register}
+          />
+        </div>
+      </div>
+    </form>
   );
 }
 

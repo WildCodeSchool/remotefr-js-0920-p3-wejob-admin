@@ -9,6 +9,7 @@ body {
   background: #00cfd11a;
   border: 1px solid #0070713a;
   border-radius: 4px;
+  text-align: center;
 }
 
 .AcceptFile-dropzone p {
@@ -38,4 +39,8 @@ body {
 .btn-tag .icon-cross {
   color: #777;
   font-size: 10px;
+}
+
+.FileDownloadLinks-preview {
+  max-height: 170px;
 }
