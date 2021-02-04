@@ -1,5 +1,4 @@
 export default function reformatHookFormData(data, kwTag, jobTag) {
-  console.log('reformatHookData', data)
   const formatData = {};
   // 1. Records the data entered by the user
   if (kwTag.length > 0) {

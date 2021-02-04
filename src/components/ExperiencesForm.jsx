@@ -87,7 +87,7 @@ function ExperiencesForm({
             </p>
           </div>
           <div className="row">
-            <div className="offset-md-4 col-md-7">
+            <div className="offset-md-2 col-md-7">
             {jobTag &&
               jobTag.map((t, itt) => (
                 <button
@@ -156,7 +156,6 @@ ExperiencesForm.defaultProps = {
 };
 
 ExperiencesForm.propTypes = {
-  // register: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({
     activityArea: PropTypes.shape({

@@ -9,6 +9,7 @@ import {
   mobilitylist,
 } from '../../constants/forms';
 import sampleCandidateData from './jobeurData';
+import { userPropTypes } from '../../prop-types';
 
 const getDefaultValues = () => {
   // Si on passe ?autofill=true dans l'URL, ça injecte des valeurs
@@ -102,6 +103,10 @@ const JobeurFormContainer = ({ user }) => {
       {...props}
     />
   );
+};
+
+JobeurFormContainer.propTypes = {
+  user: userPropTypes.isRequired,
 };
 
 export default JobeurFormContainer;

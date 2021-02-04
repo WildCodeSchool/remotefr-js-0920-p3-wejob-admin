@@ -177,7 +177,7 @@ function RecruitersInfoForm({
             </p>
           </div>
           <div className="row">
-            <div className="offset-md-4 col-md-7">
+            <div className="offset-md-2 col-md-8">
             {kwTag &&
               kwTag.map((t, itt) => (
                 <button
