@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loader from '../../parts/Loader';
 import JobeurForm from './index';
 import {
   levelOfExperience,
@@ -62,14 +63,14 @@ const JobeurFormContainer = ({ user }) => {
         const sectorActivity = sectorOfActivity.map((el) =>
           activityArea.find((row) => Number(row.value) === el.id_sector),
         );
-        const listJob = (job || '').split(';');
+        const listJob = job ? job.split(';') : [];
         const availabilityJobeur = availabilitylist.find(
           (row) => Number(row.value) === availability,
         );
         const mobilityJobeur = mobilitylist.find(
           (row) => row.value === mobility,
         );
-        const listKeyword = (keywords || '').split(';');
+        const listKeyword = keywords ? keywords.split(';') : [];
         setDataUser({
           ...rest,
           years_of_experiment: yearsOfExperiment,
@@ -84,7 +85,7 @@ const JobeurFormContainer = ({ user }) => {
       });
   }, []);
 
-  if (loading) return <p>loading</p>;
+  if (loading) return <Loader />;
 
   const hasFiche = dataUser && initialJob && initialKeywords;
 

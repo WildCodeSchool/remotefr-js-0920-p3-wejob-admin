@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { NotificationManager } from 'react-notifications';
 // import { userPropTypes } from '../../prop-types';
 import MultiStep from '../../components/MultiStepFormField';
 import HeaderPostTitle from '../../components/HeaderPostTitle';
@@ -19,6 +20,30 @@ import sendFicheCandidat from '../../helpers/sendFicheCandidat';
 // const propTypes = {
 //   user: userPropTypes.isRequired,
 // };
+
+// Array of functions that count the number of missing required fields for each step
+const requiredFieldsByStep = [
+  ({ dataForm }) => {
+    return ['civility', 'firstname', 'lastname'].reduce(
+      (c, k) => c + (dataForm[k] ? 0 : 1),
+      0,
+    );
+  },
+  ({ jobTag }) => (jobTag.length > 0 ? 0 : 1),
+  () => 0,
+  ({ dataForm, kwTag }) =>
+    (dataForm.description ? 0 : 1) + (kwTag.length > 0 ? 0 : 1),
+  () => 0,
+  () => 0,
+];
+
+function checkStepErrors(compState, dataForm, jobTag, kwTag) {
+  const errors = [];
+  for (let i = 0; i < compState; i += 1) {
+    errors.push(requiredFieldsByStep[i]({ dataForm, jobTag, kwTag }));
+  }
+  return errors;
+}
 
 function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
   // update the validation  yup schema for the data entered by the user when changing the form step
@@ -47,19 +72,18 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
 
   const [compState, setComp] = useState(0);
 
-  const [kwTag, setKeyWords] = useState([]);
-  const [jobTag, setJobTag] = useState([]);
-
-  // Ne marche pas
-  useEffect(() => {
-    setJobTag(initJob);
-    setKeyWords(initKeyword);
-  }, []);
+  const [kwTag, setKeyWords] = useState(initKeyword);
+  const [jobTag, setJobTag] = useState(initJob);
 
   // Store text entries
   const [dataForm, setDataForm] = useState(defaultValues);
   // Store file entries
   const [files, setFiles] = useState({});
+
+  const stepErrors = useMemo(
+    () => checkStepErrors(compState, dataForm, jobTag, kwTag),
+    [compState, dataForm, jobTag, kwTag],
+  );
 
   // Button function valid and continue
   const onSubmit = (data) => {
@@ -78,7 +102,19 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
 
   const onSendForm = async (event) => {
     event.preventDefault();
-    sendFicheCandidat(user.id, dataForm, kwTag, jobTag, files);
+    sendFicheCandidat(user.id, dataForm, kwTag, jobTag, files)
+      .then(() =>
+        NotificationManager.success(
+          "Votre fiche sera validée par l'administrateur.",
+          'Fiche mise à jour',
+        ),
+      )
+      .catch(() =>
+        NotificationManager.error(
+          "Une erreur s'est produite, veuillez nous contacter",
+          'Erreur',
+        ),
+      );
   };
 
   const steps = [
@@ -162,7 +198,12 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
       <HeaderPostTitle name="Formulaire candidat" />
       <div className="single-page clearfix">
         <div className="inner-wrap">
-          <MultiStep steps={steps} compState={compState} setComp={setComp} />
+          <MultiStep
+            steps={steps}
+            compState={compState}
+            setComp={setComp}
+            stepErrors={stepErrors}
+          />
         </div>
       </div>
     </div>

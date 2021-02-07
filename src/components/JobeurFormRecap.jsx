@@ -47,7 +47,7 @@ function JobeurFormRecap({ handleSubmit, data }) {
         </div>
         <div className="row">
           <h3 className="form-field-label text-uppercase fs-2">
-            Expériences professionnel
+            Expériences professionnelles
           </h3>
           <p className="text-start form-field-label">
             Métiers : <span className="spanInfoField">{data.job}</span>

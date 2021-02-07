@@ -1,3 +1,7 @@
+.wj-progress-bar li button {
+  position: relative;
+}
+
 ul {
   list-style: none;
   padding: 0 1rem;
@@ -20,9 +24,23 @@ ul {
   color: silver;
 }
 
+/* .warning {
+  color: #333;
+  background-color: #fdd835;
+} */
+.warning,
 .done {
   color: #f1f1f1;
   background-color: #007170;
+}
+
+.warning .errors-pill {
+  position: absolute;
+  top: 20px;
+  height: 23px;
+  width: 23px;
+  font-size: 11px;
+  color: #fff;
 }
 
 .doing {

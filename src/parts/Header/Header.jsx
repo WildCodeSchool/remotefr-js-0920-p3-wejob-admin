@@ -53,7 +53,7 @@ function Header() {
                   <li className={styles.menuItem}>
                     <button
                       type="button"
-                      className={styles.link}
+                      className="btn btn-outline-primary"
                       onClick={logout}
                     >
                       Déconnexion

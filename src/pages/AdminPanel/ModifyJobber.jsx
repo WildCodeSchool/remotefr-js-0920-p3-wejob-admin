@@ -772,7 +772,7 @@ export default function ModifyJobber() {
             </div>
           </div>
           <div className="col">
-            <label htmlFor="availability">Disponible</label>
+            <label htmlFor="availability">Disponibilité</label>
             <select
               ref={register}
               defaultValue={jobber.availability}
@@ -786,7 +786,7 @@ export default function ModifyJobber() {
             </select>
           </div>
           <div className="col">
-            <label htmlFor="mobility">Disponible</label>
+            <label htmlFor="mobility">Mobilité</label>
             <select
               ref={register}
               defaultValue={jobber.mobility}

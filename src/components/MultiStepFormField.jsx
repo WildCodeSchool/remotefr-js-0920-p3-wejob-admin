@@ -4,11 +4,11 @@ import './MultiStepFormField.css';
 
 // his function is used to get the name of the className
 // used for the style of the form step buttons
-const getTopNavStyles = (indx, length) => {
+const getTopNavStyles = (indx, length, errors = []) => {
   const styles = [];
   for (let i = 0; i < length; i += 1) {
     if (i < indx) {
-      styles.push('done li');
+      styles.push(errors[i] ? 'warning li' : 'done li');
     } else if (i === indx) {
       styles.push('doing li');
     } else if (i > indx) {
@@ -42,12 +42,26 @@ const getButtonsState = (indx, length) => {
   };
 };
 
-function MultiStepFormField({ steps, compState, setComp }) {
+const renderStepState = (stylesState, i, errors) => {
+  if (stylesState[i] === 'done li') return <span>ok</span>;
+  if (stylesState[i] === 'warning li')
+    return (
+      <>
+        <span className="icon-notification" />
+        <span className="errors-pill rounded-circle bg-danger">
+          {errors[i]}
+        </span>
+      </>
+    );
+  return <span>{i + 1}</span>;
+};
+
+function MultiStepFormField({ steps, compState, setComp, stepErrors }) {
   const [stylesState, setStyles] = useState(getTopNavStyles(0, steps.length));
   const [buttonsState, setButtons] = useState(getButtonsState(0, steps.length));
 
   const setStepState = (indx) => {
-    setStyles(getTopNavStyles(Number(indx), steps.length));
+    setStyles(getTopNavStyles(Number(indx), steps.length, stepErrors));
     setComp(indx < steps.length ? Number(indx) : compState);
     setButtons(getButtonsState(Number(indx), steps.length));
   };
@@ -80,7 +94,7 @@ function MultiStepFormField({ steps, compState, setComp }) {
           onClick={handleOnClick}
           value={i}
         >
-          <span>{stylesState[i] === 'done li' ? 'ok' : i + 1}</span>
+          {renderStepState(stylesState, i, stepErrors)}
         </button>
       </li>
     ));
