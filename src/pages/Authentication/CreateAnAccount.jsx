@@ -152,7 +152,7 @@ function CreateAnAccount() {
               </label>
               <div className="col-sm-5">
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   id="confirmPassword"
                   name="confirmPassword"
@@ -169,7 +169,7 @@ function CreateAnAccount() {
 
             <div className="row justify-content-center ">
               <button type="submit" className="button-submit col-sm-4">
-                <span>Valider et se connecter</span>
+                <span>Valider mon compte</span>
               </button>
             </div>
           </form>
