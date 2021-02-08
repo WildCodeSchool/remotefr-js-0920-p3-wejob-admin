@@ -142,7 +142,7 @@ function LogIn() {
                     ref={register}
                     required
                   />
-                  <div className="form-group">
+                  <div className="form-group mt-2">
                     <button
                       // disabled={isSubmitting || isValid}
                       type="button"
