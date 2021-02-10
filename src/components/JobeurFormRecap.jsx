@@ -26,7 +26,11 @@ function JobeurFormRecap({ handleSubmit, data, files }) {
       <div className="wj-container">
         <div className="row">
           <div className="divImgProfile col-sm">
-            <img src={urlPhoto} alt={data.firstname} />
+            <img
+              src={urlPhoto}
+              alt={data.firstname}
+              className="m-2 rounded-circle"
+            />
           </div>
           <div className="infoJobeur col-sm-8">
             <h2 className="form-field-label text-uppercase fs-1">
