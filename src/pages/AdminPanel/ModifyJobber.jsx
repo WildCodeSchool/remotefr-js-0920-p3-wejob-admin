@@ -898,8 +898,24 @@ export default function ModifyJobber() {
                 id="cv2"
               />
             </div>
-            {!jobber.cv1 && <a href={jobber.cv1}>Lien Cv 1</a>}
-            {!jobber.cv2 && <a href={jobber.cv1}>Lien Cv 2</a>}
+            {jobber.cv1 && (
+              <a
+                rel="noopener noreferrer"
+                target="_blank"
+                href={`${process.env.REACT_APP_BACK_URL}/${jobber.cv1}`}
+              >
+                Lien Cv 1
+              </a>
+            )}
+            {jobber.cv2 && (
+              <a
+                rel="noopener noreferrer"
+                target="_blank"
+                href={`${process.env.REACT_APP_BACK_URL}/${jobber.cv2}`}
+              >
+                Lien Cv 2
+              </a>
+            )}
           </div>
           <div className="col-md-4">
             {/* {jobber.picture && <a href={jobber.picture}> </a>} */}
