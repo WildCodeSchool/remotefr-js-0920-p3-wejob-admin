@@ -190,13 +190,13 @@ const Candidat = ({
         alt={lastname}
       />
       <div className="m-2 d-flex flex-lg-row justify-content-lg-around flex-column w-100 align-items-center">
-        <p className="text-primary">
+        <p className="text-primary col-2">
           {lastname || '?'} {firstname || '?'}
         </p>
-        <p className={email ? 'text-success' : 'text-danger'}>
+        <p className={email ? 'text-success col-4' : 'text-danger col-4'}>
           {email || 'Email manquant'}
         </p>
-        <div>
+        <div className="col-4">
           {sector_of_activity.map((s) => (
             <p
               style={{
@@ -213,7 +213,7 @@ const Candidat = ({
         </div>
         <Link
           to={`${url}jobber/${id}`}
-          className={`btn btn-wide btn-${btnColor}`}
+          className={`btn btn-wide btn-${btnColor} col-2 mx-1`}
         >
           {btnText}
         </Link>
