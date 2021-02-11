@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   // levelOfExperience,
@@ -7,17 +7,26 @@ import {
   availabilitylist,
 } from '../constants/forms';
 
-function JobeurFormRecap({ handleSubmit, data }) {
+function JobeurFormRecap({ handleSubmit, data, files }) {
   const availabilityJobeur = availabilitylist.find(
     (row) => row.value === data.availability?.value,
   );
+  const [urlPhoto, setUrlPhoto] = useState(null);
+  const file = files.picture;
+  const fileReader = new FileReader();
+  fileReader.onloadend = () => {
+    setUrlPhoto(fileReader.result);
+  };
+  if (file) {
+    fileReader.readAsDataURL(file);
+  }
 
   return (
     <form onSubmit={handleSubmit} id="JobeurForm">
       <div className="wj-container">
         <div className="row">
           <div className="divImgProfile col-sm">
-            <img src="https://via.placeholder.com/150" alt={data.firstname} />
+            <img src={urlPhoto} alt={data.firstname} />
           </div>
           <div className="infoJobeur col-sm-8">
             <h2 className="form-field-label text-uppercase fs-1">
@@ -107,6 +116,7 @@ function JobeurFormRecap({ handleSubmit, data }) {
 JobeurFormRecap.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   data: PropTypes.shape().isRequired,
+  files: PropTypes.shape().isRequired,
 };
 
 export default JobeurFormRecap;

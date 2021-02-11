@@ -189,7 +189,13 @@ function JobeurForm({ user, defaultValues, initJob, initKeyword }) {
     {
       name: 'Recap',
       nameForm: 'JobeurForm',
-      component: <JobeurFormRecap handleSubmit={onSendForm} data={dataForm} />,
+      component: (
+        <JobeurFormRecap
+          handleSubmit={onSendForm}
+          data={dataForm}
+          files={files}
+        />
+      ),
     },
   ];
 
