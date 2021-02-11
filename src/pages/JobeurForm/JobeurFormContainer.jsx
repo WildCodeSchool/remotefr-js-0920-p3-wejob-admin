@@ -38,7 +38,9 @@ const JobeurFormContainer = ({ user }) => {
   // retrieve the Jober's data from the database
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/candidats/${user.id}`)
+      .get(`${process.env.REACT_APP_API_URL}/candidats/${user.id}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         const {
           years_of_experiment: yearsId,
