@@ -19,6 +19,9 @@ export default function ModifyJobber() {
   const [error, setError] = useState(null);
   // const { candidats } = useContext(CandidatsContext);
   const [jobber, setJobber] = useState(null);
+
+  const [urlPhoto, setUrlPhoto] = useState(null);
+
   // const [language, setLanguage] = useState([]);
   // const [sector, setSector] = useState([]);
   const [inputTag, setInputTag] = useState('');
@@ -26,7 +29,20 @@ export default function ModifyJobber() {
   const [inputTagKw, setInputTagKw] = useState('');
   const [tagKw, setTagKw] = useState([]);
   const { id: idjob } = useParams();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const watchFiles = watch(['picture']);
+  useEffect(() => {
+    if (watchFiles.picture) {
+      const file = watchFiles.picture[0];
+      const fileReader = new FileReader();
+      fileReader.onloadend = () => {
+        setUrlPhoto(fileReader.result);
+      };
+      if (file) {
+        fileReader.readAsDataURL(file);
+      }
+    }
+  }, [watchFiles]);
   const history = useHistory();
   const onSubmit = (data) => {
     const { cv1, cv2, picture, ...rest } = data;
@@ -842,11 +858,21 @@ export default function ModifyJobber() {
             />
             <label htmlFor="linkedin">Lien Youtube</label>
           </div>
+          {(urlPhoto || jobber.picture) && (
+            <div className="form-floating mb-3 col-md-4 ">
+              <img
+                src={
+                  urlPhoto ||
+                  `${process.env.REACT_APP_BACK_URL}/${jobber.picture}`
+                }
+                alt={jobber.lastname}
+                className="m-2 rounded-circle"
+              />
+            </div>
+          )}
         </div>
         <div className="row">
           <div className="col-md-4">
-            {!jobber.cv1 && <a href={jobber.cv1}>Lien Cv 1</a>}
-            {!jobber.cv2 && <a href={jobber.cv1}>Lien Cv 2</a>}
             <div className="input-group my-3">
               <label className="input-group-text" htmlFor="cv1">
                 Cv1
@@ -857,6 +883,7 @@ export default function ModifyJobber() {
                 ref={register}
                 className="form-control"
                 id="cv1"
+                // defaultValue={jobber.cv1}
               />
             </div>
             <div className="input-group my-3">
@@ -871,9 +898,27 @@ export default function ModifyJobber() {
                 id="cv2"
               />
             </div>
+            {jobber.cv1 && (
+              <a
+                rel="noopener noreferrer"
+                target="_blank"
+                href={`${process.env.REACT_APP_BACK_URL}/${jobber.cv1}`}
+              >
+                Lien Cv 1
+              </a>
+            )}
+            {jobber.cv2 && (
+              <a
+                rel="noopener noreferrer"
+                target="_blank"
+                href={`${process.env.REACT_APP_BACK_URL}/${jobber.cv2}`}
+              >
+                Lien Cv 2
+              </a>
+            )}
           </div>
           <div className="col-md-4">
-            {jobber.picture && <a href={jobber.picture}>Photo profil</a>}
+            {/* {jobber.picture && <a href={jobber.picture}> </a>} */}
             <div className="input-group my-3">
               <label className="input-group-text" htmlFor="picture">
                 Photo

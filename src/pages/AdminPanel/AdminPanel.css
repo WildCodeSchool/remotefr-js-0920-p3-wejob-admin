@@ -5,3 +5,16 @@
 .ModifyJobber-picture {
   max-width: 92px;
 }
+
+#root
+  > div
+  > div.container-fluid
+  > div
+  > div.col-md-9
+  > form
+  > div:nth-child(13)
+  > div:nth-child(3)
+  > img {
+  height: 20vh;
+  width: auto;
+}
