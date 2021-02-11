@@ -150,3 +150,7 @@
   padding: 8px 10px;
   border: 0;
 }
+
+#JobeurForm > div > div:nth-child(1) > div.divImgProfile.col-sm > img {
+  height: 30vh;
+}
